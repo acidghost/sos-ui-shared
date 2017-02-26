@@ -1,0 +1,91 @@
+@import "variables";
+
+
+.text-magenta {
+  color: $magenta;
+}
+.text-green {
+  color: $acid-green;
+}
+.text-blue {
+  color: $blue;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+
+.btn {
+  &.btn-sos-doubled-blue {
+    @include button-sos-doubled-variant($blue, $magenta, white);
+  }
+
+  &.btn-sos-dotted-magenta {
+    @include button-sos-dotted-variant(black, $magenta);
+  }
+
+  &.btn-sos-magenta {
+    @include button-sos-variant(white, $magenta, $magenta, white);
+  }
+}
+
+
+.badge {
+  border-radius: 0;
+  &.badge-magenta {
+    @include badge-variant($magenta);
+  }
+}
+
+
+.list-fingers {
+  @include list-unicode('\261b');
+}
+.list-checks {
+  @include list-unicode('\2713');
+}
+.list-hearts {
+  @include list-unicode('\2665');
+}
+
+
+.form-control {
+  border: 2px solid black;
+  background-color: transparent;
+  border-radius: 0;
+  color: inherit;
+  &:focus {
+    background-color: transparent;
+    border-color: black;
+    color: inherit;
+  }
+}
+
+
+.finger:after {
+  content: '\261b';
+}
+.heart:after {
+  content: '\2665';
+}
+.checks:after {
+  content: '\2713';
+}
+
+
+#main-content {
+  margin-top: $nav-total-height;
+  padding-bottom: 40px;
+  & > [class*="col"] {
+    padding-left: 0;
+    padding-right: 0;
+    & > * > .row {
+      margin-left: 0;
+      margin-right: 0;
+      &:first-of-type {
+        padding-top: 60px;
+      }
+    }
+  }
+}
