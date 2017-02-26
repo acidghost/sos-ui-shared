@@ -9,7 +9,7 @@ import {Http} from "@angular/http";
 @Injectable()
 export class MembershipService extends ApiService {
 
-  constructor(private http: Http, authService: AuthService, environment: Environment) {
+  constructor(protected http: Http, authService: AuthService, environment: Environment) {
     super(authService, environment);
   }
 

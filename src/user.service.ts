@@ -16,7 +16,7 @@ export class UserService extends ApiService {
 
   public userUpdated: Observable<User> = this.userUpdatesSource.asObservable();
 
-  constructor(private http: Http, authService: AuthService, environment: Environment) {
+  constructor(protected http: Http, authService: AuthService, environment: Environment) {
     super(authService, environment);
   }
 

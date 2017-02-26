@@ -12,7 +12,6 @@ export class MeUserResolver extends ApiResolver implements Resolve<User> {
 
   constructor(authService: AuthService, private userService: UserService) {
     super(authService, userService);
-    console.debug('constructor me resolver');
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> {
