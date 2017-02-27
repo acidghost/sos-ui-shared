@@ -31,6 +31,16 @@
 }
 
 
+.card {
+  &.card-outline-magenta {
+    @include card-outline-variant($magenta);
+  }
+  &.card-outline-acid-green {
+    @include card-outline-variant($acid-green);
+  }
+}
+
+
 .badge {
   border-radius: 0;
   &.badge-magenta {
