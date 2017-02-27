@@ -26,6 +26,17 @@ export enum MembershipType {
   BothMembership
 }
 
+export function membershipTypeToString(membershipType: MembershipType): string {
+  switch (membershipType) {
+    case MembershipType.OnlySos:
+      return 'sos';
+    case MembershipType.OnlyFablab:
+      return 'fablab';
+    case MembershipType.BothMembership:
+      return 'sos+fablab';
+  }
+}
+
 
 export class Membership {
   constructor(public id: number,
