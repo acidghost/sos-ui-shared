@@ -4,6 +4,7 @@ export * from './auth.service';
 export * from './me-user.resolver';
 export * from './membership.service';
 export * from './shared';
+export * from './skills.service';
 export * from './user.resolver';
 export * from './user.service';
 export * from './utils';

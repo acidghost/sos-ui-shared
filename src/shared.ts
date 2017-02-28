@@ -88,6 +88,17 @@ export class UserMemberships {
 }
 
 
+export class UserSkill {
+  constructor(public id: number,
+              public name: string,
+              public skillId: number) {}
+
+  public static fromJson(json: any): UserSkill {
+    return new UserSkill(json.id, json.name, json.skillId)
+  }
+}
+
+
 export class User {
 
   constructor(public id: number,
@@ -99,7 +110,7 @@ export class User {
               public showCompleteProfile: boolean,
               public telephone: string | null,
               public bio: string | null,
-              public skills: [Skill],
+              public skills: [UserSkill],
               public memberships: UserMemberships) {}
 
   public get asJson(): {} {
@@ -114,7 +125,7 @@ export class User {
   public static fromJson(json: any): User {
     return new User(
       json.id, json.firstName, json.lastName, json.email, new Language(json.preferredLang),
-      json.showHelpHome, json.showCompleteProfile, json.telephone, json.bio, json.skills.map(Skill.fromJson),
+      json.showHelpHome, json.showCompleteProfile, json.telephone, json.bio, json.skills.map(UserSkill.fromJson),
       UserMemberships.fromJson(json.memberships))
   }
 
