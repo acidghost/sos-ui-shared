@@ -360,7 +360,8 @@ export class BazaarIdea {
               public funding: [BazaarIdeaFunding],
               public costs: string | null,
               public createdAt: Date,
-              public updatedAt: Date) {}
+              public updatedAt: Date,
+              public score: number) {}
 
   public static activityTypeFromString(str: string): BazaarIdeaActivityType {
     switch (str) {
@@ -556,7 +557,8 @@ export class BazaarIdea {
       json.funding.map(BazaarIdea.fundingFromString),
       json.costs,
       new Date(json.createdAt),
-      new Date(json.updatedAt)
+      new Date(json.updatedAt),
+      json.score
     );
   }
 
