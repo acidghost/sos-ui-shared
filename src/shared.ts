@@ -592,4 +592,14 @@ export class BazaarIdea {
     }
   }
 
+  public get isRecurring(): boolean {
+    return this.meetings instanceof RecurringMeetings;
+  }
+
+  public get totalHours(): number | null {
+    if (this.isRecurring)
+      return null;
+    return (this.meetings as FixedDaysMeetings).schedules.reduce((acc, s) => acc + s.numberHours * s.numberDays, 0);
+  }
+
 }
