@@ -2,6 +2,7 @@ export * from './api.resolver';
 export * from './api.service';
 export * from './auth.service';
 export * from './bazaar-ideas.service';
+export * from './bazaar-idea.resolver';
 export * from './bazaar-ideas.resolver';
 export * from './me-user.resolver';
 export * from './membership.service';
