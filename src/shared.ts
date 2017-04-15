@@ -217,7 +217,10 @@ export class FixedDaysMeetings implements BazaarIdeaMeetingsType {
   }
 
   public get asJson(): any {
-    return { schedules: this.schedules.map(s => s.asJson) }
+    return {
+      type: 'fixed_days',
+      schedules: this.schedules.map(s => s.asJson)
+    }
   }
 }
 
@@ -257,6 +260,7 @@ export class RecurringMeetings implements BazaarIdeaMeetingsType {
 
   public get asJson(): any {
     return {
+      type: 'recurring',
       days: this.days,
       every: this.every,
       entity: RecurringMeetings.recurringEntityToString(this.entity),
