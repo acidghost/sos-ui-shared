@@ -311,18 +311,20 @@ export class BazaarIdeaSpace {
 export class BazaarIdeaTeacher {
   constructor(public id: number,
               public userId: number | null,
-              public name: string,
+              public firstName: string,
+              public lastName: string,
               public title: string) {}
 
   public static fromJson(json: any): BazaarIdeaTeacher {
-    return new BazaarIdeaTeacher(json.id, json.userId, json.name, json.title);
+    return new BazaarIdeaTeacher(json.id, json.userId, json.firstName, json.lastName, json.title);
   }
 
   public get asJson(): any {
     return {
       id: this.id,
       userId: this.userId,
-      name: this.name,
+      firstName: this.firstName,
+      lastName: this.lastName,
       title: this.title
     }
   }
