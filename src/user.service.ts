@@ -38,10 +38,19 @@ export class UserService extends ApiService {
   }
 
   public find(userId: number): Observable<User> {
-    return this.http.get(`${this.backendUrl}/user/${userId}`, this.options)
+    return this.http.get(`${this.backendUrl}/users/${userId}`, this.options)
       .map(response => {
         const json = response.json();
         return User.fromJson(json)
+      })
+      .catch(e => this.catchAuth(e))
+  }
+
+  public search(name: string): Observable<[User]> {
+    return this.http.get(`${this.backendUrl}/users?name=${name}`, this.options)
+      .map(response => {
+        const json = response.json();
+        return json.users.map(User.fromJson)
       })
       .catch(e => this.catchAuth(e))
   }
