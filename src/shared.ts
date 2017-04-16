@@ -291,18 +291,79 @@ export class BazaarIdeaDate {
 }
 
 
+export enum BazaarIdeaSOSSpace {
+  ConferenceRoom,
+  OpenSpace,
+  Room,
+  SOSFacility,
+  SpazioMurat,
+  MuseoCivico,
+  Biblioteca
+}
+
+export class CustomSpace {
+  constructor(public space: string) {}
+}
+
+export type BazaarIdeaActualSpace = BazaarIdeaSOSSpace | CustomSpace;
+
+
 export class BazaarIdeaSpace {
   constructor(public id: number,
-              public space: string) {}
+              public space: BazaarIdeaActualSpace) {}
+
+  public static spaceFromString(space: string): BazaarIdeaActualSpace {
+    switch (space) {
+      case 'conference_room':
+        return BazaarIdeaSOSSpace.ConferenceRoom;
+      case 'open_space':
+        return BazaarIdeaSOSSpace.OpenSpace;
+      case 'room':
+        return BazaarIdeaSOSSpace.Room;
+      case 'sos_facility':
+        return BazaarIdeaSOSSpace.SOSFacility;
+      case 'spazio_murat':
+        return BazaarIdeaSOSSpace.SpazioMurat;
+      case 'museo_civico':
+        return BazaarIdeaSOSSpace.MuseoCivico;
+      case 'biblioteca':
+        return BazaarIdeaSOSSpace.Biblioteca;
+      default:
+        return new CustomSpace(space);
+    }
+  }
+
+  public static spaceToString(space: BazaarIdeaActualSpace): string {
+    if (space instanceof CustomSpace)
+      return space.space;
+    switch (space) {
+      case BazaarIdeaSOSSpace.ConferenceRoom:
+        return 'conference_room';
+      case BazaarIdeaSOSSpace.OpenSpace:
+        return 'open_space';
+      case BazaarIdeaSOSSpace.Room:
+        return 'room';
+      case BazaarIdeaSOSSpace.SOSFacility:
+        return 'sos_facility';
+      case BazaarIdeaSOSSpace.SpazioMurat:
+        return 'spazio_murat';
+      case BazaarIdeaSOSSpace.MuseoCivico:
+        return 'museo_civico';
+      case BazaarIdeaSOSSpace.Biblioteca:
+        return 'biblioteca';
+      default:
+        throw new Error('unhandled space type');
+    }
+  }
 
   public static fromJson(json: any): BazaarIdeaSpace {
-    return new BazaarIdeaSpace(json.id, json.space);
+    return new BazaarIdeaSpace(json.id, BazaarIdeaSpace.spaceFromString(json.space));
   }
 
   public get asJson(): any {
     return {
       id: this.id,
-      space: this.space
+      space: BazaarIdeaSpace.spaceToString(this.space)
     }
   }
 }
