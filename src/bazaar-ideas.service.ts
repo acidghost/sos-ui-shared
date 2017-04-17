@@ -31,7 +31,7 @@ export class BazaarIdeasService extends ApiService {
 
   public create(bazaarIdea: BazaarIdea | any): Observable<BazaarIdea> {
     const ideaJson = bazaarIdea instanceof BazaarIdea ? bazaarIdea.asJson : bazaarIdea;
-    return this.http.post(`${this.backendUrl}/bazaar_ideas/`, ideaJson, this.options)
+    return this.http.post(`${this.backendUrl}/bazaar_ideas`, ideaJson, this.options)
       .map(response => {
         const json = response.json();
         return BazaarIdea.fromJson(json)
