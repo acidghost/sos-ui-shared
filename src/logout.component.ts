@@ -6,8 +6,8 @@ import {AuthService} from "./auth.service";
   selector: 'sos-logout',
   template: `
     <form name="logout-form" class="hidden-sm-up" method="post" [action]="logoutUrl"></form>
-    <button *ngIf="useBtn" [class]="classes" (click)="doLogout()">Logout</button>
-    <a *ngIf="!useBtn" [class]="classes" (click)="doLogout()">Logout</a>
+    <button *ngIf="useBtn" [class]="classes" (click)="doLogout($event)">Logout</button>
+    <a *ngIf="!useBtn" [class]="classes" (click)="doLogout($event)" href="#">Logout</a>
   `
 })
 export class LogoutComponent {
@@ -20,7 +20,8 @@ export class LogoutComponent {
     this.logoutUrl = authService.logoutUrl;
   }
 
-  doLogout() {
+  doLogout(event: Event) {
+    event.preventDefault();
     this.authService.removeToken();
     document.forms['logout-form'].submit();
   }
