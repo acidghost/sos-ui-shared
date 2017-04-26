@@ -7,17 +7,20 @@ export class AuthServiceConfig {
   public clientId: string;
   public redirectUri: string;
   public scope: string;
+  public logoutUrl: string;
 
   constructor(params: {
     authUrl?: string,
     clientId?: string,
     redirectUri?: string,
-    scope?: string
+    scope?: string,
+    logoutUrl: string
   }) {
     if (params.authUrl) this.authUrl = params.authUrl;
     if (params.clientId) this.clientId = params.clientId;
     if (params.redirectUri) this.redirectUri = params.redirectUri;
     if (params.scope) this.scope = params.scope;
+    this.logoutUrl = params.logoutUrl;
   }
 
   public get implicitAuthUrl(): string {
@@ -48,6 +51,14 @@ export class AuthService {
 
   set accessToken(token: string) {
     this.storage.setItem('access_token', token);
+  }
+
+  removeToken() {
+    this.storage.removeItem('access_token');
+  }
+
+  get logoutUrl(): string {
+    return this.config.logoutUrl;
   }
 
   catchToken(): string|null {
