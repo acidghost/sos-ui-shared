@@ -6,12 +6,14 @@ import {AuthService} from "./auth.service";
   selector: 'sos-logout',
   template: `
     <form name="logout-form" class="hidden-sm-up" method="post" [action]="logoutUrl"></form>
-    <button [class]="btnClasses" (click)="doLogout()">Logout</button>
+    <button *ngIf="useBtn" [class]="classes" (click)="doLogout()">Logout</button>
+    <a *ngIf="!useBtn" [class]="classes" (click)="doLogout()">Logout</a>
   `
 })
 export class LogoutComponent {
 
-  @Input() btnClasses: string;
+  @Input() classes: string;
+  @Input() useBtn: boolean;
   public logoutUrl: string;
 
   constructor(private authService: AuthService) {
