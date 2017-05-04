@@ -111,7 +111,8 @@ export class User {
               public telephone: string | null,
               public bio: string | null,
               public skills: [UserSkill],
-              public memberships: UserMemberships) {}
+              public memberships: UserMemberships,
+              public profilePic: string | null) {}
 
   public get asJson(): {} {
     let json = {};
@@ -126,7 +127,7 @@ export class User {
     return new User(
       json.id, json.firstName, json.lastName, json.email, new Language(json.preferredLang),
       json.showHelpHome, json.showCompleteProfile, json.telephone, json.bio, json.skills.map(UserSkill.fromJson),
-      UserMemberships.fromJson(json.memberships))
+      UserMemberships.fromJson(json.memberships), json.profilePic)
   }
 
 }
