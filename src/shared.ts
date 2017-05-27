@@ -133,13 +133,22 @@ export class User {
 }
 
 
-export enum BazaarIdeaActivityType {
+export enum BazaarTeachActivityType {
   LecturePerformance,
   LabsSeminary,
   XYZFormat,
   CulturalEvent,
   VerticalFormat,
   MachineUsage
+}
+
+
+export enum BazaarEventActivityType {
+  Talk,
+  Projection,
+  Exposition,
+  Workshop,
+  Performance
 }
 
 
@@ -370,15 +379,15 @@ export class BazaarIdeaSpace {
 }
 
 
-export class BazaarIdeaTeacher {
+export class BazaarIdeaGuest {
   constructor(public id: number,
               public userId: number | null,
               public firstName: string,
               public lastName: string,
               public title: string) {}
 
-  public static fromJson(json: any): BazaarIdeaTeacher {
-    return new BazaarIdeaTeacher(json.id, json.userId, json.firstName, json.lastName, json.title);
+  public static fromJson(json: any): BazaarIdeaGuest {
+    return new BazaarIdeaGuest(json.id, json.userId, json.firstName, json.lastName, json.title);
   }
 
   public get asJson(): any {
@@ -402,262 +411,298 @@ export enum BazaarIdeaFunding {
 }
 
 
-export class BazaarIdea {
+export function teachActivityTypeFromString(str: string): BazaarTeachActivityType {
+  switch (str) {
+    case "lecture_performance":
+      return BazaarTeachActivityType.LecturePerformance;
+    case "labs_seminary":
+      return BazaarTeachActivityType.LabsSeminary;
+    case "xyz_format":
+      return BazaarTeachActivityType.XYZFormat;
+    case "cultural_event":
+      return BazaarTeachActivityType.CulturalEvent;
+    case "vertical_format":
+      return BazaarTeachActivityType.VerticalFormat;
+    case "machine_usage":
+      return BazaarTeachActivityType.MachineUsage;
+    default:
+      throw new Error("unrecognized bazaar idea activity type");
+  }
+}
 
+export function teachActivityTypeToString(activityType: BazaarTeachActivityType): string {
+  switch (activityType) {
+    case BazaarTeachActivityType.LecturePerformance:
+      return "lecture_performance";
+    case BazaarTeachActivityType.LabsSeminary:
+      return "labs_seminary";
+    case BazaarTeachActivityType.XYZFormat:
+      return "xyz_format";
+    case BazaarTeachActivityType.CulturalEvent:
+      return "cultural_event";
+    case BazaarTeachActivityType.VerticalFormat:
+      return "vertical_format";
+    case BazaarTeachActivityType.MachineUsage:
+      return "machine_usage";
+  }
+}
+
+
+export function eventActivityTypeFromString(str: string): BazaarEventActivityType {
+  switch (str) {
+    case "talk":
+      return BazaarEventActivityType.Talk;
+    case "projection":
+      return BazaarEventActivityType.Projection;
+    case "exposition":
+      return BazaarEventActivityType.Exposition;
+    case "workshop":
+      return BazaarEventActivityType.Workshop;
+    case "performance":
+      return BazaarEventActivityType.Performance;
+  }
+}
+
+export function eventActivityTypeToString(activityType: BazaarEventActivityType): string {
+  switch (activityType) {
+    case BazaarEventActivityType.Talk:
+      return "talk";
+    case BazaarEventActivityType.Projection:
+      return "projection";
+    case BazaarEventActivityType.Exposition:
+      return "exposition";
+    case BazaarEventActivityType.Workshop:
+      return "workshop";
+    case BazaarEventActivityType.Performance:
+      return "performance";
+  }
+}
+
+
+export function audienceFromString(str: string): BazaarIdeaAudience {
+  switch (str) {
+    case "kids":
+      return BazaarIdeaAudience.Kids;
+    case "teenagers":
+      return BazaarIdeaAudience.Teenagers;
+    case "students":
+      return BazaarIdeaAudience.Students;
+    case "researchers":
+      return BazaarIdeaAudience.Researchers;
+    case "professionals":
+      return BazaarIdeaAudience.Professionals;
+    case "companies":
+      return BazaarIdeaAudience.Companies;
+    case "public_administrations":
+      return BazaarIdeaAudience.PublicAdministrations;
+    case "seniors":
+      return BazaarIdeaAudience.Seniors;
+    case "immigrants":
+      return BazaarIdeaAudience.Immigrants;
+    case "unemployed":
+      return BazaarIdeaAudience.Unemployed;
+    default:
+      throw new Error("unrecognized bazaar idea audience type");
+  }
+}
+
+export function audienceToString(audience: BazaarIdeaAudience): string {
+  switch (audience) {
+    case BazaarIdeaAudience.Kids:
+      return "kids";
+    case BazaarIdeaAudience.Teenagers:
+      return "teenagers";
+    case BazaarIdeaAudience.Students:
+      return "students";
+    case BazaarIdeaAudience.Researchers:
+      return "researchers";
+    case BazaarIdeaAudience.Professionals:
+      return "professionals";
+    case BazaarIdeaAudience.Companies:
+      return "companies";
+    case BazaarIdeaAudience.PublicAdministrations:
+      return "public_administrations";
+    case BazaarIdeaAudience.Seniors:
+      return "seniors";
+    case BazaarIdeaAudience.Immigrants:
+      return "immigrants";
+    case BazaarIdeaAudience.Unemployed:
+      return "unemployed";
+  }
+}
+
+
+export function levelFromString(str: string): BazaarIdeaLevel {
+  switch (str) {
+    case "entry":
+      return BazaarIdeaLevel.EntryLevel;
+    case "intermediate":
+      return BazaarIdeaLevel.IntermediateLevel;
+    case "advanced":
+      return BazaarIdeaLevel.AdvancedLevel;
+    default:
+      throw new Error("unrecognized bazaar idea level type");
+  }
+}
+
+export function levelToString(level: BazaarIdeaLevel): string {
+  switch (level) {
+    case BazaarIdeaLevel.EntryLevel:
+      return "entry";
+    case BazaarIdeaLevel.IntermediateLevel:
+      return "intermediate";
+    case BazaarIdeaLevel.AdvancedLevel:
+      return "advanced";
+  }
+}
+
+
+export function fundingFromString(str: string): BazaarIdeaFunding {
+  switch (str) {
+    case "tuition_fee":
+      return BazaarIdeaFunding.TuitionFee;
+    case "sponsor":
+      return BazaarIdeaFunding.Sponsor;
+    case "grant":
+      return BazaarIdeaFunding.Grant;
+    case "crowdfunding":
+      return BazaarIdeaFunding.Crowdfunding;
+    case "self_financed":
+      return BazaarIdeaFunding.SelfFinanced;
+    default:
+      throw new Error("unrecognized bazaar idea funding type");
+  }
+}
+
+export function fundingToString(funding: BazaarIdeaFunding): string {
+  switch (funding) {
+    case BazaarIdeaFunding.TuitionFee:
+      return "tuition_fee";
+    case BazaarIdeaFunding.Sponsor:
+      return "sponsor";
+    case BazaarIdeaFunding.Grant:
+      return "grant";
+    case BazaarIdeaFunding.Crowdfunding:
+      return "crowdfunding";
+    case BazaarIdeaFunding.SelfFinanced:
+      return "self_financed";
+  }
+}
+
+
+export abstract class BazaarIdea {
   constructor(public id: number,
               public title: string,
               public creator: User,
-              public location: string,
-              public activityType: BazaarIdeaActivityType,
-              public frameworks: [BazaarIdeaFramework],
-              public audience: [BazaarIdeaAudience],
-              public level: BazaarIdeaLevel,
               public topics: [BazaarIdeaTopic],
-              public meetings: BazaarIdeaMeetingsType,
-              public dates: [BazaarIdeaDate],
-              public requiredResources: string | null,
-              public requiredSpaces: [BazaarIdeaSpace],
-              public maxParticipants: number,
-              public teachers: [BazaarIdeaTeacher],
-              public tutors: [BazaarIdeaTeacher],
-              public programDetails: string,
-              public meetingDetails: string,
-              public outputDetails: string,
               public valueDetails: string,
               public motivation: string,
-              public funding: [BazaarIdeaFunding],
-              public costs: string | null,
               public createdAt: Date,
               public updatedAt: Date,
               public score: number) {}
 
-  public static activityTypeFromString(str: string): BazaarIdeaActivityType {
-    switch (str) {
-      case "lecture_performance":
-        return BazaarIdeaActivityType.LecturePerformance;
-      case "labs_seminary":
-        return BazaarIdeaActivityType.LabsSeminary;
-      case "xyz_format":
-        return BazaarIdeaActivityType.XYZFormat;
-      case "cultural_event":
-        return BazaarIdeaActivityType.CulturalEvent;
-      case "vertical_format":
-        return BazaarIdeaActivityType.VerticalFormat;
-      case "machine_usage":
-        return BazaarIdeaActivityType.MachineUsage;
-      default:
-        throw new Error("unrecognized bazaar idea activity type");
+  public get asJson(): any {
+    // TODO: make me pretty or kill me please...
+    let obj = {};
+    for (let p in this) {
+      if (Object(this).hasOwnProperty(p)) {
+        let o = this[p];
+        if (Object(o).hasOwnProperty("asJson"))
+          obj[p] = o.asJson;
+        else if (o instanceof Array)
+          obj[p] = o.map(op => Object(op).hasOwnProperty("asJson") ? op.asJson : op);
+        else
+          obj[p] = o;
+      }
     }
+    return obj;
+  }
+}
+
+
+export class BazaarLearn extends BazaarIdea {
+  constructor(id: number,
+              title: string,
+              creator: User,
+              public location: string,
+              topics: [BazaarIdeaTopic],
+              public teachers: [BazaarIdeaGuest],
+              public tutors: [BazaarIdeaGuest],
+              valueDetails: string,
+              motivation: string,
+              public costs: string | null,
+              createdAt: Date,
+              updatedAt: Date,
+              score: number) {
+    super(
+      id,
+      title,
+      creator,
+      topics,
+      valueDetails,
+      motivation,
+      createdAt,
+      updatedAt,
+      score
+    );
   }
 
-  public static activityTypeToString(activityType: BazaarIdeaActivityType): string {
-    switch (activityType) {
-      case BazaarIdeaActivityType.LecturePerformance:
-        return "lecture_performance";
-      case BazaarIdeaActivityType.LabsSeminary:
-        return "labs_seminary";
-      case BazaarIdeaActivityType.XYZFormat:
-        return "xyz_format";
-      case BazaarIdeaActivityType.CulturalEvent:
-        return "cultural_event";
-      case BazaarIdeaActivityType.VerticalFormat:
-        return "vertical_format";
-      case BazaarIdeaActivityType.MachineUsage:
-        return "machine_usage";
-    }
-  }
-
-  public static frameworkFromString(str: string): BazaarIdeaFramework {
-    switch (str) {
-      case "teaching":
-        return BazaarIdeaFramework.TeachingFramework;
-      case "research":
-        return BazaarIdeaFramework.ResearchFramework;
-      case "entertainment":
-        return BazaarIdeaFramework.EntertainmentFramework;
-      default:
-        throw new Error("unrecognized bazaar idea framework type");
-    }
-  }
-
-  public static frameworkToString(framework: BazaarIdeaFramework): string {
-    switch (framework) {
-      case BazaarIdeaFramework.TeachingFramework:
-        return "teaching";
-      case BazaarIdeaFramework.ResearchFramework:
-        return "research";
-      case BazaarIdeaFramework.EntertainmentFramework:
-        return "entertainment";
-    }
-  }
-
-  public static audienceFromString(str: string): BazaarIdeaAudience {
-    switch (str) {
-      case "kids":
-        return BazaarIdeaAudience.Kids;
-      case "teenagers":
-        return BazaarIdeaAudience.Teenagers;
-      case "students":
-        return BazaarIdeaAudience.Students;
-      case "researchers":
-        return BazaarIdeaAudience.Researchers;
-      case "professionals":
-        return BazaarIdeaAudience.Professionals;
-      case "companies":
-        return BazaarIdeaAudience.Companies;
-      case "public_administrations":
-        return BazaarIdeaAudience.PublicAdministrations;
-      case "seniors":
-        return BazaarIdeaAudience.Seniors;
-      case "immigrants":
-        return BazaarIdeaAudience.Immigrants;
-      case "unemployed":
-        return BazaarIdeaAudience.Unemployed;
-      default:
-        throw new Error("unrecognized bazaar idea audience type");
-    }
-  }
-
-  public static audienceToString(audience: BazaarIdeaAudience): string {
-    switch (audience) {
-      case BazaarIdeaAudience.Kids:
-        return "kids";
-      case BazaarIdeaAudience.Teenagers:
-        return "teenagers";
-      case BazaarIdeaAudience.Students:
-        return "students";
-      case BazaarIdeaAudience.Researchers:
-        return "researchers";
-      case BazaarIdeaAudience.Professionals:
-        return "professionals";
-      case BazaarIdeaAudience.Companies:
-        return "companies";
-      case BazaarIdeaAudience.PublicAdministrations:
-        return "public_administrations";
-      case BazaarIdeaAudience.Seniors:
-        return "seniors";
-      case BazaarIdeaAudience.Immigrants:
-        return "immigrants";
-      case BazaarIdeaAudience.Unemployed:
-        return "unemployed";
-    }
-  }
-
-  public static levelFromString(str: string): BazaarIdeaLevel {
-    switch (str) {
-      case "entry":
-        return BazaarIdeaLevel.EntryLevel;
-      case "intermediate":
-        return BazaarIdeaLevel.IntermediateLevel;
-      case "advanced":
-        return BazaarIdeaLevel.AdvancedLevel;
-      default:
-        throw new Error("unrecognized bazaar idea level type");
-    }
-  }
-
-  public static levelToString(level: BazaarIdeaLevel): string {
-    switch (level) {
-      case BazaarIdeaLevel.EntryLevel:
-        return "entry";
-      case BazaarIdeaLevel.IntermediateLevel:
-        return "intermediate";
-      case BazaarIdeaLevel.AdvancedLevel:
-        return "advanced";
-    }
-  }
-
-  public static fundingFromString(str: string): BazaarIdeaFunding {
-    switch (str) {
-      case "tuition_fee":
-        return BazaarIdeaFunding.TuitionFee;
-      case "sponsor":
-        return BazaarIdeaFunding.Sponsor;
-      case "grant":
-        return BazaarIdeaFunding.Grant;
-      case "crowdfunding":
-        return BazaarIdeaFunding.Crowdfunding;
-      case "self_financed":
-        return BazaarIdeaFunding.SelfFinanced;
-      default:
-        throw new Error("unrecognized bazaar idea funding type");
-    }
-  }
-
-  public static fundingToString(funding: BazaarIdeaFunding): string {
-    switch (funding) {
-      case BazaarIdeaFunding.TuitionFee:
-        return "tuition_fee";
-      case BazaarIdeaFunding.Sponsor:
-        return "sponsor";
-      case BazaarIdeaFunding.Grant:
-        return "grant";
-      case BazaarIdeaFunding.Crowdfunding:
-        return "crowdfunding";
-      case BazaarIdeaFunding.SelfFinanced:
-        return "self_financed";
-    }
-  }
-
-  public static fromJson(json: any): BazaarIdea {
-    return new BazaarIdea(
-      json.id, json.title, User.fromJson(json.creator), json.location,
-      BazaarIdea.activityTypeFromString(json.activityType),
-      json.frameworks.map(BazaarIdea.frameworkFromString),
-      json.audience.map(BazaarIdea.audienceFromString),
-      BazaarIdea.levelFromString(json.level),
+  public static fromJson(json: any): BazaarLearn {
+    return new BazaarLearn(
+      json.id,
+      json.title,
+      User.fromJson(json.creator),
+      json.location,
       json.topics.map(BazaarIdeaTopic.fromJson),
-      (json.meetings.type === 'fixed_days' ?
-        FixedDaysMeetings.fromJson(json.meetings)
-      : RecurringMeetings.fromJson(json.meetings)
-      ),
-      json.dates.map(BazaarIdeaDate.fromJson),
-      json.requiredResources,
-      json.requiredSpaces.map(BazaarIdeaSpace.fromJson),
-      json.maxParticipants,
-      json.teachers.map(BazaarIdeaTeacher.fromJson),
-      json.tutors.map(BazaarIdeaTeacher.fromJson),
-      json.programDetails,
-      json.meetingDetails,
-      json.outputDetails,
+      json.teachers.map(BazaarIdeaGuest.fromJson),
+      json.tutors.map(BazaarIdeaGuest.fromJson),
       json.valueDetails,
       json.motivation,
-      json.funding.map(BazaarIdea.fundingFromString),
       json.costs,
       new Date(json.createdAt),
       new Date(json.updatedAt),
       json.score
-    );
+    )
   }
+}
 
-  public get asJson(): any {
-    return {
-      id: this.id,
-      title: this.title,
-      creator: this.creator.asJson,
-      location: this.location,
-      activityType: BazaarIdea.activityTypeToString(this.activityType),
-      frameworks: this.frameworks.map(BazaarIdea.frameworkToString),
-      audience: this.audience.map(BazaarIdea.audienceToString),
-      level: BazaarIdea.levelToString(this.level),
-      topics: this.topics.map(t => t.asJson),
-      meetings: this.meetings.asJson,
-      dates: this.dates.map(d => d.asJson),
-      requiredResources: this.requiredResources,
-      requiredSpaces: this.requiredSpaces.map(s => s.asJson),
-      maxParticipants: this.maxParticipants,
-      teachers: this.teachers.map(t => t.asJson),
-      tutors: this.tutors.map(t => t.asJson),
-      programDetails: this.programDetails,
-      meetingDetails: this.meetingDetails,
-      outputDetails: this.outputDetails,
-      valueDetails: this.valueDetails,
-      motivation: this.motivation,
-      funding: this.funding.map(BazaarIdea.fundingToString),
-      costs: this.costs,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
-    }
+
+export class BazaarTeach extends BazaarIdea {
+  constructor(id: number,
+              title: string,
+              creator: User,
+              public location: string,
+              public activityType: BazaarTeachActivityType,
+              public audience: [BazaarIdeaAudience],
+              public level: BazaarIdeaLevel,
+              topics: [BazaarIdeaTopic],
+              public meetings: BazaarIdeaMeetingsType,
+              public dates: [BazaarIdeaDate],
+              public requiredResources: string | null,
+              public maxParticipants: number,
+              public teachers: [BazaarIdeaGuest],
+              public tutors: [BazaarIdeaGuest],
+              public programDetails: string,
+              public meetingDetails: string,
+              public outputDetails: string,
+              valueDetails: string,
+              motivation: string,
+              public funding: [BazaarIdeaFunding],
+              public costs: string | null,
+              createdAt: Date,
+              updatedAt: Date,
+              score: number) {
+    super(
+      id,
+      title,
+      creator,
+      topics,
+      valueDetails,
+      motivation,
+      createdAt,
+      updatedAt,
+      score
+    );
   }
 
   public get isRecurring(): boolean {
@@ -670,4 +715,115 @@ export class BazaarIdea {
     return (this.meetings as FixedDaysMeetings).schedules.reduce((acc, s) => acc + s.numberHours * s.numberDays, 0);
   }
 
+  public static fromJson(json: any): BazaarTeach {
+    return new BazaarTeach(
+      json.id,
+      json.title,
+      User.fromJson(json.creator),
+      json.location,
+      teachActivityTypeFromString(json.activityType),
+      json.audience.map(audienceFromString),
+      levelFromString(json.level),
+      json.topics.map(BazaarIdeaTopic.fromJson),
+      (json.meetings.type === 'fixed_days' ?
+          FixedDaysMeetings.fromJson(json.meetings)
+          : RecurringMeetings.fromJson(json.meetings)
+      ),
+      json.dates.map(BazaarIdeaDate.fromJson),
+      json.requiredResources,
+      json.maxParticipants,
+      json.teachers.map(BazaarIdeaGuest.fromJson),
+      json.tutors.map(BazaarIdeaGuest.fromJson),
+      json.programDetails,
+      json.meetingDetails,
+      json.outputDetails,
+      json.valueDetails,
+      json.motivation,
+      json.funding.map(fundingFromString),
+      json.costs,
+      new Date(json.createdAt),
+      new Date(json.updatedAt),
+      json.score
+    )
+  }
 }
+
+
+export class BazaarEvent extends BazaarIdea {
+  constructor(id: number,
+              title: string,
+              creator: User,
+              public activityType: BazaarEventActivityType,
+              public audience: [BazaarIdeaAudience],
+              topics: [BazaarIdeaTopic],
+              public meetings: BazaarIdeaMeetingsType,
+              public dates: [BazaarIdeaDate],
+              public requiredResources: string | null,
+              public requiredSpaces: [BazaarIdeaSpace],
+              public maxParticipants: number,
+              public programDetails: string,
+              valueDetails: string,
+              motivation: string,
+              public funding: [BazaarIdeaFunding],
+              public isOrganizer: boolean,
+              public guests: [BazaarIdeaGuest],
+              public bookingRequired: boolean,
+              createdAt: Date,
+              updatedAt: Date,
+              score: number) {
+    super(
+      id,
+      title,
+      creator,
+      topics,
+      valueDetails,
+      motivation,
+      createdAt,
+      updatedAt,
+      score
+    );
+  }
+
+  public get isRecurring(): boolean {
+    return this.meetings instanceof RecurringMeetings;
+  }
+
+  public get totalHours(): number | null {
+    if (this.isRecurring)
+      return null;
+    return (this.meetings as FixedDaysMeetings).schedules.reduce((acc, s) => acc + s.numberHours * s.numberDays, 0);
+  }
+
+  public static fromJson(json: any): BazaarEvent {
+    return new BazaarEvent(
+      json.id,
+      json.title,
+      User.fromJson(json.creator),
+      eventActivityTypeFromString(json.activityType),
+      json.audience.map(audienceFromString),
+      json.topics.map(BazaarIdeaTopic.fromJson),
+      (json.meetings.type === 'fixed_days' ?
+          FixedDaysMeetings.fromJson(json.meetings)
+          : RecurringMeetings.fromJson(json.meetings)
+      ),
+      json.dates.map(BazaarIdeaDate.fromJson),
+      json.requiredResources,
+      json.requiredSpaces.map(BazaarIdeaSpace.fromJson),
+      json.maxParticipants,
+      json.programDetails,
+      json.valueDetails,
+      json.motivation,
+      json.funding.map(fundingFromString),
+      json.isOrganizer,
+      json.guests.map(BazaarIdeaGuest.fromJson),
+      json.bookingRequired,
+      new Date(json.createdAt),
+      new Date(json.updatedAt),
+      json.score
+    )
+  }
+}
+
+
+export type BazaarIdeas = { teach: [BazaarTeach], learn: [BazaarLearn], event: [BazaarEvent] }
+
