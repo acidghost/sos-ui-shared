@@ -603,10 +603,10 @@ export abstract class BazaarIdea {
 
   public get asJson(): any {
     // TODO: make me pretty or kill me please...
-    let obj = {};
+    let obj: any = {};
     for (let p in this) {
-      if (Object(this).hasOwnProperty(p)) {
-        let o = this[p];
+      if (this.hasOwnProperty(p)) {
+        let o: any = this[p];
         if (Object(o).hasOwnProperty("asJson"))
           obj[p] = o.asJson;
         else if (o instanceof Array)
