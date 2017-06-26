@@ -46,7 +46,7 @@ export class UserService extends ApiService {
       .catch(e => this.catchAuth(e))
   }
 
-  public search(name: string): Observable<[User]> {
+  public search(name: string): Observable<User[]> {
     return this.http.get(`${this.backendUrl}/users?name=${name}`, this.options)
       .map(response => {
         const json = response.json();

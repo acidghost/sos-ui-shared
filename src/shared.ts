@@ -110,7 +110,7 @@ export class User {
               public showCompleteProfile: boolean,
               public telephone: string | null,
               public bio: string | null,
-              public skills: [UserSkill],
+              public skills: UserSkill[],
               public memberships: UserMemberships,
               public profilePic: string | null) {}
 
@@ -220,7 +220,7 @@ export class SingleFixedDaysMeetings {
 }
 
 export class FixedDaysMeetings implements BazaarIdeaMeetingsType {
-  constructor(public schedules: [SingleFixedDaysMeetings]) {}
+  constructor(public schedules: SingleFixedDaysMeetings[]) {}
 
   public static fromJson(json: any): FixedDaysMeetings {
     return new FixedDaysMeetings(json.schedules.map(SingleFixedDaysMeetings.fromJson))
@@ -594,7 +594,7 @@ export abstract class BazaarIdea {
   constructor(public id: number,
               public title: string,
               public creator: User,
-              public topics: [BazaarIdeaTopic],
+              public topics: BazaarIdeaTopic[],
               public valueDetails: string,
               public motivation: string,
               public createdAt: Date,
@@ -625,9 +625,9 @@ export class BazaarLearn extends BazaarIdea {
               title: string,
               creator: User,
               public location: string,
-              topics: [BazaarIdeaTopic],
-              public teachers: [BazaarIdeaGuest],
-              public tutors: [BazaarIdeaGuest],
+              topics: BazaarIdeaTopic[],
+              public teachers: BazaarIdeaGuest[],
+              public tutors: BazaarIdeaGuest[],
               valueDetails: string,
               motivation: string,
               public costs: string | null,
@@ -673,21 +673,21 @@ export class BazaarTeach extends BazaarIdea {
               creator: User,
               public location: string,
               public activityType: BazaarTeachActivityType,
-              public audience: [BazaarIdeaAudience],
+              public audience: BazaarIdeaAudience[],
               public level: BazaarIdeaLevel,
-              topics: [BazaarIdeaTopic],
+              topics: BazaarIdeaTopic[],
               public meetings: BazaarIdeaMeetingsType,
-              public dates: [BazaarIdeaDate],
+              public dates: BazaarIdeaDate[],
               public requiredResources: string | null,
               public maxParticipants: number,
-              public teachers: [BazaarIdeaGuest],
-              public tutors: [BazaarIdeaGuest],
+              public teachers: BazaarIdeaGuest[],
+              public tutors: BazaarIdeaGuest[],
               public programDetails: string,
               public meetingDetails: string,
               public outputDetails: string,
               valueDetails: string,
               motivation: string,
-              public funding: [BazaarIdeaFunding],
+              public funding: BazaarIdeaFunding[],
               public costs: string | null,
               createdAt: Date,
               updatedAt: Date,
@@ -754,19 +754,19 @@ export class BazaarEvent extends BazaarIdea {
               title: string,
               creator: User,
               public activityType: BazaarEventActivityType,
-              public audience: [BazaarIdeaAudience],
-              topics: [BazaarIdeaTopic],
+              public audience: BazaarIdeaAudience[],
+              topics: BazaarIdeaTopic[],
               public meetings: BazaarIdeaMeetingsType,
-              public dates: [BazaarIdeaDate],
+              public dates: BazaarIdeaDate[],
               public requiredResources: string | null,
-              public requiredSpaces: [BazaarIdeaSpace],
+              public requiredSpaces: BazaarIdeaSpace[],
               public maxParticipants: number,
               public programDetails: string,
               valueDetails: string,
               motivation: string,
-              public funding: [BazaarIdeaFunding],
+              public funding: BazaarIdeaFunding[],
               public isOrganizer: boolean,
-              public guests: [BazaarIdeaGuest],
+              public guests: BazaarIdeaGuest[],
               public bookingRequired: boolean,
               createdAt: Date,
               updatedAt: Date,
@@ -825,5 +825,5 @@ export class BazaarEvent extends BazaarIdea {
 }
 
 
-export type BazaarIdeas = { teach: [BazaarTeach], learn: [BazaarLearn], event: [BazaarEvent] }
+export type BazaarIdeas = { teach: BazaarTeach[], learn: BazaarLearn[], event: BazaarEvent[] }
 

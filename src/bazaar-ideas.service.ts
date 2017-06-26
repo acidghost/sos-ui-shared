@@ -28,7 +28,7 @@ export class BazaarIdeasService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
-  public allTeach(): Observable<[BazaarTeach]> {
+  public allTeach(): Observable<BazaarTeach[]> {
     return this.http.get(`${this.baseUrl}/teach`, this.options)
       .map(response => {
         const json = response.json();
@@ -36,7 +36,7 @@ export class BazaarIdeasService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
-  public allLearn(): Observable<[BazaarLearn]> {
+  public allLearn(): Observable<BazaarLearn[]> {
     return this.http.get(`${this.baseUrl}/learn`, this.options)
       .map(response => {
         const json = response.json();
@@ -44,7 +44,7 @@ export class BazaarIdeasService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
-  public allEvent(): Observable<[BazaarEvent]> {
+  public allEvent(): Observable<BazaarEvent[]> {
     return this.http.get(`${this.baseUrl}/event`, this.options)
       .map(response => {
         const json = response.json();

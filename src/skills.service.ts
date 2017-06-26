@@ -13,7 +13,7 @@ export class SkillsService extends ApiService {
     super(authService, environment);
   }
 
-  public search(name: string): Observable<[Skill]> {
+  public search(name: string): Observable<Skill[]> {
     return this.http.get(`${this.backendUrl}/skills?name=${name}`, this.options)
       .map(response => {
         const json = response.json();
