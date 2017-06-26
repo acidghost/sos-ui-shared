@@ -601,22 +601,7 @@ export abstract class BazaarIdea {
               public updatedAt: Date,
               public score: number) {}
 
-  public get asJson(): any {
-    // TODO: make me pretty or kill me please...
-    let obj: any = {};
-    for (let p in this) {
-      if (this.hasOwnProperty(p)) {
-        let o: any = this[p];
-        if (Object(o).hasOwnProperty("asJson"))
-          obj[p] = o.asJson;
-        else if (o instanceof Array)
-          obj[p] = o.map(op => Object(op).hasOwnProperty("asJson") ? op.asJson : op);
-        else
-          obj[p] = o;
-      }
-    }
-    return obj;
-  }
+  public abstract get asJson(): any
 }
 
 
@@ -663,6 +648,23 @@ export class BazaarLearn extends BazaarIdea {
       new Date(json.updatedAt),
       json.score
     )
+  }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      title: this.title,
+      creator: this.creator.asJson,
+      location: this.location,
+      topics: this.topics.map(t => t.asJson),
+      teachers: this.teachers.map(t => t.asJson),
+      tutors: this.tutors.map(t => t.asJson),
+      valueDetails: this.valueDetails,
+      motivation: this.motivation,
+      costs: this.costs,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
+    };
   }
 }
 
@@ -746,6 +748,34 @@ export class BazaarTeach extends BazaarIdea {
       json.score
     )
   }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      title: this.title,
+      creator: this.creator.asJson,
+      location: this.location,
+      activityType: teachActivityTypeToString(this.activityType),
+      audience: this.audience.map(audienceToString),
+      level: levelToString(this.level),
+      topics: this.topics.map(t => t.asJson),
+      meetings: this.meetings.asJson,
+      dates: this.dates.map(d => d.asJson),
+      requiredResources: this.requiredResources,
+      maxParticipants: this.maxParticipants,
+      teachers: this.teachers.map(t => t.asJson),
+      tutors: this.tutors.map(t => t.asJson),
+      programDetails: this.programDetails,
+      meetingDetails: this.meetingDetails,
+      outputDetails: this.outputDetails,
+      valueDetails: this.valueDetails,
+      motivation: this.motivation,
+      funding: this.funding.map(fundingToString),
+      costs: this.costs,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
+    };
+  }
 }
 
 
@@ -821,6 +851,31 @@ export class BazaarEvent extends BazaarIdea {
       new Date(json.updatedAt),
       json.score
     )
+  }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      title: this.title,
+      creator: this.creator.asJson,
+      activityType: eventActivityTypeToString(this.activityType),
+      audience: this.audience.map(audienceToString),
+      topics: this.topics.map(t => t.asJson),
+      meetings: this.meetings.asJson,
+      dates: this.dates.map(d => d.asJson),
+      requiredResources: this.requiredResources,
+      requiredSpaces: this.requiredSpaces.map(s => s.asJson),
+      maxParticipants: this.maxParticipants,
+      programDetails: this.programDetails,
+      valueDetails: this.valueDetails,
+      motivation: this.motivation,
+      funding: this.funding.map(fundingToString),
+      isOrganizer: this.isOrganizer,
+      guests: this.guests.map(g => g.asJson),
+      bookingRequired: this.bookingRequired,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt
+    };
   }
 }
 
