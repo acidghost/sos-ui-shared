@@ -16,6 +16,10 @@ $link-decoration:       none;
 $link-hover-color:      darken($link-color, 15%);
 $link-hover-decoration: underline;
 
+$nav-pills-border-radius:     0;
+$nav-pills-active-link-color: #FFF;
+$nav-pills-active-link-bg:    $magenta;
+
 
 
 @mixin button-sos-doubled-variant($color, $hover-bg-color, $hover-color) {
