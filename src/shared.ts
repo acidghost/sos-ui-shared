@@ -602,6 +602,7 @@ export abstract class BazaarIdea {
               public score: number) {}
 
   public abstract get asJson(): any
+  public abstract get isRecurring(): boolean | null
 }
 
 
@@ -666,6 +667,10 @@ export class BazaarLearn extends BazaarIdea {
       updatedAt: this.updatedAt
     };
   }
+
+  public get isRecurring(): boolean | null {
+    return null;
+  }
 }
 
 
@@ -707,7 +712,7 @@ export class BazaarTeach extends BazaarIdea {
     );
   }
 
-  public get isRecurring(): boolean {
+  public get isRecurring(): boolean | null {
     return this.meetings instanceof RecurringMeetings;
   }
 
@@ -814,7 +819,7 @@ export class BazaarEvent extends BazaarIdea {
     );
   }
 
-  public get isRecurring(): boolean {
+  public get isRecurring(): boolean | null {
     return this.meetings instanceof RecurringMeetings;
   }
 
