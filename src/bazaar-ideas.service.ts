@@ -103,4 +103,31 @@ export class BazaarIdeasService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
+  public updateLearn(idea: BazaarLearn | any): Observable<BazaarLearn> {
+    const ideaJson = idea instanceof BazaarLearn ? idea.asJson : idea;
+    return this.http.put(`${this.baseUrl}/learn/${idea.id}`, ideaJson, this.options)
+      .map(response => {
+        const json = response.json();
+        return BazaarLearn.fromJson(json)
+      }).catch(e => this.catchAuth(e))
+  }
+
+  public updateTeach(idea: BazaarTeach | any): Observable<BazaarTeach> {
+    const ideaJson = idea instanceof BazaarTeach ? idea.asJson : idea;
+    return this.http.put(`${this.baseUrl}/teach/${idea.id}`, ideaJson, this.options)
+      .map(response => {
+        const json = response.json();
+        return BazaarTeach.fromJson(json)
+      }).catch(e => this.catchAuth(e))
+  }
+
+  public updateEvent(idea: BazaarEvent | any): Observable<BazaarEvent> {
+    const ideaJson = idea instanceof BazaarEvent ? idea.asJson : idea;
+    return this.http.put(`${this.baseUrl}/event/${idea.id}`, ideaJson, this.options)
+      .map(response => {
+        const json = response.json();
+        return BazaarEvent.fromJson(json)
+      }).catch(e => this.catchAuth(e))
+  }
+
 }
