@@ -182,7 +182,8 @@ export enum BazaarIdeaLevel {
 
 export class BazaarIdeaTopic {
   constructor(public id: number,
-              public topic: string) {}
+              public topic: string,
+              public _delete?: boolean) {}
 
   public static fromJson(json: any): BazaarIdeaTopic {
     return new BazaarIdeaTopic(json.id, json.topic);
@@ -191,7 +192,8 @@ export class BazaarIdeaTopic {
   public get asJson(): any {
     return {
       id: this.id,
-      topic: this.topic
+      topic: this.topic,
+      'delete': this._delete
     };
   }
 }
@@ -204,7 +206,8 @@ export interface BazaarIdeaMeetingsType {
 export class SingleFixedDaysMeetings {
   constructor(public id: number,
               public numberDays: number,
-              public numberHours: number) {}
+              public numberHours: number,
+              public _delete?: boolean) {}
 
   public static fromJson(json: any): SingleFixedDaysMeetings {
     return new SingleFixedDaysMeetings(json.id, json.numberDays, json.numberHours);
@@ -214,7 +217,8 @@ export class SingleFixedDaysMeetings {
     return {
       id: this.id,
       numberDays: this.numberDays,
-      numberHours: this.numberHours
+      numberHours: this.numberHours,
+      'delete': this._delete
     }
   }
 }
@@ -284,7 +288,8 @@ export class BazaarIdeaDate {
   constructor(public id: number,
               public date: Date,
               public startTime: string,
-              public endTime: string) {}
+              public endTime: string,
+              public _delete?: boolean) {}
 
   public static fromJson(json: any): BazaarIdeaDate {
     return new BazaarIdeaDate(json.id, new Date(json.date), json.startTime, json.endTime);
@@ -295,7 +300,8 @@ export class BazaarIdeaDate {
       id: this.id,
       date: this.date,
       startTime: this.startTime,
-      endTime: this.endTime
+      endTime: this.endTime,
+      'delete': this._delete
     }
   }
 }
@@ -320,7 +326,8 @@ export type BazaarIdeaActualSpace = BazaarIdeaSOSSpace | CustomSpace;
 
 export class BazaarIdeaSpace {
   constructor(public id: number,
-              public space: BazaarIdeaActualSpace) {}
+              public space: BazaarIdeaActualSpace,
+              public _delete?: boolean) {}
 
   public static spaceFromString(space: string): BazaarIdeaActualSpace {
     switch (space) {
@@ -373,7 +380,8 @@ export class BazaarIdeaSpace {
   public get asJson(): any {
     return {
       id: this.id,
-      space: BazaarIdeaSpace.spaceToString(this.space)
+      space: BazaarIdeaSpace.spaceToString(this.space),
+      'delete': this._delete
     }
   }
 }
@@ -384,7 +392,8 @@ export class BazaarIdeaGuest {
               public userId: number | null,
               public firstName: string,
               public lastName: string,
-              public title: string) {}
+              public title: string,
+              public _delete?: boolean) {}
 
   public static fromJson(json: any): BazaarIdeaGuest {
     return new BazaarIdeaGuest(json.id, json.userId, json.firstName, json.lastName, json.title);
@@ -396,7 +405,8 @@ export class BazaarIdeaGuest {
       userId: this.userId,
       firstName: this.firstName,
       lastName: this.lastName,
-      title: this.title
+      title: this.title,
+      'delete': this._delete
     }
   }
 }
