@@ -609,7 +609,8 @@ export abstract class BazaarIdea {
               public motivation: string,
               public createdAt: Date,
               public updatedAt: Date,
-              public score: number) {}
+              public score: number,
+              public favorite: boolean) {}
 
   public abstract get asJson(): any
   public abstract get isRecurring(): boolean | null
@@ -629,7 +630,8 @@ export class BazaarLearn extends BazaarIdea {
               public costs: string | null,
               createdAt: Date,
               updatedAt: Date,
-              score: number) {
+              score: number,
+              favorite?: boolean) {
     super(
       id,
       title,
@@ -639,7 +641,8 @@ export class BazaarLearn extends BazaarIdea {
       motivation,
       createdAt,
       updatedAt,
-      score
+      score,
+      favorite
     );
   }
 
@@ -657,7 +660,8 @@ export class BazaarLearn extends BazaarIdea {
       json.costs,
       new Date(json.createdAt),
       new Date(json.updatedAt),
-      json.score
+      json.score,
+      json.favorite
     )
   }
 
@@ -708,7 +712,8 @@ export class BazaarTeach extends BazaarIdea {
               public costs: string | null,
               createdAt: Date,
               updatedAt: Date,
-              score: number) {
+              score: number,
+              favorite?: boolean) {
     super(
       id,
       title,
@@ -718,7 +723,8 @@ export class BazaarTeach extends BazaarIdea {
       motivation,
       createdAt,
       updatedAt,
-      score
+      score,
+      favorite
     );
   }
 
@@ -760,7 +766,8 @@ export class BazaarTeach extends BazaarIdea {
       json.costs,
       new Date(json.createdAt),
       new Date(json.updatedAt),
-      json.score
+      json.score,
+      json.favorite
     )
   }
 
@@ -815,7 +822,8 @@ export class BazaarEvent extends BazaarIdea {
               public bookingRequired: boolean,
               createdAt: Date,
               updatedAt: Date,
-              score: number) {
+              score: number,
+              favorite?: boolean) {
     super(
       id,
       title,
@@ -825,7 +833,8 @@ export class BazaarEvent extends BazaarIdea {
       motivation,
       createdAt,
       updatedAt,
-      score
+      score,
+      favorite
     );
   }
 
@@ -864,7 +873,8 @@ export class BazaarEvent extends BazaarIdea {
       json.bookingRequired,
       new Date(json.createdAt),
       new Date(json.updatedAt),
-      json.score
+      json.score,
+      json.favorite
     )
   }
 
