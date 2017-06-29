@@ -28,6 +28,10 @@
   &.btn-sos-magenta {
     @include button-sos-variant(white, $magenta, $magenta, white);
   }
+
+  &.btn-sos-magenta-invert {
+    @include button-sos-variant($magenta, white, white, $magenta);
+  }
 }
 
 
