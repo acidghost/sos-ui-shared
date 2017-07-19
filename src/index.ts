@@ -11,6 +11,8 @@ export * from './bazaar-ideas.resolver';
 export * from './logout.component';
 export * from './me-user.resolver';
 export * from './membership.service';
+export * from './modals.service';
+export * from './modals.component';
 export * from './shared';
 export * from './skills.service';
 export * from './user.resolver';
