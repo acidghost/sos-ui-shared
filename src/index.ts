@@ -2,6 +2,8 @@ export * from './api.resolver';
 export * from './api.service';
 export * from './auth.service';
 export * from './bazaar-ideas.service';
+export * from './bazaar-comments.resolvers';
+export * from './bazaar-comments.service';
 export * from './bazaar-learn.resolver';
 export * from './bazaar-teach.resolver';
 export * from './bazaar-event.resolver';

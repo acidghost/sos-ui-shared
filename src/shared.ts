@@ -964,3 +964,5 @@ export class BazaarEvent extends BazaarIdea {
 
 export type BazaarIdeas = { teach: BazaarTeach[], learn: BazaarLearn[], event: BazaarEvent[] }
 
+export type IdeaType = 'learn' | 'teach' | 'event';
+
