@@ -130,4 +130,23 @@ export class BazaarIdeasService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
+  public search(value: string): Observable<BazaarIdea[]> {
+    return this.http.get(this.baseUrl, this.options)
+      .map(response => {
+        const json = response.json();
+        return json.ideas.map(idea => {
+          switch (idea.type) {
+          case 'learn':
+            return BazaarLearn.fromJson(idea);
+          case 'teach':
+            return BazaarTeach.fromJson(idea);
+          case 'event':
+            return BazaarEvent.fromJson(idea);
+          default:
+            throw new Error(`unrecognized idea type ${idea.type}`);
+          }
+        })
+      }).catch(e => this.catchAuth(e))
+  }
+
 }
