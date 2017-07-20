@@ -131,7 +131,7 @@ export class BazaarIdeasService extends ApiService {
   }
 
   public search(value: string): Observable<BazaarIdea[]> {
-    return this.http.get(this.baseUrl, this.options)
+    return this.http.get(`${this.baseUrl}?search=${value}`, this.options)
       .map(response => {
         const json = response.json();
         return json.ideas.map(idea => {
