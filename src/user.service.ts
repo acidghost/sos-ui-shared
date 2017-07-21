@@ -65,4 +65,13 @@ export class UserService extends ApiService {
       .catch(e => this.catchAuth(e))
   }
 
+  public favorite(userId: number, favorite: boolean): Observable<boolean> {
+    return this.http.put(`${this.backendUrl}/users/${userId}/favorite`, { favorite: favorite }, this.options)
+      .map(response => {
+        const json = response.json();
+        return json.favorite;
+      })
+      .catch(e => this.catchAuth(e));
+  }
+
 }
