@@ -11,10 +11,21 @@ export class Language {
 export class Skill {
 
   constructor(public id: number,
-              public name: string) {}
+              public name: string,
+              public parentId?: number | null,
+              public request?: boolean | null) {}
 
   public static fromJson(json: any): Skill {
-    return new Skill(json.id, json.name)
+    return new Skill(json.id, json.name, json.parentId, json.request)
+  }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      name: this.name,
+      parentId: this.parentId,
+      request: this.request
+    };
   }
 
 }
@@ -91,10 +102,20 @@ export class UserMemberships {
 export class UserSkill {
   constructor(public id: number,
               public name: string,
-              public skillId: number) {}
+              public skillId: number,
+              public request?: boolean | null) {}
 
   public static fromJson(json: any): UserSkill {
-    return new UserSkill(json.id, json.name, json.skillId)
+    return new UserSkill(json.id, json.name, json.skillId, json.request)
+  }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      name: this.name,
+      skillId: this.skillId,
+      request: this.request
+    }
   }
 }
 
