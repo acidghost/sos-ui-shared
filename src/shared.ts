@@ -13,10 +13,12 @@ export class Skill {
   constructor(public id: number,
               public name: string,
               public parentId?: number | null,
-              public request?: boolean | null) {}
+              public request?: boolean | null,
+              public path?: Skill[] | null) {}
 
   public static fromJson(json: any): Skill {
-    return new Skill(json.id, json.name, json.parentId, json.request)
+    return new Skill(json.id, json.name, json.parentId, json.request,
+      json.path ? json.path.map(Skill.fromJson) : null)
   }
 
   public get asJson(): any {
