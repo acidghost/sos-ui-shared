@@ -692,7 +692,8 @@ export abstract class BazaarIdea {
               public createdAt: Date,
               public updatedAt: Date,
               public score: number,
-              public preference: BazaarPreference) {}
+              public preference: BazaarPreference,
+              public ideaType: IdeaType) {}
 
   public abstract get asJson(): any
   public abstract get isRecurring(): boolean | null
@@ -713,7 +714,8 @@ export class BazaarLearn extends BazaarIdea {
               createdAt: Date,
               updatedAt: Date,
               score: number,
-              preference?: BazaarPreference) {
+              preference?: BazaarPreference,
+              ideaType?: IdeaType) {
     super(
       id,
       title,
@@ -724,7 +726,8 @@ export class BazaarLearn extends BazaarIdea {
       createdAt,
       updatedAt,
       score,
-      preference
+      preference,
+      ideaType
     );
   }
 
@@ -743,7 +746,8 @@ export class BazaarLearn extends BazaarIdea {
       new Date(json.createdAt),
       new Date(json.updatedAt),
       json.score,
-      json.preference
+      json.preference,
+      json.type
     )
   }
 
@@ -760,7 +764,8 @@ export class BazaarLearn extends BazaarIdea {
       motivation: this.motivation,
       costs: this.costs,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      type: this.ideaType
     };
   }
 
@@ -795,7 +800,8 @@ export class BazaarTeach extends BazaarIdea {
               createdAt: Date,
               updatedAt: Date,
               score: number,
-              preference?: BazaarPreference) {
+              preference?: BazaarPreference,
+              ideaType?: IdeaType) {
     super(
       id,
       title,
@@ -806,7 +812,8 @@ export class BazaarTeach extends BazaarIdea {
       createdAt,
       updatedAt,
       score,
-      preference
+      preference,
+      ideaType
     );
   }
 
@@ -849,7 +856,8 @@ export class BazaarTeach extends BazaarIdea {
       new Date(json.createdAt),
       new Date(json.updatedAt),
       json.score,
-      json.preference
+      json.preference,
+      json.type
     )
   }
 
@@ -877,7 +885,8 @@ export class BazaarTeach extends BazaarIdea {
       funding: this.funding.map(fundingToString),
       costs: this.costs,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      type: this.ideaType
     };
   }
 }
@@ -905,7 +914,8 @@ export class BazaarEvent extends BazaarIdea {
               createdAt: Date,
               updatedAt: Date,
               score: number,
-              preference?: BazaarPreference) {
+              preference?: BazaarPreference,
+              ideaType?: IdeaType) {
     super(
       id,
       title,
@@ -916,7 +926,8 @@ export class BazaarEvent extends BazaarIdea {
       createdAt,
       updatedAt,
       score,
-      preference
+      preference,
+      ideaType
     );
   }
 
@@ -956,7 +967,8 @@ export class BazaarEvent extends BazaarIdea {
       new Date(json.createdAt),
       new Date(json.updatedAt),
       json.score,
-      json.preference
+      json.preference,
+      json.type
     )
   }
 
@@ -981,7 +993,8 @@ export class BazaarEvent extends BazaarIdea {
       guests: this.guests.map(g => g.asJson),
       bookingRequired: this.bookingRequired,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      type: this.ideaType
     };
   }
 }
