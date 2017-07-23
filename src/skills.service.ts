@@ -13,9 +13,8 @@ export class SkillsService extends ApiService {
     super(authService, environment);
   }
 
-  public search(name: string, all: boolean = null): Observable<Skill[]> {
-    const allQ = all === null ? '' : `&all=${all}`;
-    return this.http.get(`${this.backendUrl}/skills?name=${name}${allQ}`, this.options)
+  public search(name: string, all: boolean = false): Observable<Skill[]> {
+    return this.http.get(`${this.backendUrl}/skills?name=${name}${all ? '&all' : ''}`, this.options)
       .map(response => {
         const json = response.json();
         return json.skills.map(Skill.fromJson)
