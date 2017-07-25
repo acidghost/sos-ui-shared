@@ -14,17 +14,15 @@ const modalSelector = "#sos-modal";
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ options.title }}</h5>
+            <h5 class="modal-title" id="exampleModalLabel" [innerHTML]="options.title"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            {{ options.content }}
-          </div>
+          <div class="modal-body" [innerHTML]="options.content"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-danger" (click)="dismissModal(false)">{{ options.close }}</button>
-            <button type="button" class="btn btn-sm btn-success" (click)="dismissModal(true)">{{ options.accept }}</button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="dismissModal(false)" [innerHTML]="options.close"></button>
+            <button type="button" class="btn btn-sm btn-success" (click)="dismissModal(true)" [innerHTML]="options.accept"></button>
           </div>
         </div>
       </div>
