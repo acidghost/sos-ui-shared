@@ -7,6 +7,7 @@ export * from './bazaar-comments.service';
 export * from './bazaar-learn.resolver';
 export * from './bazaar-teach.resolver';
 export * from './bazaar-event.resolver';
+export * from './bazaar-research.resolver';
 export * from './bazaar-ideas.resolver';
 export * from './logout.component';
 export * from './me-user.resolver';

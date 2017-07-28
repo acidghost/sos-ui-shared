@@ -1,6 +1,15 @@
 import {Injectable} from "@angular/core";
 import {ApiService} from "./api.service";
-import {BazaarEvent, BazaarIdea, BazaarIdeas, BazaarLearn, BazaarTeach, Environment} from "./shared";
+import {
+  BazaarEvent,
+  BazaarIdea,
+  BazaarIdeas,
+  BazaarLearn,
+  BazaarResearch,
+  BazaarTeach,
+  Environment,
+  IdeaType
+} from "./shared";
 import {AuthService} from "./auth.service";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
@@ -23,111 +32,108 @@ export class BazaarIdeasService extends ApiService {
         return {
           teach: json.teach.map(BazaarTeach.fromJson),
           learn: json.learn.map(BazaarLearn.fromJson),
-          event: json.event.map(BazaarEvent.fromJson)
+          event: json.event.map(BazaarEvent.fromJson),
+          research: json.research.map(BazaarResearch.fromJson)
         }
       }).catch(e => this.catchAuth(e))
   }
 
-  public allTeach(): Observable<BazaarTeach[]> {
-    return this.http.get(`${this.baseUrl}/teach`, this.options)
+  protected allIdea<T extends BazaarIdea>(ideaType: IdeaType, fromJson: (any) => T): Observable<T[]> {
+    return this.http.get(`${this.baseUrl}/${ideaType}`, this.options)
       .map(response => {
         const json = response.json();
-        return BazaarTeach.fromJson(json.idea)
+        return json.ideas.map(fromJson);
       }).catch(e => this.catchAuth(e))
+  }
+
+  public allTeach(): Observable<BazaarTeach[]> {
+    return this.allIdea('teach', BazaarTeach.fromJson);
   }
 
   public allLearn(): Observable<BazaarLearn[]> {
-    return this.http.get(`${this.baseUrl}/learn`, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarLearn.fromJson(json.idea)
-      }).catch(e => this.catchAuth(e))
+    return this.allIdea('learn', BazaarLearn.fromJson);
   }
 
   public allEvent(): Observable<BazaarEvent[]> {
-    return this.http.get(`${this.baseUrl}/event`, this.options)
+    return this.allIdea('event', BazaarEvent.fromJson);
+  }
+
+  public allResearch(): Observable<BazaarResearch[]> {
+    return this.allIdea('research', BazaarResearch.fromJson);
+  }
+
+  protected find<T extends BazaarIdea>(ideaType: IdeaType, fromJson: (any) => T, id: number): Observable<T> {
+    return this.http.get(`${this.baseUrl}/${ideaType}/${id}`, this.options)
       .map(response => {
         const json = response.json();
-        return BazaarEvent.fromJson(json.idea)
+        return fromJson(json)
       }).catch(e => this.catchAuth(e))
   }
 
   public findTeach(id: number): Observable<BazaarTeach> {
-    return this.http.get(`${this.baseUrl}/teach/${id}`, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarTeach.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.find('teach', BazaarTeach.fromJson, id);
   }
 
   public findLearn(id: number): Observable<BazaarLearn> {
-    return this.http.get(`${this.baseUrl}/learn/${id}`, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarLearn.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.find('learn', BazaarLearn.fromJson, id);
   }
 
   public findEvent(id: number): Observable<BazaarEvent> {
-    return this.http.get(`${this.baseUrl}/event/${id}`, this.options)
+    return this.find('event', BazaarEvent.fromJson, id);
+  }
+
+  public findResearch(id: number): Observable<BazaarResearch> {
+    return this.find('research', BazaarResearch.fromJson, id);
+  }
+
+  protected create<T extends BazaarIdea>(ideaType: IdeaType, fromJson: (any) => T, idea: T | any): Observable<T> {
+    const ideaJson = idea instanceof BazaarIdea ? idea.asJson : idea;
+    return this.http.post(`${this.baseUrl}/${ideaType}`, ideaJson, this.options)
       .map(response => {
         const json = response.json();
-        return BazaarEvent.fromJson(json)
+        return fromJson(json)
       }).catch(e => this.catchAuth(e))
   }
 
   public createTeach(idea: BazaarTeach | any): Observable<BazaarTeach> {
-    const ideaJson = idea instanceof BazaarTeach ? idea.asJson : idea;
-    return this.http.post(`${this.baseUrl}/teach`, ideaJson, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarTeach.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.create('teach', BazaarTeach.fromJson, idea);
   }
 
   public createLearn(idea: BazaarLearn | any): Observable<BazaarLearn> {
-    const ideaJson = idea instanceof BazaarLearn ? idea.asJson : idea;
-    return this.http.post(`${this.baseUrl}/learn`, ideaJson, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarLearn.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.create('learn', BazaarLearn.fromJson, idea);
   }
 
   public createEvent(idea: BazaarEvent | any): Observable<BazaarEvent> {
-    const ideaJson = idea instanceof BazaarEvent ? idea.asJson : idea;
-    return this.http.post(`${this.baseUrl}/event`, ideaJson, this.options)
+    return this.create('event', BazaarEvent.fromJson, idea);
+  }
+
+  public createResearch(idea: BazaarResearch | any): Observable<BazaarResearch> {
+    return this.create('research', BazaarResearch.fromJson, idea);
+  }
+
+  protected update<T extends BazaarIdea>(ideaType: IdeaType, fromJson: (any) => T, idea: T | any): Observable<T> {
+    const ideaJson = idea instanceof BazaarIdea ? idea.asJson : idea;
+    return this.http.put(`${this.baseUrl}/${ideaType}/${idea.id}`, ideaJson, this.options)
       .map(response => {
         const json = response.json();
-        return BazaarEvent.fromJson(json)
+        return fromJson(json)
       }).catch(e => this.catchAuth(e))
   }
 
   public updateLearn(idea: BazaarLearn | any): Observable<BazaarLearn> {
-    const ideaJson = idea instanceof BazaarLearn ? idea.asJson : idea;
-    return this.http.put(`${this.baseUrl}/learn/${idea.id}`, ideaJson, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarLearn.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.update('learn', BazaarLearn.fromJson, idea);
   }
 
   public updateTeach(idea: BazaarTeach | any): Observable<BazaarTeach> {
-    const ideaJson = idea instanceof BazaarTeach ? idea.asJson : idea;
-    return this.http.put(`${this.baseUrl}/teach/${idea.id}`, ideaJson, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarTeach.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.update('teach', BazaarTeach.fromJson, idea);
   }
 
   public updateEvent(idea: BazaarEvent | any): Observable<BazaarEvent> {
-    const ideaJson = idea instanceof BazaarEvent ? idea.asJson : idea;
-    return this.http.put(`${this.baseUrl}/event/${idea.id}`, ideaJson, this.options)
-      .map(response => {
-        const json = response.json();
-        return BazaarEvent.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+    return this.update('event', BazaarEvent.fromJson, idea);
+  }
+
+  public updateResearch(idea: BazaarResearch | any): Observable<BazaarResearch> {
+    return this.update('research', BazaarResearch.fromJson, idea);
   }
 
   public search(value: string): Observable<BazaarIdea[]> {
@@ -142,6 +148,8 @@ export class BazaarIdeasService extends ApiService {
             return BazaarTeach.fromJson(idea);
           case 'event':
             return BazaarEvent.fromJson(idea);
+          case 'research':
+            return BazaarResearch.fromJson(idea);
           default:
             throw new Error(`unrecognized idea type ${idea.type}`);
           }

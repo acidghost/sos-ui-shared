@@ -1000,7 +1000,103 @@ export class BazaarEvent extends BazaarIdea {
 }
 
 
-export type BazaarIdeas = { teach: BazaarTeach[], learn: BazaarLearn[], event: BazaarEvent[] }
+export class BazaarResearchRole {
+  constructor(public id: number,
+              public people: number,
+              public skills: Skill[]) {}
 
-export type IdeaType = 'learn' | 'teach' | 'event';
+  public get asJson(): any {
+    return {
+      id: this.id,
+      people: this.people,
+      skills: this.skills.map(s => s.asJson)
+    };
+  }
+
+  public static fromJson(json: any): BazaarResearchRole {
+    return new BazaarResearchRole(json.id, json.people, json.skills.map(Skill.fromJson))
+  }
+}
+
+export class BazaarResearch extends BazaarIdea {
+  constructor(id: number,
+              title: string,
+              creator: User,
+              topics: BazaarIdeaTopic[],
+              public organizationName: string | null,
+              valueDetails: string,
+              motivation: string,
+              public requiredResources: string,
+              public positions: BazaarResearchRole[],
+              public deadline: number,
+              public duration: number,
+              createdAt: Date,
+              updatedAt: Date,
+              score: number,
+              preference?: BazaarPreference,
+              ideaType?: IdeaType) {
+    super(
+      id,
+      title,
+      creator,
+      topics,
+      valueDetails,
+      motivation,
+      createdAt,
+      updatedAt,
+      score,
+      preference,
+      ideaType
+    );
+  }
+
+  public static fromJson(json: any): BazaarResearch {
+    return new BazaarResearch(
+      json.id,
+      json.title,
+      User.fromJson(json.creator),
+      json.topics.map(BazaarIdeaTopic.fromJson),
+      json.organizationName,
+      json.valueDetails,
+      json.motivation,
+      json.requiredResources,
+      json.positions.map(BazaarResearchRole.fromJson),
+      json.deadline,
+      json.duration,
+      new Date(json.createdAt),
+      new Date(json.updatedAt),
+      json.score,
+      json.preference,
+      json.type
+    )
+  }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      title: this.title,
+      creator: this.creator.asJson,
+      topics: this.topics.map(t => t.asJson),
+      organizationName: this.organizationName,
+      valueDetails: this.valueDetails,
+      motivation: this.motivation,
+      requiredResources: this.requiredResources,
+      positions: this.positions.map(p => p.asJson),
+      deadline: this.deadline,
+      duration: this.duration,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      type: this.ideaType
+    };
+  }
+
+  public get isRecurring(): boolean | null {
+    return null;
+  }
+}
+
+
+export type BazaarIdeas = { teach: BazaarTeach[], learn: BazaarLearn[], event: BazaarEvent[], research: BazaarResearch[] }
+
+export type IdeaType = 'learn' | 'teach' | 'event' | 'research';
 
