@@ -14,7 +14,8 @@ export class Skill {
               public name: string,
               public parentId?: number | null,
               public request?: boolean | null,
-              public path?: Skill[] | null) {}
+              public path?: Skill[] | null,
+              public _delete?: boolean) {}
 
   public static fromJson(json: any): Skill {
     return new Skill(json.id, json.name, json.parentId, json.request,
@@ -26,7 +27,8 @@ export class Skill {
       id: this.id,
       name: this.name,
       parentId: this.parentId,
-      request: this.request
+      request: this.request,
+      'delete': this._delete
     };
   }
 
@@ -1003,13 +1005,15 @@ export class BazaarEvent extends BazaarIdea {
 export class BazaarResearchRole {
   constructor(public id: number,
               public people: number,
-              public skills: Skill[]) {}
+              public skills: Skill[],
+              public _delete: boolean = false) {}
 
   public get asJson(): any {
     return {
       id: this.id,
       people: this.people,
-      skills: this.skills.map(s => s.asJson)
+      skills: this.skills.map(s => s.asJson),
+      'delete': this._delete
     };
   }
 
