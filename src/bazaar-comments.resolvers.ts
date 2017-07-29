@@ -45,3 +45,13 @@ export class BazaarCommentsEventResolver extends BazaarCommentResolver {
     return this.bazaarCommentsService.findEvent(ideaId);
   }
 }
+
+@Injectable()
+export class BazaarCommentsResearchResolver extends BazaarCommentResolver {
+  constructor(private bazaarCommentsService: BazaarCommentsService) {
+    super();
+  }
+  protected find(ideaId: number): Observable<BazaarComment[]> {
+    return this.bazaarCommentsService.findResearch(ideaId);
+  }
+}

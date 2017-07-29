@@ -40,6 +40,11 @@ export class BazaarCommentsService extends ApiService {
     return this.find(ideaId, 'event');
   }
 
+  public findResearch(ideaId: number): Observable<BazaarComment[]> {
+    return this.find(ideaId, 'research');
+  }
+
+
   private create(ideaId: number, ideaType: IdeaType, comment: string): Observable<BazaarComment> {
     return this.http.post(this.getUrl(ideaId, ideaType), { comment: comment }, this.options)
       .map(response => {
@@ -58,6 +63,10 @@ export class BazaarCommentsService extends ApiService {
 
   public createEvent(ideaId: number, comment: string): Observable<BazaarComment> {
     return this.create(ideaId, 'event', comment);
+  }
+
+  public createResearch(ideaId: number, comment: string): Observable<BazaarComment> {
+    return this.create(ideaId, 'research', comment);
   }
 
 
