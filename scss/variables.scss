@@ -8,8 +8,30 @@ $nav-second-height: 40px;
 $nav-total-height: $nav-brand-height + $nav-main-height + $nav-second-height;
 
 $acid-green: rgba(107,247,82,1);
-$magenta: rgba(255,59,171,1);
 $blue: rgba(64,64,242,1);
+$yellow: #ffd700;
+$cyan: #12c8bb;
+// $magenta: rgba(255,59,171,1);
+$magenta: #dc64d7;
+$red: #ff501b;
+
+
+$brand-danger: $red;
+$brand-info: $cyan;
+
+$state-danger-bg: $red;
+$state-danger-text: white;
+$state-danger-border: darken($red, 10%);
+$alert-danger-bg: $red;
+$alert-danger-text: white;
+$alert-danger-border: darken($red, 10%);
+
+$state-info-bg: $cyan;
+$state-info-text: white;
+$state-info-border: darken($cyan, 10%);
+$alert-info-bg: $cyan;
+$alert-info-text: white;
+$alert-info-border: darken($cyan, 10%);
 
 $link-color:            black;
 $link-decoration:       none;
