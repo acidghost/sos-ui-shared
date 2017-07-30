@@ -7,8 +7,18 @@
 .text-green {
   color: $acid-green;
 }
+.text-cyan {
+  color: $cyan;
+}
 .text-blue {
   color: $blue;
+}
+
+.text-color-primary {
+  color: $sos-primary;
+}
+.text-color-secondary {
+  color: $sos-secondary;
 }
 
 .text-underline {
@@ -36,11 +46,11 @@
 
 
 .card {
-  &.card-outline-magenta {
-    @include card-outline-variant($magenta);
+  &.card-outline-primary {
+    @include card-outline-variant($sos-primary);
   }
-  &.card-outline-acid-green {
-    @include card-outline-variant($acid-green);
+  &.card-outline-secondary {
+    @include card-outline-variant($sos-secondary);
   }
 }
 
