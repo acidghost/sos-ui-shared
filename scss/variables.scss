@@ -1,7 +1,3 @@
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-
-
 $nav-brand-height: 120px;
 $nav-main-height: 60px;
 $nav-second-height: 40px;
@@ -15,27 +11,28 @@ $cyan: #12c8bb;
 $magenta: #dc64d7;
 $red: #ff501b;
 
-
 $sos-primary: $magenta;
 $sos-secondary: $cyan;
 
+$border-radius: 0;
 
-$brand-danger: $red;
-$brand-info: $cyan;
+$form-feedback-valid-color: $cyan;
+$form-feedback-invalid-color: $red;
 
-$state-danger-bg: $red;
-$state-danger-text: white;
-$state-danger-border: darken($red, 10%);
-$alert-danger-bg: $red;
-$alert-danger-text: white;
-$alert-danger-border: darken($red, 10%);
+$validation-states: (
+  "invalid": $form-feedback-invalid-color,
+  "valid": $form-feedback-valid-color
+);
 
-$state-info-bg: $cyan;
-$state-info-text: white;
-$state-info-border: darken($cyan, 10%);
-$alert-info-bg: $cyan;
-$alert-info-text: white;
-$alert-info-border: darken($cyan, 10%);
+$sos-alerts: (
+  "danger": $red,
+  "info": $cyan
+);
+
+$sos-alerts-color: (
+  "danger": white,
+  "info": white
+);
 
 $link-color:            black;
 $link-decoration:       none;
@@ -43,9 +40,30 @@ $link-hover-color:      darken($link-color, 15%);
 $link-hover-decoration: underline;
 
 $nav-pills-border-radius:     0;
-$nav-pills-active-link-color: #FFF;
-$nav-pills-active-link-bg:    $magenta;
+$nav-pills-link-active-color: #FFF;
+$nav-pills-link-active-bg:    $magenta;
 
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+
+$gray-dark: color("gray-dark");
+
+
+
+// https://github.com/twbs/bootstrap/pull/23444
+@mixin fix-form-check-validation($state, $color) {
+  .form-check-input {
+    .was-validated &:#{$state},
+    &.is-#{$state} {
+      + .form-check-description {
+        color: $color;
+      }
+    }
+  }
+}
 
 
 @mixin button-sos-doubled-variant($color, $hover-bg-color, $hover-color) {
@@ -144,4 +162,10 @@ $nav-pills-active-link-bg:    $magenta;
     margin-right: 12px;
     font-size: larger;
   }
+}
+
+
+@mixin card-outline-variant($color) {
+  background-color: transparent;
+  border-color: $color;
 }

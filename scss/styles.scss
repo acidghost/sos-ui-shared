@@ -74,6 +74,19 @@
 }
 
 
+@each $state, $color in $validation-states {
+  @include fix-form-check-validation($state, $color);
+}
+
+
+@each $alert-name, $color in $sos-alerts {
+  .alert-#{$alert-name} {
+    $text-color: map-get($sos-alerts-color, $alert-name);
+    @include alert-variant($color, theme-color-level($alert-name, -9), $text-color);
+  }
+}
+
+
 .form-control {
   border: 2px solid black;
   background-color: transparent;
