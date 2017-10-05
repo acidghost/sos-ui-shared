@@ -160,7 +160,7 @@ export class User {
 }
 
 
-export enum BazaarTeachActivityType {
+export enum TeachActivityType {
   LecturePerformance,
   LabsSeminary,
   XYZFormat,
@@ -170,7 +170,7 @@ export enum BazaarTeachActivityType {
 }
 
 
-export enum BazaarEventActivityType {
+export enum EventActivityType {
   Talk,
   Projection,
   Exposition,
@@ -179,14 +179,7 @@ export enum BazaarEventActivityType {
 }
 
 
-export enum BazaarIdeaFramework {
-  TeachingFramework,
-  ResearchFramework,
-  EntertainmentFramework
-}
-
-
-export enum BazaarIdeaAudience {
+export enum Audience {
   Kids,
   Teenagers,
   Students,
@@ -200,20 +193,20 @@ export enum BazaarIdeaAudience {
 }
 
 
-export enum BazaarIdeaLevel {
+export enum Level {
   EntryLevel,
   IntermediateLevel,
   AdvancedLevel
 }
 
 
-export class BazaarIdeaTopic {
+export class Topic {
   constructor(public id: number,
               public topic: string,
               public _delete?: boolean) {}
 
-  public static fromJson(json: any): BazaarIdeaTopic {
-    return new BazaarIdeaTopic(json.id, json.topic);
+  public static fromJson(json: any): Topic {
+    return new Topic(json.id, json.topic);
   }
 
   public get asJson(): any {
@@ -223,6 +216,36 @@ export class BazaarIdeaTopic {
       'delete': this._delete
     };
   }
+}
+
+
+export class SOSDate {
+  constructor(public id: number,
+              public date: Date,
+              public startTime: string,
+              public endTime: string,
+              public _delete?: boolean) {}
+
+  public static fromJson(json: any): SOSDate {
+    return new SOSDate(json.id, new Date(json.date), json.startTime, json.endTime);
+  }
+
+  public get asJson(): any {
+    return {
+      id: this.id,
+      date: this.date,
+      startTime: this.startTime,
+      endTime: this.endTime,
+      'delete': this._delete
+    }
+  }
+}
+
+
+export enum BazaarIdeaFramework {
+  TeachingFramework,
+  ResearchFramework,
+  EntertainmentFramework
 }
 
 
@@ -306,29 +329,6 @@ export class RecurringMeetings implements BazaarIdeaMeetingsType {
       every: this.every,
       entity: RecurringMeetings.recurringEntityToString(this.entity),
       hours: this.hours
-    }
-  }
-}
-
-
-export class BazaarIdeaDate {
-  constructor(public id: number,
-              public date: Date,
-              public startTime: string,
-              public endTime: string,
-              public _delete?: boolean) {}
-
-  public static fromJson(json: any): BazaarIdeaDate {
-    return new BazaarIdeaDate(json.id, new Date(json.date), json.startTime, json.endTime);
-  }
-
-  public get asJson(): any {
-    return {
-      id: this.id,
-      date: this.date,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      'delete': this._delete
     }
   }
 }
@@ -448,147 +448,147 @@ export enum BazaarIdeaFunding {
 }
 
 
-export function teachActivityTypeFromString(str: string): BazaarTeachActivityType {
+export function teachActivityTypeFromString(str: string): TeachActivityType {
   switch (str) {
     case "lecture_performance":
-      return BazaarTeachActivityType.LecturePerformance;
+      return TeachActivityType.LecturePerformance;
     case "labs_seminary":
-      return BazaarTeachActivityType.LabsSeminary;
+      return TeachActivityType.LabsSeminary;
     case "xyz_format":
-      return BazaarTeachActivityType.XYZFormat;
+      return TeachActivityType.XYZFormat;
     case "cultural_event":
-      return BazaarTeachActivityType.CulturalEvent;
+      return TeachActivityType.CulturalEvent;
     case "vertical_format":
-      return BazaarTeachActivityType.VerticalFormat;
+      return TeachActivityType.VerticalFormat;
     case "machine_usage":
-      return BazaarTeachActivityType.MachineUsage;
+      return TeachActivityType.MachineUsage;
     default:
       throw new Error("unrecognized bazaar idea activity type");
   }
 }
 
-export function teachActivityTypeToString(activityType: BazaarTeachActivityType): string {
+export function teachActivityTypeToString(activityType: TeachActivityType): string {
   switch (activityType) {
-    case BazaarTeachActivityType.LecturePerformance:
+    case TeachActivityType.LecturePerformance:
       return "lecture_performance";
-    case BazaarTeachActivityType.LabsSeminary:
+    case TeachActivityType.LabsSeminary:
       return "labs_seminary";
-    case BazaarTeachActivityType.XYZFormat:
+    case TeachActivityType.XYZFormat:
       return "xyz_format";
-    case BazaarTeachActivityType.CulturalEvent:
+    case TeachActivityType.CulturalEvent:
       return "cultural_event";
-    case BazaarTeachActivityType.VerticalFormat:
+    case TeachActivityType.VerticalFormat:
       return "vertical_format";
-    case BazaarTeachActivityType.MachineUsage:
+    case TeachActivityType.MachineUsage:
       return "machine_usage";
   }
 }
 
 
-export function eventActivityTypeFromString(str: string): BazaarEventActivityType {
+export function eventActivityTypeFromString(str: string): EventActivityType {
   switch (str) {
     case "talk":
-      return BazaarEventActivityType.Talk;
+      return EventActivityType.Talk;
     case "projection":
-      return BazaarEventActivityType.Projection;
+      return EventActivityType.Projection;
     case "exposition":
-      return BazaarEventActivityType.Exposition;
+      return EventActivityType.Exposition;
     case "workshop":
-      return BazaarEventActivityType.Workshop;
+      return EventActivityType.Workshop;
     case "performance":
-      return BazaarEventActivityType.Performance;
+      return EventActivityType.Performance;
   }
 }
 
-export function eventActivityTypeToString(activityType: BazaarEventActivityType): string {
+export function eventActivityTypeToString(activityType: EventActivityType): string {
   switch (activityType) {
-    case BazaarEventActivityType.Talk:
+    case EventActivityType.Talk:
       return "talk";
-    case BazaarEventActivityType.Projection:
+    case EventActivityType.Projection:
       return "projection";
-    case BazaarEventActivityType.Exposition:
+    case EventActivityType.Exposition:
       return "exposition";
-    case BazaarEventActivityType.Workshop:
+    case EventActivityType.Workshop:
       return "workshop";
-    case BazaarEventActivityType.Performance:
+    case EventActivityType.Performance:
       return "performance";
   }
 }
 
 
-export function audienceFromString(str: string): BazaarIdeaAudience {
+export function audienceFromString(str: string): Audience {
   switch (str) {
     case "kids":
-      return BazaarIdeaAudience.Kids;
+      return Audience.Kids;
     case "teenagers":
-      return BazaarIdeaAudience.Teenagers;
+      return Audience.Teenagers;
     case "students":
-      return BazaarIdeaAudience.Students;
+      return Audience.Students;
     case "researchers":
-      return BazaarIdeaAudience.Researchers;
+      return Audience.Researchers;
     case "professionals":
-      return BazaarIdeaAudience.Professionals;
+      return Audience.Professionals;
     case "companies":
-      return BazaarIdeaAudience.Companies;
+      return Audience.Companies;
     case "public_administrations":
-      return BazaarIdeaAudience.PublicAdministrations;
+      return Audience.PublicAdministrations;
     case "seniors":
-      return BazaarIdeaAudience.Seniors;
+      return Audience.Seniors;
     case "immigrants":
-      return BazaarIdeaAudience.Immigrants;
+      return Audience.Immigrants;
     case "unemployed":
-      return BazaarIdeaAudience.Unemployed;
+      return Audience.Unemployed;
     default:
       throw new Error("unrecognized bazaar idea audience type");
   }
 }
 
-export function audienceToString(audience: BazaarIdeaAudience): string {
+export function audienceToString(audience: Audience): string {
   switch (audience) {
-    case BazaarIdeaAudience.Kids:
+    case Audience.Kids:
       return "kids";
-    case BazaarIdeaAudience.Teenagers:
+    case Audience.Teenagers:
       return "teenagers";
-    case BazaarIdeaAudience.Students:
+    case Audience.Students:
       return "students";
-    case BazaarIdeaAudience.Researchers:
+    case Audience.Researchers:
       return "researchers";
-    case BazaarIdeaAudience.Professionals:
+    case Audience.Professionals:
       return "professionals";
-    case BazaarIdeaAudience.Companies:
+    case Audience.Companies:
       return "companies";
-    case BazaarIdeaAudience.PublicAdministrations:
+    case Audience.PublicAdministrations:
       return "public_administrations";
-    case BazaarIdeaAudience.Seniors:
+    case Audience.Seniors:
       return "seniors";
-    case BazaarIdeaAudience.Immigrants:
+    case Audience.Immigrants:
       return "immigrants";
-    case BazaarIdeaAudience.Unemployed:
+    case Audience.Unemployed:
       return "unemployed";
   }
 }
 
 
-export function levelFromString(str: string): BazaarIdeaLevel {
+export function levelFromString(str: string): Level {
   switch (str) {
     case "entry":
-      return BazaarIdeaLevel.EntryLevel;
+      return Level.EntryLevel;
     case "intermediate":
-      return BazaarIdeaLevel.IntermediateLevel;
+      return Level.IntermediateLevel;
     case "advanced":
-      return BazaarIdeaLevel.AdvancedLevel;
+      return Level.AdvancedLevel;
     default:
       throw new Error("unrecognized bazaar idea level type");
   }
 }
 
-export function levelToString(level: BazaarIdeaLevel): string {
+export function levelToString(level: Level): string {
   switch (level) {
-    case BazaarIdeaLevel.EntryLevel:
+    case Level.EntryLevel:
       return "entry";
-    case BazaarIdeaLevel.IntermediateLevel:
+    case Level.IntermediateLevel:
       return "intermediate";
-    case BazaarIdeaLevel.AdvancedLevel:
+    case Level.AdvancedLevel:
       return "advanced";
   }
 }
@@ -688,7 +688,7 @@ export abstract class BazaarIdea {
   constructor(public id: number,
               public title: string,
               public creator: User,
-              public topics: BazaarIdeaTopic[],
+              public topics: Topic[],
               public valueDetails: string,
               public motivation: string,
               public createdAt: Date,
@@ -707,7 +707,7 @@ export class BazaarLearn extends BazaarIdea {
               title: string,
               creator: User,
               public location: string,
-              topics: BazaarIdeaTopic[],
+              topics: Topic[],
               public teachers: BazaarIdeaGuest[],
               public tutors: BazaarIdeaGuest[],
               valueDetails: string,
@@ -739,7 +739,7 @@ export class BazaarLearn extends BazaarIdea {
       json.title,
       User.fromJson(json.creator),
       json.location,
-      json.topics.map(BazaarIdeaTopic.fromJson),
+      json.topics.map(Topic.fromJson),
       json.teachers.map(BazaarIdeaGuest.fromJson),
       json.tutors.map(BazaarIdeaGuest.fromJson),
       json.valueDetails,
@@ -782,12 +782,12 @@ export class BazaarTeach extends BazaarIdea {
               title: string,
               creator: User,
               public location: string,
-              public activityType: BazaarTeachActivityType,
-              public audience: BazaarIdeaAudience[],
-              public level: BazaarIdeaLevel,
-              topics: BazaarIdeaTopic[],
+              public activityType: TeachActivityType,
+              public audience: Audience[],
+              public level: Level,
+              topics: Topic[],
               public meetings: BazaarIdeaMeetingsType,
-              public dates: BazaarIdeaDate[],
+              public dates: SOSDate[],
               public requiredResources: string | null,
               public maxParticipants: number,
               public teachers: BazaarIdeaGuest[],
@@ -838,12 +838,12 @@ export class BazaarTeach extends BazaarIdea {
       teachActivityTypeFromString(json.activityType),
       json.audience.map(audienceFromString),
       levelFromString(json.level),
-      json.topics.map(BazaarIdeaTopic.fromJson),
+      json.topics.map(Topic.fromJson),
       (json.meetings.type === 'fixed_days' ?
           FixedDaysMeetings.fromJson(json.meetings)
           : RecurringMeetings.fromJson(json.meetings)
       ),
-      json.dates.map(BazaarIdeaDate.fromJson),
+      json.dates.map(SOSDate.fromJson),
       json.requiredResources,
       json.maxParticipants,
       json.teachers.map(BazaarIdeaGuest.fromJson),
@@ -898,11 +898,11 @@ export class BazaarEvent extends BazaarIdea {
   constructor(id: number,
               title: string,
               creator: User,
-              public activityType: BazaarEventActivityType,
-              public audience: BazaarIdeaAudience[],
-              topics: BazaarIdeaTopic[],
+              public activityType: EventActivityType,
+              public audience: Audience[],
+              topics: Topic[],
               public meetings: BazaarIdeaMeetingsType,
-              public dates: BazaarIdeaDate[],
+              public dates: SOSDate[],
               public requiredResources: string | null,
               public requiredSpaces: BazaarIdeaSpace[],
               public maxParticipants: number,
@@ -950,12 +950,12 @@ export class BazaarEvent extends BazaarIdea {
       User.fromJson(json.creator),
       eventActivityTypeFromString(json.activityType),
       json.audience.map(audienceFromString),
-      json.topics.map(BazaarIdeaTopic.fromJson),
+      json.topics.map(Topic.fromJson),
       (json.meetings.type === 'fixed_days' ?
           FixedDaysMeetings.fromJson(json.meetings)
           : RecurringMeetings.fromJson(json.meetings)
       ),
-      json.dates.map(BazaarIdeaDate.fromJson),
+      json.dates.map(SOSDate.fromJson),
       json.requiredResources,
       json.requiredSpaces.map(BazaarIdeaSpace.fromJson),
       json.maxParticipants,
@@ -1026,7 +1026,7 @@ export class BazaarResearch extends BazaarIdea {
   constructor(id: number,
               title: string,
               creator: User,
-              topics: BazaarIdeaTopic[],
+              topics: Topic[],
               public organizationName: string | null,
               valueDetails: string,
               motivation: string,
@@ -1059,7 +1059,7 @@ export class BazaarResearch extends BazaarIdea {
       json.id,
       json.title,
       User.fromJson(json.creator),
-      json.topics.map(BazaarIdeaTopic.fromJson),
+      json.topics.map(Topic.fromJson),
       json.organizationName,
       json.valueDetails,
       json.motivation,
