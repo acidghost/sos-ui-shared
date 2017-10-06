@@ -16,6 +16,7 @@ export * from './modals.service';
 export * from './modals.component';
 export * from './shared';
 export * from './skills.service';
+export * from './topics.service';
 export * from './user.resolver';
 export * from './user.service';
 export * from './utils';
