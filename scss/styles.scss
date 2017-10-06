@@ -25,6 +25,47 @@
   text-decoration: underline;
 }
 
+.text-upper-bold {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: larger;
+}
+
+
+.input-group-list {
+  margin-top: 10px;
+  li {
+    &:not(:last-child) {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .input-group-addon {
+      background-color: $sos-primary;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      border-radius: 0;
+      padding: 0.25rem 0.6rem;
+    }
+    .btn {
+      font-size: 12px;
+      padding: 4px 12px;
+    }
+  }
+}
+
+
+.sos-icon.shaded, .badge.badge-shaded, .skill-request {
+  opacity: .7;
+}
+
+
+.alert {
+  &.alert-black {
+    @include alert-variant(black, $gray-dark, white);
+  }
+}
+
 
 .btn {
   &.btn-sos-doubled-blue {
