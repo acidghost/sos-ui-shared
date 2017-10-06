@@ -13,7 +13,7 @@ export class TopicsService extends ApiService {
     super(authService, environment);
   }
 
-  public search(topic?: string): Observable<[Topic]> {
+  public search(topic?: string): Observable<Topic[]> {
     let url = `${this.backendUrl}/topics`;
     if (topic)
       url += `?topic=${topic}`;
