@@ -10,7 +10,15 @@ export namespace Validators {
     }
   }
 
+  export function minValue(min: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const thisValue = parseInt(control.value);
+      return thisValue < min ? { 'minValue': thisValue } : null;
+    }
+  }
+
 }
 
 
 export * from './after-date.directive';
+export * from './min-value.directive';
