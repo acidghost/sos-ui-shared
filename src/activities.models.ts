@@ -112,7 +112,12 @@ export namespace ActivityEvent {
       payments: json.payments,
       minParticipants: json.minParticipants,
       maxParticipants: json.maxParticipants,
-      schedule: json.schedule,
+      schedule: json.schedule.type === 'recurring' ?
+        RecurringMeetings.fromJson(json.schedule) :
+        {
+          totalDays: json.schedule.totalDays,
+          totalHours: json.schedule.totalHours
+        },
       dates: json.dates.map(SOSDate.fromJson),
       startDate: new Date(json.startDate),
       guests: json.guests,
