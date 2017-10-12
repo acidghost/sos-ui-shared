@@ -14,10 +14,21 @@ export class ActivitiesService extends ApiService {
     super(authService, environment);
   }
 
-  public all<T extends Activity>(language: string | null = null): Observable<T[]> {
+  public all<T extends Activity>(
+    language: string | null = null,
+    search: string | null = null
+  ): Observable<T[]> {
     let url = `${this.backendUrl}/activities`;
-    if (language !== null)
+    let questionMarkAdded = false;
+
+    if (language !== null) {
       url += `?lang=${language}`;
+      questionMarkAdded = true;
+    }
+
+    if (search !== null) {
+      url += `${questionMarkAdded ? '&' : '?'}search=${search}`;
+    }
 
     return this.http.get(url, this.options)
       .map(response => {
