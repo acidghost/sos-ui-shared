@@ -87,4 +87,22 @@ export class ActivitiesService extends ApiService {
     return this.favorite('teach', id, favorite);
   }
 
+
+  public favorites(userId: number): Observable<Activity[]> {
+    return this.http.get(`${this.backendUrl}/users/${userId}/favorite/activities`, this.options)
+      .map(response => {
+        const json = response.json();
+        return json.activities.map(activityJson => {
+          switch (activityJson.type) {
+          case 'teach':
+            return ActivityTeach.fromJson(activityJson);
+          case 'event':
+            return ActivityEvent.fromJson(activityJson);
+          default:
+            throw new Error(`Unrecognized activity type ${activityJson.type}`);
+          }
+        })
+      }).catch(e => this.catchAuth(e))
+  }
+
 }
