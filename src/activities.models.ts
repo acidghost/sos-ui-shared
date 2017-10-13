@@ -44,7 +44,8 @@ export type Activity = {
   deadline: Date | null,
   bazaarIdeaId: number,
   createdAt?: Date,
-  updatedAt?: Date
+  updatedAt?: Date,
+  favorite?: boolean | null
 }
 
 export type ActivitySchedule = RecurringMeetings | {
@@ -102,6 +103,7 @@ export namespace ActivityEvent {
       bazaarIdeaId: json.bazaarIdeaId,
       createdAt: new Date(json.createdAt),
       updatedAt: new Date(json.updatedAt),
+      favorite: json.favorite,
       level: json.level ? levelFromString(json.level) : null,
       audience: json.audience.map(audienceFromString),
       outputType: json.outputType,

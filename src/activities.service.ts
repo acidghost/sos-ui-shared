@@ -47,7 +47,12 @@ export class ActivitiesService extends ApiService {
   }
 
 
-  private find<T extends Activity>(activityType: ActivityType, fromJson: (any) => T, id: number, lang: string | null): Observable<T> {
+  private find<T extends Activity>(
+    activityType: ActivityType,
+    fromJson: (any) => T,
+    id: number,
+    lang: string | null
+  ): Observable<T> {
     let url = `${this.backendUrl}/activities/${activityType}/${id}`;
     if (lang !== null)
       url += `?lang=${lang}`;
@@ -64,6 +69,22 @@ export class ActivitiesService extends ApiService {
 
   public findTeach(id: number, lang: string = null): Observable<ActivityTeach> {
     return this.find('teach', ActivityTeach.fromJson, id, lang);
+  }
+
+
+  private favorite(activityType: ActivityType, id: number, favorite: boolean): Observable<void> {
+    const url = `${this.backendUrl}/activities/${activityType}/${id}/favorite`;
+    return this.http.put(url, { favorite: favorite }, this.options)
+      .map(() => {})
+      .catch(e => this.catchAuth(e));
+  }
+
+  public favoriteEvent(id: number, favorite: boolean): Observable<void> {
+    return this.favorite('event', id, favorite);
+  }
+
+  public favoriteTeach(id: number, favorite: boolean): Observable<void> {
+    return this.favorite('teach', id, favorite);
   }
 
 }
