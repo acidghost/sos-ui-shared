@@ -110,8 +110,7 @@ export class ActivitiesService extends ApiService {
 
 
   private subscribe(activityType: ActivityType, id: number, paymentInfo: PaymentInfoRequest | null): Observable<ActivitySubscription> {
-    const body = paymentInfo !== null ? paymentInfo : {};
-    return this.http.put(`${this.backendUrl}/activities/${activityType}/${id}/subscription`, body, this.options)
+    return this.http.put(`${this.backendUrl}/activities/${activityType}/${id}/subscription`, paymentInfo, this.options)
       .map(response => {
         const json = response.json();
         return {
