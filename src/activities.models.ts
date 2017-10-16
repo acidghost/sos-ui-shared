@@ -98,6 +98,12 @@ export type ActivityTeach = ActivityEvent & {
   teachCategory: TeachCategory
 }
 
+export type PaymentInfoRequest = {
+  paymentMethod: PaymentMethod,
+  referenceId: string,
+  amount: number
+}
+
 
 export namespace ActivityEvent {
   export function fromJson(json: any, teach: boolean = false): ActivityEvent {

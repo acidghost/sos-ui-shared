@@ -4,7 +4,10 @@ import {AuthService} from "./auth.service";
 import {Environment} from "./shared";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {Activity, ActivityEvent, ActivityTeach, ActivityType} from "./activities.models";
+import {
+  Activity, ActivityEvent, ActivitySubscription, ActivityTeach, ActivityType,
+  PaymentInfoRequest
+} from "./activities.models";
 
 
 @Injectable()
@@ -103,6 +106,29 @@ export class ActivitiesService extends ApiService {
           }
         })
       }).catch(e => this.catchAuth(e))
+  }
+
+
+  private subscribe(activityType: ActivityType, id: number, paymentInfo: PaymentInfoRequest | null): Observable<ActivitySubscription> {
+    const body = paymentInfo !== null ? paymentInfo : {};
+    return this.http.put(`${this.backendUrl}/activities/${activityType}/${id}/subscription`, body, this.options)
+      .map(response => {
+        const json = response.json();
+        return {
+          createdAt: new Date(json.createdAt),
+          paymentMethod: json.paymentMethod,
+          verified: json.verified,
+          cro: json.cro
+        };
+      }).catch(e => this.catchAuth(e));
+  }
+
+  public subscribeEvent(id: number, paymentInfo: PaymentInfoRequest | null = null): Observable<ActivitySubscription> {
+    return this.subscribe('event', id, paymentInfo);
+  }
+
+  public subscribeTeach(id: number, paymentInfo: PaymentInfoRequest | null = null): Observable<ActivitySubscription> {
+    return this.subscribe('teach', id, paymentInfo);
   }
 
 }
