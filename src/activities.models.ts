@@ -62,6 +62,16 @@ export type ActivityGuest = {
   bio?: string
 }
 
+export type PaymentMethod = "paypal" | "credit_card" | "wire_transfer"
+export const PaypalMethods = ["paypal", "credit_card", "wire_transfer"];
+
+export type ActivitySubscription = {
+  createdAt: Date,
+  paymentMethod: PaymentMethod,
+  verified?: boolean | null,
+  cro?: string | null
+}
+
 export type ActivityEvent = Activity & {
   level?: number,
   audience: Audience[],
@@ -77,7 +87,8 @@ export type ActivityEvent = Activity & {
   startDate?: Date,
   guests: ActivityGuest[],
   requiredSkills: Skill[],
-  acquiredSkills: Skill[]
+  acquiredSkills: Skill[],
+  subscription?: ActivitySubscription | null
 }
 
 export type TeachCategory = "x" | "y" | "z"
@@ -125,6 +136,12 @@ export namespace ActivityEvent {
       guests: json.guests,
       requiredSkills: json.requiredSkills.map(Skill.fromJson),
       acquiredSkills: json.acquiredSkills.map(Skill.fromJson),
+      subscription: json.subscription ? {
+        createdAt: new Date(json.subscription.createdAt),
+        paymentMethod: json.subscription.paymentMethod,
+        verified: json.subscription.verified,
+        cro: json.subscription.cro
+      } : null
     }
   }
 }
