@@ -63,13 +63,29 @@ export type ActivityGuest = {
 }
 
 export type PaymentMethod = "paypal" | "credit_card" | "wire_transfer"
-export const PaypalMethods = ["paypal", "credit_card", "wire_transfer"];
+// noinspection JSUnusedGlobalSymbols
+export const PaymentMethods = ["paypal", "credit_card", "wire_transfer"];
 
 export type ActivitySubscription = {
   createdAt: Date,
   paymentMethod: PaymentMethod,
   verified?: boolean | null,
-  cro?: string | null
+  cro?: string | null,
+  transactionId?: string | null,
+  amount?: number | null
+}
+
+export namespace ActivitySubscription {
+  export function fromJson(json: any): ActivitySubscription {
+    return json ? {
+      createdAt: new Date(json.createdAt),
+      paymentMethod: json.paymentMethod,
+      verified: json.verified,
+      cro: json.cro,
+      transactionId: json.transactionId,
+      amount: json.amount
+    } : null
+  }
 }
 
 export type ActivityEvent = Activity & {
@@ -142,12 +158,7 @@ export namespace ActivityEvent {
       guests: json.guests,
       requiredSkills: json.requiredSkills.map(Skill.fromJson),
       acquiredSkills: json.acquiredSkills.map(Skill.fromJson),
-      subscription: json.subscription ? {
-        createdAt: new Date(json.subscription.createdAt),
-        paymentMethod: json.subscription.paymentMethod,
-        verified: json.subscription.verified,
-        cro: json.subscription.cro
-      } : null
+      subscription: ActivitySubscription.fromJson(json.subscription)
     }
   }
 }
