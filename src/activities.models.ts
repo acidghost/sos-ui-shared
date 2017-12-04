@@ -13,26 +13,26 @@ import {
 } from "./shared";
 
 
-export type DataImage = {
-  extension: string,
-  url: string | null,
+export interface DataImage {
+  extension: string
+  url: string | null
   data: string | null
 }
 
-export type Image = DataImage & {
+export interface Image extends DataImage {
   id: number
 }
 
-export type ImageGallery = {
-  id: number,
-  name?: string,
+export interface ImageGallery {
+  id: number
+  name?: string
   images: Image[]
 }
 
 
 export type ActivityType = "teach" | "event" | "research"
 
-export type Activity = {
+export interface Activity {
   id: number,
   language: string,
   type: ActivityType,
@@ -48,13 +48,13 @@ export type Activity = {
   favorite?: boolean | null
 }
 
-export type ActivityResearchRole = {
+export interface ActivityResearchRole {
   id: number,
   people: number,
   skills: Skill[]
 }
 
-export type ActivityResearch = Activity & {
+export interface ActivityResearch extends Activity {
   organizationName: string | null,
   motivation: string,
   valueDetails: string,
@@ -68,7 +68,7 @@ export type ActivitySchedule = RecurringMeetings | {
   totalHours: number
 }
 
-export type ActivityGuest = {
+export interface ActivityGuest {
   id: number,
   userId: number | null,
   firstName: string,
@@ -81,7 +81,7 @@ export type PaymentMethod = "paypal" | "credit_card" | "wire_transfer"
 // noinspection JSUnusedGlobalSymbols
 export const PaymentMethods = ["paypal", "credit_card", "wire_transfer"];
 
-export type ActivitySubscription = {
+export interface ActivitySubscription {
   createdAt: Date,
   paymentMethod: PaymentMethod,
   verified?: boolean | null,
@@ -103,7 +103,7 @@ export namespace ActivitySubscription {
   }
 }
 
-export type ActivityEvent = Activity & {
+export interface ActivityEvent extends Activity {
   level?: number,
   audience: Audience[],
   outputType: string,
@@ -124,12 +124,12 @@ export type ActivityEvent = Activity & {
 
 export type TeachCategory = "x" | "y" | "z"
 
-export type ActivityTeach = ActivityEvent & {
+export interface ActivityTeach extends ActivityEvent {
   outputDescription: string,
   teachCategory: TeachCategory
 }
 
-export type PaymentInfoRequest = {
+export interface PaymentInfoRequest {
   paymentMethod: PaymentMethod,
   referenceId: string,
   amount: number
