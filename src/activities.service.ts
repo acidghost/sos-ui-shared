@@ -5,7 +5,7 @@ import {Environment} from "./shared";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {
-  Activity, ActivityEvent, ActivitySubscription, ActivityTeach, ActivityType,
+  Activity, ActivityEvent, ActivityResearch, ActivitySubscription, ActivityTeach, ActivityType,
   PaymentInfoRequest
 } from "./activities.models";
 
@@ -42,6 +42,8 @@ export class ActivitiesService extends ApiService {
             return ActivityTeach.fromJson(activityJson);
           case 'event':
             return ActivityEvent.fromJson(activityJson);
+          case 'research':
+            return ActivityResearch.fromJson(activityJson);
           default:
             throw new Error(`Unrecognized activity type ${activityJson.type}`);
           }
@@ -74,6 +76,10 @@ export class ActivitiesService extends ApiService {
     return this.find('teach', ActivityTeach.fromJson, id, lang);
   }
 
+  public findResearch(id: number, lang: string = null): Observable<ActivityResearch> {
+    return this.find('research', ActivityResearch.fromJson, id, lang);
+  }
+
 
   private favorite(activityType: ActivityType, id: number, favorite: boolean): Observable<void> {
     const url = `${this.backendUrl}/activities/${activityType}/${id}/favorite`;
@@ -90,6 +96,10 @@ export class ActivitiesService extends ApiService {
     return this.favorite('teach', id, favorite);
   }
 
+  public favoriteResearch(id: number, favorite: boolean): Observable<void> {
+    return this.favorite('research', id, favorite);
+  }
+
 
   public favorites(userId: number): Observable<Activity[]> {
     return this.http.get(`${this.backendUrl}/users/${userId}/favorite/activities`, this.options)
@@ -101,6 +111,8 @@ export class ActivitiesService extends ApiService {
             return ActivityTeach.fromJson(activityJson);
           case 'event':
             return ActivityEvent.fromJson(activityJson);
+          case 'research':
+            return ActivityResearch.fromJson(activityJson);
           default:
             throw new Error(`Unrecognized activity type ${activityJson.type}`);
           }

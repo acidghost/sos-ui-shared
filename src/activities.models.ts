@@ -30,7 +30,7 @@ export type ImageGallery = {
 }
 
 
-export type ActivityType = "teach" | "event"
+export type ActivityType = "teach" | "event" | "research"
 
 export type Activity = {
   id: number,
@@ -46,6 +46,21 @@ export type Activity = {
   createdAt?: Date,
   updatedAt?: Date,
   favorite?: boolean | null
+}
+
+export type ActivityResearchRole = {
+  id: number,
+  people: number,
+  skills: Skill[]
+}
+
+export type ActivityResearch = Activity & {
+  organizationName: string | null,
+  motivation: string,
+  valueDetails: string,
+  startDate: Date,
+  duration: number,
+  roles: ActivityResearchRole[]
 }
 
 export type ActivitySchedule = RecurringMeetings | {
@@ -170,5 +185,31 @@ export namespace ActivityTeach {
     base.outputDescription = json.outputDescription;
     base.teachCategory = json.teachCategory;
     return base;
+  }
+}
+
+export namespace ActivityResearch {
+  export function fromJson(json: any): ActivityResearch {
+    return {
+      id: json.id,
+      language: json.language,
+      type: "research",
+      title: json.title,
+      coverPic: json.coverPic,
+      gallery: json.gallery,
+      topics: json.topics,
+      description: json.description,
+      deadline: new Date(json.deadline),
+      bazaarIdeaId: json.bazaarIdeaId,
+      createdAt: new Date(json.createdAt),
+      updatedAt: new Date(json.updatedAt),
+      favorite: json.favorite,
+      organizationName: json.organizationName,
+      motivation: json.motivation,
+      valueDetails: json.valueDetails,
+      startDate: new Date(json.startDate),
+      duration: json.duration,
+      roles: json.roles
+    };
   }
 }
