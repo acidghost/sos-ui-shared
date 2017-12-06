@@ -163,7 +163,7 @@ export class ActivitiesService extends ApiService {
   }
 
   public changeApplication(roleId: number, app: ResearchAppRequest): Observable<ActivityResearchApp> {
-    return this.http.put(`${this.backendUrl}/activities/research/${roleId}`, app, this.options)
+    return this.http.put(`${this.backendUrl}/activities/research/${roleId}/application`, app, this.options)
       .map(response => {
         const json = response.json();
         return {
