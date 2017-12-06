@@ -162,15 +162,15 @@ export class ActivitiesService extends ApiService {
       }).catch(e => this.catchAuth(e));
   }
 
-  public changeApplication(roleId: number, app: ResearchAppRequest): Observable<ActivityResearchApp> {
+  public changeApplication(roleId: number, app: ResearchAppRequest): Observable<ActivityResearchApp | null> {
     return this.http.put(`${this.backendUrl}/activities/research/${roleId}/application`, app, this.options)
       .map(response => {
         const json = response.json();
-        return {
+        return json ? {
           userId: json.userId,
           motivation: json.motivation,
           createdAt: new Date(json.createdAt)
-        };
+        } : null;
       }).catch(e => this.catchAuth(e));
   }
 
