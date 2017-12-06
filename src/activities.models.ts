@@ -75,7 +75,8 @@ export interface ActivityResearch extends Activity {
   valueDetails: string,
   startDate: Date,
   duration: number,
-  roles: ActivityResearchRole[]
+  roles: ActivityResearchRole[],
+  userHasAccess?: boolean
 }
 
 export type ActivitySchedule = RecurringMeetings | {
