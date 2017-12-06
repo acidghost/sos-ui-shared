@@ -7,13 +7,19 @@ import {Observable} from "rxjs/Observable";
 import {
   Activity,
   ActivityEvent,
-  ActivityResearch,
+  ActivityResearch, ActivityResearchApp,
   ActivityResearchRole,
   ActivitySubscription,
   ActivityTeach,
   ActivityType,
   PaymentInfoRequest
 } from "./activities.models";
+
+
+export interface ResearchAppRequest {
+  apply: boolean,
+  motivation?: string
+}
 
 
 @Injectable()
@@ -153,6 +159,18 @@ export class ActivitiesService extends ApiService {
       .map(response => {
         const json = response.json();
         return json.applications.map(ActivityResearchRole.fromJson);
+      }).catch(e => this.catchAuth(e));
+  }
+
+  public changeApplication(roleId: number, app: ResearchAppRequest): Observable<ActivityResearchApp> {
+    return this.http.put(`${this.backendUrl}/activities/research/${roleId}`, app, this.options)
+      .map(response => {
+        const json = response.json();
+        return {
+          userId: json.userId,
+          motivation: json.motivation,
+          createdAt: new Date(json.createdAt)
+        };
       }).catch(e => this.catchAuth(e));
   }
 
