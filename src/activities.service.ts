@@ -5,7 +5,13 @@ import {Environment} from "./shared";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {
-  Activity, ActivityEvent, ActivityResearch, ActivitySubscription, ActivityTeach, ActivityType,
+  Activity,
+  ActivityEvent,
+  ActivityResearch,
+  ActivityResearchRole,
+  ActivitySubscription,
+  ActivityTeach,
+  ActivityType,
   PaymentInfoRequest
 } from "./activities.models";
 
@@ -140,6 +146,14 @@ export class ActivitiesService extends ApiService {
 
   public subscribeTeach(id: number, paymentInfo: PaymentInfoRequest | null = null): Observable<ActivitySubscription> {
     return this.subscribe('teach', id, paymentInfo);
+  }
+
+  public applications(id: number): Observable<ActivityResearchRole[]> {
+    return this.http.get(`${this.backendUrl}/activities/research/${id}/applications`, this.options)
+      .map(response => {
+        const json = response.json();
+        return json.applications.map(ActivityResearchRole.fromJson);
+      }).catch(e => this.catchAuth(e));
   }
 
 }

@@ -9,7 +9,8 @@ import {
   SOSDate,
   TeachActivityType,
   teachActivityTypeFromString,
-  Topic
+  Topic,
+  UserShort
 } from "./shared";
 
 
@@ -48,10 +49,24 @@ export interface Activity {
   favorite?: boolean | null
 }
 
+export interface ActivityResearchApp {
+  userId: number,
+  motivation?: string,
+  createdAt: Date
+}
+
+export interface ActivityResearchAppFull {
+  user: UserShort,
+  motivation?: string,
+  createdAt: Date
+}
+
 export interface ActivityResearchRole {
   id: number,
   people: number,
-  skills: Skill[]
+  skills: Skill[],
+  applications?: ActivityResearchAppFull[],
+  application?: ActivityResearchApp
 }
 
 export interface ActivityResearch extends Activity {
@@ -188,6 +203,24 @@ export namespace ActivityTeach {
   }
 }
 
+export namespace ActivityResearchRole {
+  export function fromJson(json: any): ActivityResearchRole {
+    let role = json;
+
+    if (role.application)
+      role.application.createdAt = new Date(role.application.createdAt);
+
+    if (role.applications) {
+      role.applications = role.applications.map(app => {
+        app.createdAt = new Date(app.createdAt);
+        return app;
+      });
+    }
+
+    return role;
+  }
+}
+
 export namespace ActivityResearch {
   export function fromJson(json: any): ActivityResearch {
     return {
@@ -209,7 +242,7 @@ export namespace ActivityResearch {
       valueDetails: json.valueDetails,
       startDate: new Date(json.startDate),
       duration: json.duration,
-      roles: json.roles
+      roles: json.roles.map(ActivityResearchRole.fromJson)
     };
   }
 }

@@ -159,6 +159,13 @@ export class User {
 
 }
 
+export interface UserShort {
+  id: number,
+  email: number,
+  firstName: string,
+  lastName: string
+}
+
 
 export enum TeachActivityType {
   LecturePerformance,
