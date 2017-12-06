@@ -243,7 +243,8 @@ export namespace ActivityResearch {
       valueDetails: json.valueDetails,
       startDate: new Date(json.startDate),
       duration: json.duration,
-      roles: json.roles.map(ActivityResearchRole.fromJson)
+      roles: json.roles.map(ActivityResearchRole.fromJson),
+      userHasAccess: json.userHasAccess
     };
   }
 }
