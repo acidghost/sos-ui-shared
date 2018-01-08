@@ -49,8 +49,7 @@ export class FablabService extends ApiService {
     let url = `${this.backendUrl}/fablab/machines/${reservation.machineId}/reservations`;
 
     let payload = {
-      startTime: reservation.startTime,
-      endTime: reservation.endTime,
+      times: reservation.times,
       realizationOf: reservation.realizationOf
     };
 

@@ -15,10 +15,17 @@ export interface FablabMachine {
 }
 
 
+export interface FablabReservationTime {
+  date: Date,
+  hour: number
+}
+
+
 export interface FablabReservation {
   id: number,
   machineId: number,
   user: UserShort,
+  times: FablabReservationTime[],
   startTime: Date,
   endTime: Date,
   realizationOf: string,
@@ -33,6 +40,7 @@ export namespace FablabReservation {
       id: json.id,
       machineId: json.machineId,
       user: json.user,
+      times: json.times.map(t => { return { date: new Date(t.date), hour: t.hour } }),
       startTime: new Date(json.startTime),
       endTime: new Date(json.endTime),
       realizationOf: json.realizationOf,
