@@ -11,7 +11,8 @@ export interface FablabMachine {
   engravesMetal?: boolean,
   engravesMaterials?: string,
   priceHour: number,
-  operator: boolean
+  operator: boolean,
+  operatorCost?: number
 }
 
 
