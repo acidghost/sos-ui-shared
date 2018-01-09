@@ -12,6 +12,7 @@ export * from './bazaar-teach.resolver';
 export * from './bazaar-event.resolver';
 export * from './bazaar-research.resolver';
 export * from './bazaar-ideas.resolver';
+export * from './calendar.service';
 export * from './enum-helpers';
 export * from './fablab.models';
 export * from './fablab.service';
