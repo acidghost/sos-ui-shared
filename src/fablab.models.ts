@@ -29,6 +29,7 @@ export interface FablabReservation {
   startTime: Date,
   endTime: Date,
   realizationOf: string,
+  operator: boolean,
   createdAt: Date
 }
 
@@ -44,6 +45,7 @@ export namespace FablabReservation {
       startTime: new Date(json.startTime),
       endTime: new Date(json.endTime),
       realizationOf: json.realizationOf,
+      operator: json.operator,
       createdAt: new Date(json.createdAt)
     };
   }

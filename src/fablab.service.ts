@@ -52,7 +52,8 @@ export class FablabService extends ApiService {
 
     let payload = {
       times: reservation.times,
-      realizationOf: reservation.realizationOf
+      realizationOf: reservation.realizationOf,
+      operator: reservation.operator
     };
 
     return this.http.post(url, payload, this.options)
