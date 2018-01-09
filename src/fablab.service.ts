@@ -33,12 +33,14 @@ export class FablabService extends ApiService {
       .catch(e => this.catchAuth(e));
   }
 
-  public allReservations(): Observable<FablabReservation[]> {
-    return this.getReservations(`${this.backendUrl}/fablab/reservations`);
+  public allReservations(future: boolean = false): Observable<FablabReservation[]> {
+    let qs = future ? '?future=true' : '';
+    return this.getReservations(`${this.backendUrl}/fablab/reservations${qs}`);
   }
 
-  public machineReservations(machineId: number): Observable<FablabReservation[]> {
-    return this.getReservations(`${this.backendUrl}/fablab/machines/${machineId}/reservations`);
+  public machineReservations(machineId: number, future: boolean = false): Observable<FablabReservation[]> {
+    let qs = future ? '?future=true' : '';
+    return this.getReservations(`${this.backendUrl}/fablab/machines/${machineId}/reservations${qs}`);
   }
 
   public userReservations(): Observable<FablabReservation[]> {
