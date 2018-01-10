@@ -47,3 +47,17 @@ export class FablabMachineReservationsResolver extends ApiResolver implements Re
   }
 
 }
+
+
+@Injectable()
+export class FablabUserReservationsResolver extends ApiResolver implements Resolve<FablabReservation[]> {
+
+  constructor(authService: AuthService, private fablabService: FablabService) {
+    super(authService, fablabService)
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<FablabReservation[]> {
+    return this.fablabService.userReservations();
+  }
+
+}
