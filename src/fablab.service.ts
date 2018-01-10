@@ -43,8 +43,9 @@ export class FablabService extends ApiService {
     return this.getReservations(`${this.backendUrl}/fablab/machines/${machineId}/reservations${qs}`);
   }
 
-  public userReservations(): Observable<FablabReservation[]> {
-    return this.getReservations(`${this.backendUrl}/fablab/my_reservations`);
+  public userReservations(future: boolean = false): Observable<FablabReservation[]> {
+    let qs = future ? '?future=true' : '';
+    return this.getReservations(`${this.backendUrl}/fablab/my_reservations${qs}`);
   }
 
   public createReservation(reservation: FablabReservation): Observable<FablabReservation> {

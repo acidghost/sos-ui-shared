@@ -57,7 +57,7 @@ export class FablabUserReservationsResolver extends ApiResolver implements Resol
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<FablabReservation[]> {
-    return this.fablabService.userReservations();
+    return this.fablabService.userReservations(true);
   }
 
 }
