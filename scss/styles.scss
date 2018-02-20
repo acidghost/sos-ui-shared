@@ -151,20 +151,3 @@
 .checks:after {
   content: '\2713';
 }
-
-
-#main-content {
-  margin-top: $nav-total-height;
-  padding-bottom: 40px;
-  & > [class*="col"] {
-    padding-left: 0;
-    padding-right: 0;
-    & > * > .row {
-      margin-left: 0;
-      margin-right: 0;
-      &:first-of-type {
-        padding-top: 60px;
-      }
-    }
-  }
-}
