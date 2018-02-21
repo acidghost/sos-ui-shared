@@ -84,6 +84,15 @@
   &.btn-sos-magenta-invert {
     @include button-sos-variant($magenta, white, white, $magenta);
   }
+
+  &.btn-black {
+    $bg: black;
+    @include button-variant($bg, $bg, lighten($bg, 7.5%), lighten($bg, 10%), white, lighten($bg, 10%));
+  }
+  &.btn-white {
+    $bg: white;
+    @include button-variant($bg, $bg, darken($bg, 7.5%), darken($bg, 10%), black, darken($bg, 10%));
+  }
 }
 
 
@@ -113,6 +122,9 @@
 }
 .list-hearts {
   @include list-unicode('\2665');
+}
+.list-arrows {
+  @include list-unicode($right-arrow);
 }
 
 
@@ -150,4 +162,7 @@
 }
 .checks:after {
   content: '\2713';
+}
+.right-arrow:after {
+  content: $right-arrow;
 }

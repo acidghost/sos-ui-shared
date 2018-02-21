@@ -38,6 +38,8 @@ $nav-pills-border-radius:     0;
 $nav-pills-link-active-color: #FFF;
 $nav-pills-link-active-bg:    $magenta;
 
+$headings-font-weight: bold;
+
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
@@ -45,6 +47,8 @@ $nav-pills-link-active-bg:    $magenta;
 
 
 $gray-dark: color("gray-dark");
+
+$right-arrow: '\1f852';
 
 
 
