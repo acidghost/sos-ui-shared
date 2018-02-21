@@ -131,8 +131,6 @@ export class User {
               public lastName: string,
               public email: string,
               public preferredLang: Language,
-              public showHelpHome: boolean,
-              public showCompleteProfile: boolean,
               public telephone: string | null,
               public bio: string | null,
               public skills: UserSkill[],
@@ -153,7 +151,7 @@ export class User {
   public static fromJson(json: any): User {
     return new User(
       json.id, json.firstName, json.lastName, json.email, new Language(json.preferredLang),
-      json.showHelpHome, json.showCompleteProfile, json.telephone, json.bio, json.skills.map(UserSkill.fromJson),
+      json.telephone, json.bio, json.skills.map(UserSkill.fromJson),
       UserMemberships.fromJson(json.memberships), json.profilePic, json.title, json.favorite)
   }
 
