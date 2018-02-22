@@ -31,7 +31,9 @@ export class ActivitiesService extends ApiService {
 
   public all<T extends Activity>(
     language: string | null = null,
-    search: string | null = null
+    search: string | null = null,
+    skillIds: number[] = null,
+    matchAll: boolean = false
   ): Observable<T[]> {
     let url = `${this.backendUrl}/activities`;
     let questionMarkAdded = false;
@@ -41,8 +43,16 @@ export class ActivitiesService extends ApiService {
       questionMarkAdded = true;
     }
 
-    if (search !== null) {
+    if (search != null) {
       url += `${questionMarkAdded ? '&' : '?'}search=${search}`;
+      questionMarkAdded = true;
+    }
+
+    if (skillIds !== null && skillIds.length > 0) {
+      url += questionMarkAdded ? '&' : '?';
+      url += skillIds.map(sid => `skillId=${sid}`).join('&');
+      if (matchAll)
+        url += '&matchAll';
     }
 
     return this.http.get(url, this.options)
