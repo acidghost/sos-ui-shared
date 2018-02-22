@@ -47,15 +47,15 @@ export class UserService extends ApiService {
   }
 
   public search(name: string | null, skillIds: number[] = null, matchAll: boolean = false): Observable<User[]> {
-    if (name === null && skillIds === null)
-      return Observable.throw('invalid arguments');
+    if (name == null && (skillIds === null || skillIds.length < 1))
+      throw new Error('invalid arguments');
 
     let url = `${this.backendUrl}/users?`;
 
-    if (name !== null)
+    if (name != null)
       url += `name=${name}`;
 
-    if (skillIds !== null) {
+    if (skillIds !== null && skillIds.length > 0) {
       if (name !== null) url += '&';
       url += skillIds.map(sid => `skillId=${sid}`).join('&');
       if (matchAll)
