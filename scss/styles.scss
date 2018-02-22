@@ -53,6 +53,13 @@
       padding: 4px 12px;
     }
   }
+
+  &.bg-black {
+    .input-group-addon {
+      background-color: black;
+      color: white;
+    }
+  }
 }
 
 
