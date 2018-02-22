@@ -6,7 +6,6 @@ import "rxjs/add/operator/catch";
 import {User, Environment} from "./shared";
 import {ApiService} from "./api.service";
 import {AuthService} from "./auth.service";
-import {isString} from "util";
 
 
 @Injectable()
