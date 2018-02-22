@@ -46,13 +46,18 @@ export class UserService extends ApiService {
       .catch(e => this.catchAuth(e))
   }
 
-  public search(name: string, skillIds: number[] = null, matchAll: boolean = false): Observable<User[]> {
-    let url = `${this.backendUrl}/users?name=${name}`;
+  public search(name: string | null, skillIds: number[] = null, matchAll: boolean = false): Observable<User[]> {
+    if (name === null && skillIds === null)
+      return Observable.throw('invalid arguments');
+
+    let url = `${this.backendUrl}/users?`;
+
+    if (name !== null)
+      url += `name=${name}`;
 
     if (skillIds !== null) {
-      skillIds.forEach((sid, i) => {
-        url += `&skillId[${i}]=${sid}`;
-      });
+      if (name !== null) url += '&';
+      url += skillIds.map(sid => `skillId=${sid}`).join('&');
       if (matchAll)
         url += '&matchAll';
     }
