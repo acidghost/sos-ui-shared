@@ -43,14 +43,12 @@
       background-color: $sos-primary;
       color: white;
       font-weight: bold;
-      font-size: 12px;
       border-radius: 0;
       border: 0;
-      padding: 0.25rem 0.6rem;
     }
-    .btn {
-      font-size: 12px;
+    .input-group-addon, .btn {
       padding: 4px 12px;
+      font-size: 12px;
     }
   }
 
@@ -58,6 +56,18 @@
     .input-group-addon {
       background-color: black;
       color: white;
+    }
+  }
+
+  &.compact {
+    li {
+      &:not(:last-child) {
+        margin-right: 6px;
+        margin-bottom: 4px;
+      }
+      .input-group-addon, .btn {
+        padding: 3px 8px;
+      }
     }
   }
 }
