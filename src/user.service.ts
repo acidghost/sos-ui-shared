@@ -69,8 +69,12 @@ export class UserService extends ApiService {
       .catch(e => this.catchAuth(e))
   }
 
-  public update(user: User | any): Observable<User> {
+  public update(user: User | any, skills: { id: number, name: string }[] = null): Observable<User> {
     let userJson = user instanceof User ? user.asJson : user;
+    delete userJson.skills;
+    if (skills !== null)
+      userJson.skills = skills;
+
     return this.http.put(`${this.backendUrl}/me`, userJson, this.options)
       .map(r => this.mapUserResponse(r))
       .catch(e => this.catchAuth(e))
