@@ -89,8 +89,9 @@ export class UserService extends ApiService {
       .catch(e => this.catchAuth(e));
   }
 
-  public favorites(userId: number): Observable<User[]> {
-    return this.http.get(`${this.backendUrl}/users/${userId}/favorite/users`, this.options)
+  public favorites(userId: number = null): Observable<User[]> {
+    let user = userId === null ? 'me' : `users/${userId}`;
+    return this.http.get(`${this.backendUrl}/${user}/favorite/users`, this.options)
       .map(response => {
         const json = response.json();
         return json.users.map(User.fromJson)

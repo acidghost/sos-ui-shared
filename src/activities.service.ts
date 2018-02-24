@@ -123,8 +123,9 @@ export class ActivitiesService extends ApiService {
   }
 
 
-  public favorites(userId: number): Observable<Activity[]> {
-    return this.http.get(`${this.backendUrl}/users/${userId}/favorite/activities`, this.options)
+  public favorites(userId: number = null): Observable<Activity[]> {
+    let user = userId === null ? 'me' : `users/${userId}`;
+    return this.http.get(`${this.backendUrl}/${user}/favorite/activities`, this.options)
       .map(response => {
         const json = response.json();
         return json.activities.map(activityJson => {

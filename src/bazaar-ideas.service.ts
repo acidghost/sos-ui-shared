@@ -157,8 +157,9 @@ export class BazaarIdeasService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
-  public favorites(userId: number): Observable<BazaarIdea[]> {
-    return this.http.get(`${this.backendUrl}/users/${userId}/favorite/ideas`, this.options)
+  public favorites(userId: number = null): Observable<BazaarIdea[]> {
+    let user = userId === null ? 'me' : `users/${userId}`;
+    return this.http.get(`${this.backendUrl}/${user}/favorite/ideas`, this.options)
       .map(response => {
         const json = response.json();
         return json.ideas.map(idea => {
