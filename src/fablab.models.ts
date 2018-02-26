@@ -7,8 +7,10 @@ export interface FablabMachine {
   workArea?: string,
   maxHeight?: string,
   cutsMetal?: boolean,
+  cutsNonMetal?: boolean,
   cutsMaterials?: string,
   engravesMetal?: boolean,
+  engravesNonMetal?: boolean,
   engravesMaterials?: string,
   priceHour: number,
   operator: boolean,
@@ -29,7 +31,6 @@ export interface FablabReservation {
   times: FablabReservationTime[],
   startTime: Date,
   endTime: Date,
-  realizationOf: string,
   operator: boolean,
   createdAt: Date
 }
@@ -45,7 +46,6 @@ export namespace FablabReservation {
       times: json.times.map(t => { return { date: new Date(t.date), hour: t.hour } }),
       startTime: new Date(json.startTime),
       endTime: new Date(json.endTime),
-      realizationOf: json.realizationOf,
       operator: json.operator,
       createdAt: new Date(json.createdAt)
     };
