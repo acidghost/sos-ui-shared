@@ -81,6 +81,13 @@
 .alert {
   &.alert-black {
     @include alert-variant(black, $gray-dark, white);
+    button.close {
+      span {
+        text-shadow: none;
+        color: white;
+        vertical-align: middle;
+      }
+    }
   }
 }
 
