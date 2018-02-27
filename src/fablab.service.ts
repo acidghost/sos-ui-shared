@@ -69,7 +69,7 @@ export class FablabService extends ApiService {
 
   public createQuotation(quotation: FablabQuotation): Observable<FablabQuotation> {
     return this.http.post(`${this.backendUrl}/fablab/quotations`, quotation, this.options)
-      .map(response => response.json())
+      .map(response => FablabQuotation.fromJson(response.json()))
       .catch(e => this.catchAuth(e));
   }
 

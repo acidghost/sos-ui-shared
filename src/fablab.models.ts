@@ -25,7 +25,20 @@ export interface FablabQuotation {
   id: number,
   userId: number,
   realizationOf: string,
-  machines: SlimMachine[]
+  machines: SlimMachine[],
+  createdAt: Date
+}
+
+export namespace FablabQuotation {
+  export function fromJson(json: any): FablabQuotation {
+    return {
+      id: json.id,
+      userId: json.userId,
+      realizationOf: json.realizationOf,
+      machines: json.machines,
+      createdAt: new Date(json.createdAt)
+    };
+  }
 }
 
 
