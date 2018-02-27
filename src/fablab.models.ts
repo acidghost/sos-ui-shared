@@ -29,6 +29,11 @@ export interface FablabQuotation {
   createdAt: Date
 }
 
+export interface FablabQuotationRequest {
+  realizationOf: string,
+  machines: SlimMachine[]
+}
+
 export namespace FablabQuotation {
   export function fromJson(json: any): FablabQuotation {
     return {

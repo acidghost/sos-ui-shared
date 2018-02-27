@@ -4,7 +4,7 @@ import {AuthService} from "./auth.service";
 import {Environment} from "./shared";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {FablabMachine, FablabQuotation, FablabReservation} from "./fablab.models";
+import {FablabMachine, FablabQuotation, FablabQuotationRequest, FablabReservation} from "./fablab.models";
 
 
 @Injectable()
@@ -67,7 +67,7 @@ export class FablabService extends ApiService {
       .catch(e => this.catchAuth(e));
   }
 
-  public createQuotation(quotation: FablabQuotation): Observable<FablabQuotation> {
+  public createQuotation(quotation: FablabQuotationRequest): Observable<FablabQuotation> {
     return this.http.post(`${this.backendUrl}/fablab/quotations`, quotation, this.options)
       .map(response => FablabQuotation.fromJson(response.json()))
       .catch(e => this.catchAuth(e));
