@@ -1,9 +1,12 @@
 import {UserShort} from "./shared";
 
 
-export interface FablabMachine {
+export interface SlimMachine {
   id: number,
-  name: string,
+  name: string
+}
+
+export interface FablabMachine extends SlimMachine {
   workArea?: string,
   maxHeight?: string,
   cutsMetal?: boolean,
@@ -15,6 +18,14 @@ export interface FablabMachine {
   priceHour: number,
   operator: boolean,
   operatorCost?: number
+}
+
+
+export interface FablabQuotation {
+  id: number,
+  userId: number,
+  realizationOf: string,
+  machines: SlimMachine[]
 }
 
 
