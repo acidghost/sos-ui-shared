@@ -4,6 +4,7 @@ import {
   BazaarEvent,
   BazaarIdea,
   BazaarIdeas,
+  BazaarIdeaSlim,
   BazaarLearn,
   BazaarResearch,
   BazaarTeach,
@@ -36,6 +37,12 @@ export class BazaarIdeasService extends ApiService {
           research: json.research.map(BazaarResearch.fromJson)
         }
       }).catch(e => this.catchAuth(e))
+  }
+
+  public allSlim(): Observable<BazaarIdeaSlim[]> {
+    return this.http.get(`${this.backendUrl}/bazaar_ideas_slim`, this.options)
+      .map(response => response.json().ideas.map(BazaarIdeaSlim.fromJson))
+      .catch(e => this.catchAuth(e));
   }
 
   protected allIdea<T extends BazaarIdea>(ideaType: IdeaType, fromJson: (any) => T): Observable<T[]> {

@@ -1,3 +1,6 @@
+import {UserShort} from "./";
+
+
 export class Environment {
   constructor(public production: boolean, public backendUrl: string) { }
 }
@@ -687,6 +690,44 @@ export class BazaarPreference {
   }
 }
 
+export interface BazaarPreferenceSlim {
+  id: number
+  agree: boolean
+  wish: boolean
+  favorite: boolean
+  viewed: boolean
+}
+
+
+export interface BazaarIdeaSlim {
+  id: number
+  title: string
+  creator: UserShort
+  topics: Topic[]
+  preference: BazaarPreferenceSlim
+  createdAt: Date
+  updatedAt: Date
+  ideaType: IdeaType
+  score: number
+  deadline: number | null
+}
+
+export namespace BazaarIdeaSlim {
+  export function fromJson(json: any): BazaarIdeaSlim {
+    return {
+      id: json.id,
+      title: json.title,
+      creator: json.creator,
+      topics: json.topics,
+      preference: json.preference,
+      createdAt: new Date(json.createdAt),
+      updatedAt: new Date(json.updatedAt),
+      ideaType: json.ideaType,
+      score: json.score,
+      deadline: json.deadline
+    }
+  }
+}
 
 export abstract class BazaarIdea {
   constructor(public id: number,
