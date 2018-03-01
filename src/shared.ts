@@ -698,13 +698,22 @@ export interface BazaarPreferenceSlim {
   viewed: boolean
 }
 
+export interface BazaarPreferenceCounts {
+  views: number,
+  agrees: number,
+  wishes: number,
+  comments: number,
+  favorites: number
+}
+
 
 export interface BazaarIdeaSlim {
   id: number
   title: string
   creator: UserShort
   topics: Topic[]
-  preference: BazaarPreferenceSlim
+  preference: BazaarPreferenceSlim,
+  counts: BazaarPreferenceCounts,
   createdAt: Date
   updatedAt: Date
   ideaType: IdeaType
@@ -720,6 +729,7 @@ export namespace BazaarIdeaSlim {
       creator: json.creator,
       topics: json.topics,
       preference: json.preference,
+      counts: json.counts,
       createdAt: new Date(json.createdAt),
       updatedAt: new Date(json.updatedAt),
       ideaType: json.ideaType,
@@ -740,6 +750,7 @@ export abstract class BazaarIdea {
               public updatedAt: Date,
               public score: number,
               public preference: BazaarPreference,
+              public counts: BazaarPreferenceCounts,
               public ideaType: IdeaType,
               public activityId: number | null) {}
 
@@ -763,6 +774,7 @@ export class BazaarLearn extends BazaarIdea {
               updatedAt: Date,
               score: number,
               preference?: BazaarPreference,
+              counts?: BazaarPreferenceCounts,
               ideaType?: IdeaType,
               activityId?: number | null) {
     super(
@@ -776,6 +788,7 @@ export class BazaarLearn extends BazaarIdea {
       updatedAt,
       score,
       preference,
+      counts,
       ideaType,
       activityId
     );
@@ -797,6 +810,7 @@ export class BazaarLearn extends BazaarIdea {
       new Date(json.updatedAt),
       json.score,
       json.preference,
+      json.counts,
       json.type,
       json.activityId
     )
@@ -852,6 +866,7 @@ export class BazaarTeach extends BazaarIdea {
               updatedAt: Date,
               score: number,
               preference?: BazaarPreference,
+              counts?: BazaarPreferenceCounts,
               ideaType?: IdeaType,
               activityId?: number | null) {
     super(
@@ -865,6 +880,7 @@ export class BazaarTeach extends BazaarIdea {
       updatedAt,
       score,
       preference,
+      counts,
       ideaType,
       activityId
     );
@@ -910,6 +926,7 @@ export class BazaarTeach extends BazaarIdea {
       new Date(json.updatedAt),
       json.score,
       json.preference,
+      json.counts,
       json.type,
       json.activityId
     )
@@ -969,6 +986,7 @@ export class BazaarEvent extends BazaarIdea {
               updatedAt: Date,
               score: number,
               preference?: BazaarPreference,
+              counts?: BazaarPreferenceCounts,
               ideaType?: IdeaType,
               activityId?: number | null) {
     super(
@@ -982,6 +1000,7 @@ export class BazaarEvent extends BazaarIdea {
       updatedAt,
       score,
       preference,
+      counts,
       ideaType,
       activityId
     );
@@ -1024,6 +1043,7 @@ export class BazaarEvent extends BazaarIdea {
       new Date(json.updatedAt),
       json.score,
       json.preference,
+      json.counts,
       json.type,
       json.activityId
     )
@@ -1093,6 +1113,7 @@ export class BazaarResearch extends BazaarIdea {
               updatedAt: Date,
               score: number,
               preference?: BazaarPreference,
+              counts?: BazaarPreferenceCounts,
               ideaType?: IdeaType,
               activityId?: number | null) {
     super(
@@ -1106,6 +1127,7 @@ export class BazaarResearch extends BazaarIdea {
       updatedAt,
       score,
       preference,
+      counts,
       ideaType,
       activityId
     );
@@ -1128,6 +1150,7 @@ export class BazaarResearch extends BazaarIdea {
       new Date(json.updatedAt),
       json.score,
       json.preference,
+      json.counts,
       json.type,
       json.activityId
     )
