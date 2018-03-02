@@ -341,85 +341,6 @@ export class RecurringMeetings implements BazaarIdeaMeetingsType {
 }
 
 
-export enum BazaarIdeaSOSSpace {
-  ConferenceRoom,
-  OpenSpace,
-  Room,
-  SOSFacility,
-  SpazioMurat,
-  MuseoCivico,
-  Biblioteca
-}
-
-export class CustomSpace {
-  constructor(public space: string) {}
-}
-
-export type BazaarIdeaActualSpace = BazaarIdeaSOSSpace | CustomSpace;
-
-
-export class BazaarIdeaSpace {
-  constructor(public id: number,
-              public space: BazaarIdeaActualSpace,
-              public _delete?: boolean) {}
-
-  public static spaceFromString(space: string): BazaarIdeaActualSpace {
-    switch (space) {
-      case 'conference_room':
-        return BazaarIdeaSOSSpace.ConferenceRoom;
-      case 'open_space':
-        return BazaarIdeaSOSSpace.OpenSpace;
-      case 'room':
-        return BazaarIdeaSOSSpace.Room;
-      case 'sos_facility':
-        return BazaarIdeaSOSSpace.SOSFacility;
-      case 'spazio_murat':
-        return BazaarIdeaSOSSpace.SpazioMurat;
-      case 'museo_civico':
-        return BazaarIdeaSOSSpace.MuseoCivico;
-      case 'biblioteca':
-        return BazaarIdeaSOSSpace.Biblioteca;
-      default:
-        return new CustomSpace(space);
-    }
-  }
-
-  public static spaceToString(space: BazaarIdeaActualSpace): string {
-    if (space instanceof CustomSpace)
-      return space.space;
-    switch (space) {
-      case BazaarIdeaSOSSpace.ConferenceRoom:
-        return 'conference_room';
-      case BazaarIdeaSOSSpace.OpenSpace:
-        return 'open_space';
-      case BazaarIdeaSOSSpace.Room:
-        return 'room';
-      case BazaarIdeaSOSSpace.SOSFacility:
-        return 'sos_facility';
-      case BazaarIdeaSOSSpace.SpazioMurat:
-        return 'spazio_murat';
-      case BazaarIdeaSOSSpace.MuseoCivico:
-        return 'museo_civico';
-      case BazaarIdeaSOSSpace.Biblioteca:
-        return 'biblioteca';
-      default:
-        throw new Error('unhandled space type');
-    }
-  }
-
-  public static fromJson(json: any): BazaarIdeaSpace {
-    return new BazaarIdeaSpace(json.id, BazaarIdeaSpace.spaceFromString(json.space));
-  }
-
-  public get asJson(): any {
-    return {
-      id: this.id,
-      space: BazaarIdeaSpace.spaceToString(this.space),
-      'delete': this._delete
-    }
-  }
-}
-
 
 export class BazaarIdeaGuest {
   constructor(public id: number,
@@ -973,7 +894,7 @@ export class BazaarEvent extends BazaarIdea {
               public meetings: BazaarIdeaMeetingsType,
               public dates: SOSDate[],
               public requiredResources: string | null,
-              public requiredSpaces: BazaarIdeaSpace[],
+              public requiredSpaces: string | null,
               public maxParticipants: number,
               public programDetails: string,
               valueDetails: string,
@@ -1030,7 +951,7 @@ export class BazaarEvent extends BazaarIdea {
       ),
       json.dates.map(SOSDate.fromJson),
       json.requiredResources,
-      json.requiredSpaces.map(BazaarIdeaSpace.fromJson),
+      json.requiredSpaces,
       json.maxParticipants,
       json.programDetails,
       json.valueDetails,
@@ -1060,7 +981,7 @@ export class BazaarEvent extends BazaarIdea {
       meetings: this.meetings.asJson,
       dates: this.dates.map(d => d.asJson),
       requiredResources: this.requiredResources,
-      requiredSpaces: this.requiredSpaces.map(s => s.asJson),
+      requiredSpaces: this.requiredSpaces,
       maxParticipants: this.maxParticipants,
       programDetails: this.programDetails,
       valueDetails: this.valueDetails,
