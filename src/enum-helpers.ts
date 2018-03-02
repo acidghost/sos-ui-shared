@@ -2,8 +2,6 @@ import {
   Audience,
   BazaarIdeaFramework,
   BazaarIdeaFunding,
-  BazaarIdeaSOSSpace,
-  BazaarIdeaSpace,
   EventActivityType,
   Level,
   RecurringEntity,
@@ -20,8 +18,6 @@ export class EnumHelpersService {
   public static levels = Level;
   public static fundingTypes = BazaarIdeaFunding;
   public static recurringEntities = RecurringEntity;
-  public static sosSpaces = BazaarIdeaSOSSpace;
-  public static ideaSpaceToString = BazaarIdeaSpace.spaceToString;
 
   constructor() { }
 
