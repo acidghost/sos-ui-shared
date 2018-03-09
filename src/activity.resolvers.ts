@@ -34,7 +34,20 @@ export class ActivitiesTeachResolver extends ApiResolver implements Resolve<Acti
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityTeach[]> {
-    return this.activitiesService.allTeach(route.queryParamMap.has('future'));
+    return this.activitiesService.allTeach(false);
+  }
+
+}
+
+@Injectable()
+export class ActivitiesTeachFutureResolver extends ApiResolver implements Resolve<ActivityTeach[]> {
+
+  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
+    super(authService, activitiesService);
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityTeach[]> {
+    return this.activitiesService.allTeach(true);
   }
 
 }
@@ -47,7 +60,20 @@ export class ActivitiesEventResolver extends ApiResolver implements Resolve<Acti
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityEvent[]> {
-    return this.activitiesService.allEvent(route.queryParamMap.has('future'));
+    return this.activitiesService.allEvent(false);
+  }
+
+}
+
+@Injectable()
+export class ActivitiesEventFutureResolver extends ApiResolver implements Resolve<ActivityEvent[]> {
+
+  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
+    super(authService, activitiesService);
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityEvent[]> {
+    return this.activitiesService.allEvent(true);
   }
 
 }
@@ -60,7 +86,20 @@ export class ActivitiesResearchResolver extends ApiResolver implements Resolve<A
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearch[]> {
-    return this.activitiesService.allResearch(route.queryParamMap.has('future'));
+    return this.activitiesService.allResearch(false);
+  }
+
+}
+
+@Injectable()
+export class ActivitiesResearchFutureResolver extends ApiResolver implements Resolve<ActivityResearch[]> {
+
+  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
+    super(authService, activitiesService);
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearch[]> {
+    return this.activitiesService.allResearch(true);
   }
 
 }
