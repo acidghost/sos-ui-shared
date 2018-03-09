@@ -131,7 +131,6 @@ export interface ActivityEvent extends Activity {
   maxParticipants?: number | null,
   schedule: ActivitySchedule,
   dates: SOSDate[],
-  startDate?: Date,
   startTime?: Date,
   guests: ActivityGuest[],
   requiredSkills: Skill[],
@@ -186,7 +185,6 @@ export namespace ActivityEvent {
           totalHours: json.schedule.totalHours
         },
       dates: json.dates.map(SOSDate.fromJson),
-      startDate: new Date(json.startDate),
       startTime: json.startTime ? new Date(json.startTime) : undefined,
       guests: json.guests,
       requiredSkills: json.requiredSkills.map(Skill.fromJson),
