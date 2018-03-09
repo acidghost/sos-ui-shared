@@ -80,7 +80,7 @@ export class ActivitiesService extends ApiService {
   }
 
   protected allByType<T extends Activity>(future: boolean, type: ActivityType, f: (any) => T): Observable<T[]>  {
-    let url = `${this.backendUrl}/${type}`;
+    let url = `${this.backendUrl}/activities/${type}`;
     if (future)
       url += '?future';
 
