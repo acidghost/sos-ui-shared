@@ -33,7 +33,8 @@ export class ActivitiesService extends ApiService {
     language: string | null = null,
     search: string | null = null,
     skillIds: number[] = null,
-    matchAll: boolean = false
+    matchAll: boolean = false,
+    future: boolean = false
   ): Observable<T[]> {
     let url = `${this.backendUrl}/activities`;
     let questionMarkAdded = false;
@@ -50,9 +51,14 @@ export class ActivitiesService extends ApiService {
 
     if (skillIds !== null && skillIds.length > 0) {
       url += questionMarkAdded ? '&' : '?';
+      questionMarkAdded = true;
       url += skillIds.map(sid => `skillId=${sid}`).join('&');
       if (matchAll)
         url += '&matchAll';
+    }
+
+    if (future) {
+      url += (questionMarkAdded ? '&' : '?') + 'future';
     }
 
     return this.http.get(url, this.options)
@@ -71,6 +77,28 @@ export class ActivitiesService extends ApiService {
           }
         })
       }).catch(e => this.catchAuth(e))
+  }
+
+  protected allByType<T extends Activity>(future: boolean, type: ActivityType, f: (any) => T): Observable<T[]>  {
+    let url = `${this.backendUrl}/${type}`;
+    if (future)
+      url += '?future';
+
+    return this.http.get(url, this.options).map(response => {
+      return response.json().activities.map(f);
+    }).catch(e => this.catchAuth(e));
+  }
+
+  public allTeach(future: boolean): Observable<ActivityTeach[]> {
+    return this.allByType(future, 'teach', ActivityTeach.fromJson);
+  }
+
+  public allEvent(future: boolean): Observable<ActivityEvent[]> {
+    return this.allByType(future, 'event', ActivityEvent.fromJson);
+  }
+
+  public allResearch(future: boolean): Observable<ActivityResearch[]> {
+    return this.allByType(future, 'research', ActivityResearch.fromJson);
   }
 
 

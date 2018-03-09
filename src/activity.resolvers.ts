@@ -27,6 +27,46 @@ export class ActivitiesResolver extends ApiResolver implements Resolve<Activity[
 
 
 @Injectable()
+export class ActivitiesTeachResolver extends ApiResolver implements Resolve<ActivityTeach[]> {
+
+  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
+    super(authService, activitiesService);
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityTeach[]> {
+    return this.activitiesService.allTeach(route.queryParamMap.has('future'));
+  }
+
+}
+
+@Injectable()
+export class ActivitiesEventResolver extends ApiResolver implements Resolve<ActivityEvent[]> {
+
+  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
+    super(authService, activitiesService);
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityEvent[]> {
+    return this.activitiesService.allEvent(route.queryParamMap.has('future'));
+  }
+
+}
+
+@Injectable()
+export class ActivitiesResearchResolver extends ApiResolver implements Resolve<ActivityResearch[]> {
+
+  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
+    super(authService, activitiesService);
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearch[]> {
+    return this.activitiesService.allResearch(route.queryParamMap.has('future'));
+  }
+
+}
+
+
+@Injectable()
 export class ActivityEventResolver extends ApiResolver implements Resolve<ActivityEvent> {
 
   constructor(authService: AuthService, private activitiesService: ActivitiesService) {
