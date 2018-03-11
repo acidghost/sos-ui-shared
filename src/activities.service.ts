@@ -94,7 +94,7 @@ export class ActivitiesService extends ApiService {
   }
 
   public allEvent(future: boolean): Observable<ActivityEvent[]> {
-    return this.allByType(future, 'event', ActivityEvent.fromJson);
+    return this.allByType(future, 'event', e => ActivityEvent.fromJson(e));
   }
 
   public allResearch(future: boolean): Observable<ActivityResearch[]> {
