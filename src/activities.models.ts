@@ -9,7 +9,7 @@ import {
   SOSDate,
   TeachActivityType,
   teachActivityTypeFromString,
-  Topic,
+  Topic, User,
   UserShort
 } from "./shared";
 
@@ -96,6 +96,7 @@ export interface ActivityResearch extends Activity {
 }
 
 export interface ActivityResearchSlim extends ActivitySlim {
+  owner?: UserShort
   deadline: ActivityDeadline
   startDate: Date
   rolesCount: number
@@ -331,6 +332,7 @@ export namespace ActivityResearchSlim {
       type: json.type,
       title: json.title,
       topics: json.topics.map(Topic.fromJson),
+      owner: json.owner ? json.owner : undefined,
       deadline: ActivityDeadline.fromJson(json.deadline),
       startDate: new Date(json.startDate),
       rolesCount: json.rolesCount,
