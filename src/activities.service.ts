@@ -156,7 +156,7 @@ export class ActivitiesService extends ApiService {
   }
 
 
-  public favorites(userId: number = null): Observable<Activity[]> {
+  public favorites(userId: number = null): Observable<ActivitySlim[]> {
     let user = userId === null ? 'me' : `users/${userId}`;
     return this.http.get(`${this.backendUrl}/${user}/favorite/activities`, this.options)
       .map(response => {
@@ -164,11 +164,11 @@ export class ActivitiesService extends ApiService {
         return json.activities.map(activityJson => {
           switch (activityJson.type) {
           case 'teach':
-            return ActivityTeach.fromJson(activityJson);
+            return ActivityTeachSlim.fromJson(activityJson);
           case 'event':
-            return ActivityEvent.fromJson(activityJson);
+            return ActivityEventSlim.fromJson(activityJson);
           case 'research':
-            return ActivityResearch.fromJson(activityJson);
+            return ActivityResearchSlim.fromJson(activityJson);
           default:
             throw new Error(`Unrecognized activity type ${activityJson.type}`);
           }
