@@ -7,10 +7,15 @@ import {Observable} from "rxjs/Observable";
 import {
   Activity,
   ActivityEvent,
-  ActivityResearch, ActivityResearchApp,
+  ActivityEventSlim,
+  ActivityResearch,
+  ActivityResearchApp,
   ActivityResearchRole,
+  ActivityResearchSlim,
+  ActivitySlim,
   ActivitySubscription,
   ActivityTeach,
+  ActivityTeachSlim,
   ActivityType,
   PaymentInfoRequest
 } from "./activities.models";
@@ -29,13 +34,13 @@ export class ActivitiesService extends ApiService {
     super(authService, environment);
   }
 
-  public all<T extends Activity>(
+  public all(
     language: string | null = null,
     search: string | null = null,
     skillIds: number[] = null,
     matchAll: boolean = false,
     future: boolean = false
-  ): Observable<T[]> {
+  ): Observable<ActivitySlim[]> {
     let url = `${this.backendUrl}/activities`;
     let questionMarkAdded = false;
 
@@ -67,11 +72,11 @@ export class ActivitiesService extends ApiService {
         return json.activities.map(activityJson => {
           switch (activityJson.type) {
           case 'teach':
-            return ActivityTeach.fromJson(activityJson);
+            return ActivityTeachSlim.fromJson(activityJson);
           case 'event':
-            return ActivityEvent.fromJson(activityJson);
+            return ActivityEventSlim.fromJson(activityJson);
           case 'research':
-            return ActivityResearch.fromJson(activityJson);
+            return ActivityResearchSlim.fromJson(activityJson);
           default:
             throw new Error(`Unrecognized activity type ${activityJson.type}`);
           }
@@ -79,7 +84,7 @@ export class ActivitiesService extends ApiService {
       }).catch(e => this.catchAuth(e))
   }
 
-  protected allByType<T extends Activity>(future: boolean, type: ActivityType, f: (any) => T): Observable<T[]>  {
+  protected allByType<T extends ActivitySlim>(future: boolean, type: ActivityType, f: (any) => T): Observable<T[]>  {
     let url = `${this.backendUrl}/activities/${type}`;
     if (future)
       url += '?future';
@@ -89,16 +94,16 @@ export class ActivitiesService extends ApiService {
     }).catch(e => this.catchAuth(e));
   }
 
-  public allTeach(future: boolean): Observable<ActivityTeach[]> {
-    return this.allByType(future, 'teach', ActivityTeach.fromJson);
+  public allTeach(future: boolean): Observable<ActivityTeachSlim[]> {
+    return this.allByType(future, 'teach', ActivityTeachSlim.fromJson);
   }
 
-  public allEvent(future: boolean): Observable<ActivityEvent[]> {
-    return this.allByType(future, 'event', e => ActivityEvent.fromJson(e));
+  public allEvent(future: boolean): Observable<ActivityEventSlim[]> {
+    return this.allByType(future, 'event', e => ActivityEventSlim.fromJson(e));
   }
 
-  public allResearch(future: boolean): Observable<ActivityResearch[]> {
-    return this.allByType(future, 'research', ActivityResearch.fromJson);
+  public allResearch(future: boolean): Observable<ActivityResearchSlim[]> {
+    return this.allByType(future, 'research', ActivityResearchSlim.fromJson);
   }
 
 

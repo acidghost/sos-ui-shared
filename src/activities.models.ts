@@ -49,6 +49,22 @@ export interface Activity {
   favorite?: boolean | null
 }
 
+export interface ActivitySlim {
+  id: number,
+  type: ActivityType,
+  title: string,
+  topics: Topic[],
+  bazaarIdeaId: number,
+  createdAt?: Date,
+  updatedAt?: Date,
+  favorite?: boolean | null
+}
+
+export interface ActivityDeadline {
+  date: Date
+  closed: boolean
+}
+
 export interface ActivityResearchApp {
   userId: number,
   motivation?: string,
@@ -79,16 +95,25 @@ export interface ActivityResearch extends Activity {
   userHasAccess?: boolean
 }
 
+export interface ActivityResearchSlim extends ActivitySlim {
+  deadline: ActivityDeadline
+  startDate: Date
+  rolesCount: number
+}
+
 export type ActivitySchedule = RecurringMeetings | {
   totalDays: number,
   totalHours: number
 }
 
-export interface ActivityGuest {
+export interface ActivityGuestSlim {
   id: number,
   userId: number | null,
   firstName: string,
-  lastName: string,
+  lastName: string
+}
+
+export interface ActivityGuest extends ActivityGuestSlim {
   title: string,
   bio?: string
 }
@@ -138,11 +163,26 @@ export interface ActivityEvent extends Activity {
   subscription?: ActivitySubscription | null
 }
 
+export interface ActivityTeachEventSlim extends ActivitySlim {
+  startTime?: Date
+  guests?: ActivityGuestSlim[]
+  requiredSkills: Skill[]
+  acquiredSkills: Skill[]
+}
+
+export interface ActivityEventSlim extends ActivityTeachEventSlim {
+  deadline?: ActivityDeadline
+}
+
 export type TeachCategory = "x" | "y" | "z"
 
 export interface ActivityTeach extends ActivityEvent {
   outputDescription: string,
   teachCategory: TeachCategory
+}
+
+export interface ActivityTeachSlim extends ActivityTeachEventSlim {
+  deadline: ActivityDeadline
 }
 
 export interface PaymentInfoRequest {
@@ -151,6 +191,15 @@ export interface PaymentInfoRequest {
   amount: number
 }
 
+
+export namespace ActivityDeadline {
+  export function fromJson(json: any): ActivityDeadline {
+    return json ? {
+      date: new Date(json.date),
+      closed: json.closed
+    } : undefined
+  }
+}
 
 export namespace ActivityEvent {
   export function fromJson(json: any, teach: boolean = false): ActivityEvent {
@@ -194,6 +243,26 @@ export namespace ActivityEvent {
   }
 }
 
+export namespace ActivityEventSlim {
+  export function fromJson(json: any): ActivityEventSlim {
+    return {
+      id: json.id,
+      type: json.type,
+      title: json.title,
+      topics: json.topics.map(Topic.fromJson),
+      deadline: ActivityDeadline.fromJson(json.deadline),
+      startTime: json.startTime ? new Date(json.startTime) : undefined,
+      guests: json.guests,
+      requiredSkills: json.requiredSkills.map(Skill.fromJson),
+      acquiredSkills: json.acquiredSkills.map(Skill.fromJson),
+      bazaarIdeaId: json.bazaarIdeaId,
+      createdAt: new Date(json.createdAt),
+      updatedAt: new Date(json.updatedAt),
+      favorite: json.favorite
+    }
+  }
+}
+
 export namespace ActivityTeach {
   export function fromJson(json: any): ActivityTeach {
     let base = ActivityEvent.fromJson(json, true) as ActivityTeach;
@@ -201,6 +270,12 @@ export namespace ActivityTeach {
     base.outputDescription = json.outputDescription;
     base.teachCategory = json.teachCategory;
     return base;
+  }
+}
+
+export namespace ActivityTeachSlim {
+  export function fromJson(json: any): ActivityTeachSlim {
+    return ActivityEventSlim.fromJson(json) as ActivityTeachSlim;
   }
 }
 
@@ -246,5 +321,23 @@ export namespace ActivityResearch {
       roles: json.roles.map(ActivityResearchRole.fromJson),
       userHasAccess: json.userHasAccess
     };
+  }
+}
+
+export namespace ActivityResearchSlim {
+  export function fromJson(json: any): ActivityResearchSlim {
+    return {
+      id: json.id,
+      type: json.type,
+      title: json.title,
+      topics: json.topics.map(Topic.fromJson),
+      deadline: ActivityDeadline.fromJson(json.deadline),
+      startDate: new Date(json.startDate),
+      rolesCount: json.rolesCount,
+      bazaarIdeaId: json.bazaarIdeaId,
+      createdAt: new Date(json.createdAt),
+      updatedAt: new Date(json.updatedAt),
+      favorite: json.favorite
+    }
   }
 }
