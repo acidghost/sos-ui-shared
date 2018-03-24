@@ -161,7 +161,8 @@ export interface ActivityEvent extends Activity {
   guests: ActivityGuest[],
   requiredSkills: Skill[],
   acquiredSkills: Skill[],
-  subscription?: ActivitySubscription | null
+  subscription?: ActivitySubscription | null,
+  subscriptions?: number | null
 }
 
 export interface ActivityTeachEventSlim extends ActivitySlim {
@@ -239,7 +240,8 @@ export namespace ActivityEvent {
       guests: json.guests,
       requiredSkills: json.requiredSkills.map(Skill.fromJson),
       acquiredSkills: json.acquiredSkills.map(Skill.fromJson),
-      subscription: ActivitySubscription.fromJson(json.subscription)
+      subscription: ActivitySubscription.fromJson(json.subscription),
+      subscriptions: json.subscriptions
     }
   }
 }
