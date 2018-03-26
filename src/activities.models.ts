@@ -9,7 +9,7 @@ import {
   SOSDate,
   TeachActivityType,
   teachActivityTypeFromString,
-  Topic, User,
+  Topic,
   UserShort
 } from "./shared";
 
@@ -91,6 +91,7 @@ export interface ActivityResearch extends Activity {
   valueDetails: string,
   startDate: Date,
   duration: number,
+  projectLink?: string | null,
   roles: ActivityResearchRole[],
   userHasAccess?: boolean
 }
@@ -321,6 +322,7 @@ export namespace ActivityResearch {
       valueDetails: json.valueDetails,
       startDate: new Date(json.startDate),
       duration: json.duration,
+      projectLink: json.projectLink,
       roles: json.roles.map(ActivityResearchRole.fromJson),
       userHasAccess: json.userHasAccess
     };
