@@ -85,6 +85,14 @@ export interface ActivityResearchRole {
   application?: ActivityResearchApp
 }
 
+export interface ActivityResearchTeam {
+  id: number,
+  userId: number | null,
+  firstName: string,
+  lastName: string,
+  title: string
+}
+
 export interface ActivityResearch extends Activity {
   organizationName: string | null,
   motivation: string,
@@ -93,6 +101,7 @@ export interface ActivityResearch extends Activity {
   duration: number,
   projectLink?: string | null,
   roles: ActivityResearchRole[],
+  team: ActivityResearchTeam[],
   userHasAccess?: boolean
 }
 
@@ -324,6 +333,7 @@ export namespace ActivityResearch {
       duration: json.duration,
       projectLink: json.projectLink,
       roles: json.roles.map(ActivityResearchRole.fromJson),
+      team: json.team,
       userHasAccess: json.userHasAccess
     };
   }
