@@ -2,7 +2,9 @@ import {UserShort} from "./";
 
 
 export class Environment {
-  constructor(public production: boolean, public backendUrl: string) { }
+  constructor(public production: boolean,
+              public backendUrl: string,
+              public rulesUrl: string) { }
 }
 
 
