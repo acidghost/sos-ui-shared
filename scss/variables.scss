@@ -42,12 +42,7 @@ $nav-pills-link-active-bg:    $magenta;
 
 $headings-font-weight: bold;
 
-
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/mixins";
-
-
-$gray-dark: color("gray-dark");
+$gray-dark: #333;
 
 $right-arrow: '\2192';
 
@@ -85,7 +80,7 @@ $right-arrow: '\2192';
     border: 2px solid $color;
   }
 
-  @include hover {
+  &:hover {
     color: $hover-color;
     background-color: $hover-bg-color;
     border-color: $hover-bg-color;
@@ -102,7 +97,7 @@ $right-arrow: '\2192';
   border: 2px dotted $color;
   border-radius: 0;
 
-  @include hover {
+  :hover {
     color: $hover-color;
     border: 2px solid $hover-color;
   }
@@ -122,7 +117,7 @@ $right-arrow: '\2192';
   border-radius: 0;
   font-weight: bold;
 
-  @include hover {
+  :hover {
     color: $hover-color;
     background-color: $hover-bg-color;
   }
