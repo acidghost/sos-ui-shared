@@ -110,8 +110,7 @@
   }
 
   &.btn-black {
-    @include button-variant(black, black, lighten(black, 7.5%), lighten(black, 10%),
-                            white, lighten(black, 10%));
+    @include button-variant(black, black, white, black, white, black);
   }
   &.btn-white {
     $bg: white;
