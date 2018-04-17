@@ -73,7 +73,7 @@ export class AuthService {
       this.accessToken = parts['token'];
       window.location.hash = '';
     }
-    return this.accessToken;
+    return parts['token'] || null;
   }
 
   implicitFlow(): Observable<string> {
