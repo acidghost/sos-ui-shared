@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/throw";
 
 
 export class AuthServiceConfig {
@@ -72,7 +73,10 @@ export class AuthService {
 
   implicitFlow(): Observable<string> {
     let authWindow = window.open(this.config.implicitAuthUrl, 'sos-oauth',
-      'toolbar=0,scrollbars=1,status=1,resizable=1,location=1,menuBar=0');
+      'toolbar=0,scrollbars=1,status=1,resizable=1,location=1,menuBar=0,height=800,width=800');
+
+    if (!authWindow)
+      return Observable.throw(new Error('could not open new window'));
 
     const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
     const eventer = window[eventMethod];
