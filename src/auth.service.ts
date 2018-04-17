@@ -81,10 +81,12 @@ export class AuthService {
     return Observable.create((observer) => {
       let interval = window.setInterval(() => {
         if (!authWindow.closed) return;
+        observer.error();
         window.clearInterval(interval);
       }, 100);
 
       eventer(messageEvent, evt => {
+        console.debug('got oauth msg', evt);
         window.clearInterval(interval);
         if (evt.origin !== window.location.origin) {
           console.error('wrong oauth message origin');
