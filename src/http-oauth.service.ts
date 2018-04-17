@@ -13,18 +13,31 @@ export class HttpOAuth extends Http {
     super(backend, defaultOptions);
   }
 
+  protected setAuthHeader(headers: Headers, token?: string): void {
+    let t = token || this.authService.accessToken;
+    headers.set('Authorization', `Bearer ${t}`);
+  }
+
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    if (url instanceof Request) {
+      if (!url.headers)
+        url.headers = new Headers();
+      this.setAuthHeader(url.headers);
+    }
+
     if (!options)
       options = new RequestOptions();
     if (!options.headers)
       options.headers = new Headers();
-    options.headers.set('Authorization', `Bearer ${this.authService.accessToken}`);
+    this.setAuthHeader(options.headers);
 
     return super.request(url, options).catch(e => {
       if (e.status === 401) {
         return this.authService.implicitFlow().flatMap(token => {
-          options.headers.set('Authorization', `Bearer ${token}`);
-          return this.request(url, options);
+          this.setAuthHeader(options.headers, token);
+          if (url instanceof Request)
+            this.setAuthHeader(url.headers, token);
+          return super.request(url, options);
         });
       }
 

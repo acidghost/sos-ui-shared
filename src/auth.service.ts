@@ -81,21 +81,22 @@ export class AuthService {
     return Observable.create((observer) => {
       let interval = window.setInterval(() => {
         if (!authWindow.closed) return;
-        observer.error();
+        observer.error('window closed prematurely');
+        observer.complete();
         window.clearInterval(interval);
       }, 100);
 
       eventer(messageEvent, evt => {
-        console.debug('got oauth msg', evt);
+        if (!evt.data || !evt.data.token) return;
         window.clearInterval(interval);
         if (evt.origin !== window.location.origin) {
-          console.error('wrong oauth message origin');
-          authWindow.close();
-          observer.error();
+          observer.error('wrong oauth message origin');
         } else {
           this.accessToken = evt.data.token;
           observer.next(evt.data.token);
         }
+        observer.complete();
+        authWindow.close();
       })
     });
   }
