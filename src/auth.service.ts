@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {EventEmitter, Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/throw";
 
@@ -45,6 +45,9 @@ export class AuthService {
 
   private storage: Storage = localStorage;
 
+  public showLogin: boolean = false;
+  public showLoginEmitter: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private config: AuthServiceConfig) { }
 
   get accessToken(): string|null {
@@ -72,36 +75,43 @@ export class AuthService {
   }
 
   implicitFlow(): Observable<string> {
-    let authWindow = window.open(this.config.implicitAuthUrl, 'sos-oauth',
-      'toolbar=0,scrollbars=1,status=1,resizable=1,location=1,menuBar=0,height=800,width=800');
-
-    if (!authWindow)
-      return Observable.throw(new Error('could not open new window'));
-
-    const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-    const eventer = window[eventMethod];
-    const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-
+    this.showLogin = true;
     return Observable.create((observer) => {
-      let interval = window.setInterval(() => {
-        if (!authWindow.closed) return;
-        observer.error('window closed prematurely');
-        observer.complete();
-        window.clearInterval(interval);
-      }, 100);
+      this.showLoginEmitter.asObservable().subscribe(() => {
+        let authWindow = window.open(this.config.implicitAuthUrl, 'sos-oauth',
+          'toolbar=0,scrollbars=1,status=1,resizable=1,location=1,menuBar=0,height=800,width=800');
 
-      eventer(messageEvent, evt => {
-        if (!evt.data || !evt.data.token) return;
-        window.clearInterval(interval);
-        if (evt.origin !== window.location.origin) {
-          observer.error('wrong oauth message origin');
-        } else {
-          this.accessToken = evt.data.token;
-          observer.next(evt.data.token);
+        if (!authWindow) {
+          observer.error(new Error('could not open new window'));
+          observer.complete();
+          return;
         }
-        observer.complete();
-        authWindow.close();
-      })
+
+        const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+        const eventer = window[eventMethod];
+        const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+
+        let interval = window.setInterval(() => {
+          if (!authWindow.closed) return;
+          observer.error('window closed prematurely');
+          observer.complete();
+          window.clearInterval(interval);
+        }, 100);
+
+        eventer(messageEvent, evt => {
+          if (!evt.data || !evt.data.token) return;
+          window.clearInterval(interval);
+          if (evt.origin !== window.location.origin) {
+            observer.error('wrong oauth message origin');
+          } else {
+            this.accessToken = evt.data.token;
+            this.showLogin = false;
+            observer.next(evt.data.token);
+          }
+          observer.complete();
+          authWindow.close();
+        });
+      });
     });
   }
 
