@@ -16,6 +16,7 @@ export * from './enum-helpers';
 export * from './fablab.models';
 export * from './fablab.service';
 export * from './fablab.resolvers';
+export * from './http-oauth.service';
 export * from './logout.component';
 export * from './me-user.resolver';
 export * from './membership.service';
