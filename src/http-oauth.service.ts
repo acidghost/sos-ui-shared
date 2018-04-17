@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
+import "rxjs/add/operator/mergeMap";
 import {AuthService} from "./auth.service";
 
 
