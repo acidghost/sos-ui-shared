@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/throw";
+import "rxjs/add/observable/of";
 
 
 export class AuthServiceConfig {
@@ -70,11 +71,15 @@ export class AuthService {
     let parts = AuthService.getFragment();
     if (parts['token']) {
       this.accessToken = parts['token'];
+      window.location.hash = '';
     }
     return this.accessToken;
   }
 
   implicitFlow(): Observable<string> {
+    if (this.catchToken())
+      return Observable.of(this.accessToken);
+
     this.showLogin = true;
     return Observable.create((observer) => {
       this.showLoginEmitter.asObservable().subscribe(() => {
