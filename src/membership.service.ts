@@ -31,7 +31,7 @@ export class MembershipService extends ApiService {
       .map(response => {
         const json = response.json();
         return Membership.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public requestRenewal(): Observable<Membership> {
@@ -39,12 +39,11 @@ export class MembershipService extends ApiService {
       .map(response => {
         const json = response.json();
         return Membership.fromJson(json)
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   private deleteAction(url: string): Observable<{}> {
-    return this.http.delete(url, this.options)
-      .catch(e => this.catchAuth(e));
+    return this.http.delete(url, this.options);
   }
 
   public deleteRequest(): Observable<{}> {

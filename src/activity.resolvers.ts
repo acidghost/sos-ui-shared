@@ -1,6 +1,4 @@
 import {Injectable} from "@angular/core";
-import {ApiResolver} from "./api.resolver";
-import {AuthService} from "./auth.service";
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
 import {
   Activity,
@@ -22,11 +20,9 @@ function getLanguageParam(route: ActivatedRouteSnapshot): string | null {
 
 
 @Injectable()
-export class ActivitiesResolver extends ApiResolver implements Resolve<Activity[]> {
+export class ActivitiesResolver implements Resolve<Activity[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Activity[]> {
     return this.activitiesService.all(getLanguageParam(route));
@@ -36,11 +32,9 @@ export class ActivitiesResolver extends ApiResolver implements Resolve<Activity[
 
 
 @Injectable()
-export class ActivitiesTeachResolver extends ApiResolver implements Resolve<ActivityTeachSlim[]> {
+export class ActivitiesTeachResolver implements Resolve<ActivityTeachSlim[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityTeachSlim[]> {
     return this.activitiesService.allTeach(false);
@@ -49,11 +43,9 @@ export class ActivitiesTeachResolver extends ApiResolver implements Resolve<Acti
 }
 
 @Injectable()
-export class ActivitiesTeachFutureResolver extends ApiResolver implements Resolve<ActivityTeachSlim[]> {
+export class ActivitiesTeachFutureResolver implements Resolve<ActivityTeachSlim[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityTeachSlim[]> {
     return this.activitiesService.allTeach(true);
@@ -62,11 +54,9 @@ export class ActivitiesTeachFutureResolver extends ApiResolver implements Resolv
 }
 
 @Injectable()
-export class ActivitiesEventResolver extends ApiResolver implements Resolve<ActivityEventSlim[]> {
+export class ActivitiesEventResolver implements Resolve<ActivityEventSlim[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityEventSlim[]> {
     return this.activitiesService.allEvent(false);
@@ -75,11 +65,9 @@ export class ActivitiesEventResolver extends ApiResolver implements Resolve<Acti
 }
 
 @Injectable()
-export class ActivitiesEventFutureResolver extends ApiResolver implements Resolve<ActivityEventSlim[]> {
+export class ActivitiesEventFutureResolver implements Resolve<ActivityEventSlim[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityEventSlim[]> {
     return this.activitiesService.allEvent(true);
@@ -88,11 +76,9 @@ export class ActivitiesEventFutureResolver extends ApiResolver implements Resolv
 }
 
 @Injectable()
-export class ActivitiesResearchResolver extends ApiResolver implements Resolve<ActivityResearchSlim[]> {
+export class ActivitiesResearchResolver implements Resolve<ActivityResearchSlim[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearchSlim[]> {
     return this.activitiesService.allResearch(false);
@@ -101,11 +87,9 @@ export class ActivitiesResearchResolver extends ApiResolver implements Resolve<A
 }
 
 @Injectable()
-export class ActivitiesResearchFutureResolver extends ApiResolver implements Resolve<ActivityResearchSlim[]> {
+export class ActivitiesResearchFutureResolver implements Resolve<ActivityResearchSlim[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearchSlim[]> {
     return this.activitiesService.allResearch(true);
@@ -115,11 +99,9 @@ export class ActivitiesResearchFutureResolver extends ApiResolver implements Res
 
 
 @Injectable()
-export class ActivityEventResolver extends ApiResolver implements Resolve<ActivityEvent> {
+export class ActivityEventResolver implements Resolve<ActivityEvent> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityEvent> {
     return this.activitiesService.findEvent(parseInt(route.paramMap.get('id')), getLanguageParam(route));
@@ -128,11 +110,9 @@ export class ActivityEventResolver extends ApiResolver implements Resolve<Activi
 }
 
 @Injectable()
-export class ActivityTeachResolver extends ApiResolver implements Resolve<ActivityTeach> {
+export class ActivityTeachResolver implements Resolve<ActivityTeach> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityTeach> {
     return this.activitiesService.findTeach(parseInt(route.paramMap.get('id')), getLanguageParam(route));
@@ -141,11 +121,9 @@ export class ActivityTeachResolver extends ApiResolver implements Resolve<Activi
 }
 
 @Injectable()
-export class ActivityResearchResolver extends ApiResolver implements Resolve<ActivityResearch> {
+export class ActivityResearchResolver implements Resolve<ActivityResearch> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearch> {
     return this.activitiesService.findResearch(parseInt(route.paramMap.get('id')), getLanguageParam(route));
@@ -154,11 +132,9 @@ export class ActivityResearchResolver extends ApiResolver implements Resolve<Act
 }
 
 @Injectable()
-export class ActivityResearchAppsResolver extends ApiResolver implements Resolve<ActivityResearchRole[]> {
+export class ActivityResearchAppsResolver implements Resolve<ActivityResearchRole[]> {
 
-  constructor(authService: AuthService, private activitiesService: ActivitiesService) {
-    super(authService, activitiesService);
-  }
+  constructor(private activitiesService: ActivitiesService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ActivityResearchRole[]> {
     return this.activitiesService.applications(parseInt(route.paramMap.get('id')));

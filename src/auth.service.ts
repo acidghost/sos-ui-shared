@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Observable";
 
 
 export class AuthServiceConfig {
@@ -69,8 +70,32 @@ export class AuthService {
     return this.accessToken;
   }
 
-  implicitFlow(): void {
-    window.location.href = this.config.implicitAuthUrl;
+  implicitFlow(): Observable<string> {
+    let authWindow = window.open(this.config.implicitAuthUrl, 'sos-oauth',
+      'toolbar=0,scrollbars=1,status=1,resizable=1,location=1,menuBar=0');
+
+    const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+    const eventer = window[eventMethod];
+    const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+
+    return Observable.create((observer) => {
+      let interval = window.setInterval(() => {
+        if (!authWindow.closed) return;
+        window.clearInterval(interval);
+      }, 100);
+
+      eventer(messageEvent, evt => {
+        window.clearInterval(interval);
+        if (evt.origin !== window.location.origin) {
+          console.error('wrong oauth message origin');
+          authWindow.close();
+          observer.error();
+        } else {
+          this.accessToken = evt.data.token;
+          observer.next(evt.data.token);
+        }
+      })
+    });
   }
 
   private static getFragment() {

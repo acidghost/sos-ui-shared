@@ -9,7 +9,7 @@ import {AuthService} from "./auth.service";
 @Injectable()
 export class BazaarCommentsService extends ApiService {
 
-  private baseUrl: string;
+  private readonly baseUrl: string;
 
   constructor(protected http: Http, authService: AuthService, environment: Environment) {
     super(authService, environment);
@@ -25,7 +25,7 @@ export class BazaarCommentsService extends ApiService {
       .map(response => {
         const json = response.json();
         return json.comments.map(BazaarComment.fromJson);
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public findLearn(ideaId: number): Observable<BazaarComment[]> {
@@ -50,7 +50,7 @@ export class BazaarCommentsService extends ApiService {
       .map(response => {
         const json = response.json();
         return BazaarComment.fromJson(json);
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public createLearn(ideaId: number, comment: string): Observable<BazaarComment> {
@@ -72,8 +72,7 @@ export class BazaarCommentsService extends ApiService {
 
   public destroy(commentId: number): Observable<void> {
     return this.http.delete(`${this.baseUrl}/comments/${commentId}`, this.options)
-      .map(() => null)
-      .catch(e => this.catchAuth(e));
+      .map(() => null);
   }
 
 }

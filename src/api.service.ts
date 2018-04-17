@@ -9,7 +9,7 @@ export abstract class ApiService {
   protected backendUrl: string;
   protected options: RequestOptions;
 
-  constructor(protected authService: AuthService, protected environment: Environment) {
+  protected constructor(protected authService: AuthService, protected environment: Environment) {
     this.options = new RequestOptions;
     this.options.headers = new Headers;
     this.setToken(authService.accessToken);
@@ -22,14 +22,6 @@ export abstract class ApiService {
 
   public setToken(token: string) {
     this.options.headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  protected catchAuth(error) {
-    if (error.status === 401) {
-      this.authService.implicitFlow();
-      return Observable.empty();
-    }
-    return Observable.throw(error)
   }
 
 }

@@ -23,7 +23,6 @@ export class TopicsService extends ApiService {
         const json = response.json();
         return json.topics.map(Topic.fromJson);
       })
-      .catch(e => this.catchAuth(e))
   }
 
 }

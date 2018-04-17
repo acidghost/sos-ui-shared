@@ -18,7 +18,7 @@ export class SkillsService extends ApiService {
       .map(response => {
         const json = response.json();
         return json.skills.map(Skill.fromJson)
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public addUserSkill(name: string): Observable<UserSkill> {
@@ -26,12 +26,11 @@ export class SkillsService extends ApiService {
       .map(response => {
         const json = response.json();
         return UserSkill.fromJson(json)
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public deleteUserSkill(userSkillId: number): Observable<{}> {
-    return this.http.delete(`${this.backendUrl}/skills/${userSkillId}`, this.options)
-      .catch(e => this.catchAuth(e));
+    return this.http.delete(`${this.backendUrl}/skills/${userSkillId}`, this.options);
   }
 
 }

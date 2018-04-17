@@ -19,7 +19,7 @@ import {Observable} from "rxjs";
 @Injectable()
 export class BazaarIdeasService extends ApiService {
 
-  private baseUrl: string;
+  private readonly baseUrl: string;
 
   constructor(protected http: Http, authService: AuthService, environment: Environment) {
     super(authService, environment);
@@ -36,13 +36,12 @@ export class BazaarIdeasService extends ApiService {
           event: json.event.map(BazaarEvent.fromJson),
           research: json.research.map(BazaarResearch.fromJson)
         }
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public allSlim(): Observable<BazaarIdeaSlim[]> {
     return this.http.get(`${this.backendUrl}/bazaar_ideas_slim`, this.options)
-      .map(response => response.json().ideas.map(BazaarIdeaSlim.fromJson))
-      .catch(e => this.catchAuth(e));
+      .map(response => response.json().ideas.map(BazaarIdeaSlim.fromJson));
   }
 
   protected allIdea<T extends BazaarIdea>(ideaType: IdeaType, fromJson: (any) => T): Observable<T[]> {
@@ -50,7 +49,7 @@ export class BazaarIdeasService extends ApiService {
       .map(response => {
         const json = response.json();
         return json.ideas.map(fromJson);
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public allTeach(): Observable<BazaarTeach[]> {
@@ -74,7 +73,7 @@ export class BazaarIdeasService extends ApiService {
       .map(response => {
         const json = response.json();
         return fromJson(json)
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public findTeach(id: number): Observable<BazaarTeach> {
@@ -99,7 +98,7 @@ export class BazaarIdeasService extends ApiService {
       .map(response => {
         const json = response.json();
         return fromJson(json)
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public createTeach(idea: BazaarTeach | any): Observable<BazaarTeach> {
@@ -124,7 +123,7 @@ export class BazaarIdeasService extends ApiService {
       .map(response => {
         const json = response.json();
         return fromJson(json)
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public updateLearn(idea: BazaarLearn | any): Observable<BazaarLearn> {
@@ -161,7 +160,7 @@ export class BazaarIdeasService extends ApiService {
             throw new Error(`unrecognized idea type ${idea.type}`);
           }
         })
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   public favorites(userId: number = null): Observable<BazaarIdea[]> {
@@ -183,7 +182,7 @@ export class BazaarIdeasService extends ApiService {
             throw new Error(`unrecognized idea type ${idea.type}`);
           }
         })
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
 }

@@ -81,7 +81,7 @@ export class ActivitiesService extends ApiService {
             throw new Error(`Unrecognized activity type ${activityJson.type}`);
           }
         })
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
   protected allByType<T extends ActivitySlim>(future: boolean, type: ActivityType, f: (any) => T): Observable<T[]>  {
@@ -91,7 +91,7 @@ export class ActivitiesService extends ApiService {
 
     return this.http.get(url, this.options).map(response => {
       return response.json().activities.map(f);
-    }).catch(e => this.catchAuth(e));
+    });
   }
 
   public allTeach(future: boolean): Observable<ActivityTeachSlim[]> {
@@ -120,7 +120,7 @@ export class ActivitiesService extends ApiService {
     return this.http.get(url, this.options)
       .map(response => {
         return fromJson(response.json());
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public findEvent(id: number, lang: string = null): Observable<ActivityEvent> {
@@ -139,8 +139,7 @@ export class ActivitiesService extends ApiService {
   private favorite(activityType: ActivityType, id: number, favorite: boolean): Observable<void> {
     const url = `${this.backendUrl}/activities/${activityType}/${id}/favorite`;
     return this.http.put(url, { favorite: favorite }, this.options)
-      .map(() => {})
-      .catch(e => this.catchAuth(e));
+      .map(() => {});
   }
 
   public favoriteEvent(id: number, favorite: boolean): Observable<void> {
@@ -173,7 +172,7 @@ export class ActivitiesService extends ApiService {
             throw new Error(`Unrecognized activity type ${activityJson.type}`);
           }
         })
-      }).catch(e => this.catchAuth(e))
+      })
   }
 
 
@@ -187,7 +186,7 @@ export class ActivitiesService extends ApiService {
           verified: json.verified,
           cro: json.cro
         };
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public subscribeEvent(id: number, paymentInfo: PaymentInfoRequest | null = null): Observable<ActivitySubscription> {
@@ -203,7 +202,7 @@ export class ActivitiesService extends ApiService {
       .map(response => {
         const json = response.json();
         return json.applications.map(ActivityResearchRole.fromJson);
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
   public changeApplication(roleId: number, app: ResearchAppRequest): Observable<ActivityResearchApp | null> {
@@ -215,7 +214,7 @@ export class ActivitiesService extends ApiService {
           motivation: json.motivation,
           createdAt: new Date(json.createdAt)
         } : null;
-      }).catch(e => this.catchAuth(e));
+      });
   }
 
 }

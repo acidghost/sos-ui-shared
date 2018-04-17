@@ -1,7 +1,6 @@
 export * from './activities.models';
 export * from './activities.service';
 export * from './activity.resolvers';
-export * from './api.resolver';
 export * from './api.service';
 export * from './auth.service';
 export * from './bazaar-ideas.service';

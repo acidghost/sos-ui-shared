@@ -33,7 +33,6 @@ export class UserService extends ApiService {
   public me(): Observable<User> {
     return this.http.get(`${this.backendUrl}/me`, this.options)
       .map(r => this.mapUserResponse(r))
-      .catch(e => this.catchAuth(e))
   }
 
   public find(userId: number): Observable<User> {
@@ -42,7 +41,6 @@ export class UserService extends ApiService {
         const json = response.json();
         return User.fromJson(json)
       })
-      .catch(e => this.catchAuth(e))
   }
 
   public search(name: string | null, skillIds: number[] = null, matchAll: boolean = false): Observable<User[]> {
@@ -66,7 +64,6 @@ export class UserService extends ApiService {
         const json = response.json();
         return json.users.map(User.fromJson)
       })
-      .catch(e => this.catchAuth(e))
   }
 
   public update(user: User | any, skills: { id: number, name: string }[] = null): Observable<User> {
@@ -77,7 +74,6 @@ export class UserService extends ApiService {
 
     return this.http.put(`${this.backendUrl}/me`, userJson, this.options)
       .map(r => this.mapUserResponse(r))
-      .catch(e => this.catchAuth(e))
   }
 
   public favorite(userId: number, favorite: boolean): Observable<boolean> {
@@ -85,8 +81,7 @@ export class UserService extends ApiService {
       .map(response => {
         const json = response.json();
         return json.favorite;
-      })
-      .catch(e => this.catchAuth(e));
+      });
   }
 
   public favorites(userId: number = null): Observable<User[]> {
@@ -96,7 +91,6 @@ export class UserService extends ApiService {
         const json = response.json();
         return json.users.map(User.fromJson)
       })
-      .catch(e => this.catchAuth(e))
   }
 
 }

@@ -16,21 +16,18 @@ export class FablabService extends ApiService {
 
   public allMachines(): Observable<FablabMachine[]> {
     return this.http.get(`${this.backendUrl}/fablab/machines`, this.options)
-      .map(response => response.json().machines)
-      .catch(e => this.catchAuth(e));
+      .map(response => response.json().machines);
   }
 
   public findMachine(id: number): Observable<FablabMachine> {
     return this.http.get(`${this.backendUrl}/fablab/machines/${id}`, this.options)
-      .map(response => response.json())
-      .catch(e => this.catchAuth(e));
+      .map(response => response.json());
   }
 
 
   private getReservations(url: string): Observable<FablabReservation[]> {
     return this.http.get(url, this.options)
-      .map(response => response.json().reservations.map(FablabReservation.fromJson))
-      .catch(e => this.catchAuth(e));
+      .map(response => response.json().reservations.map(FablabReservation.fromJson));
   }
 
   public allReservations(future: boolean = false): Observable<FablabReservation[]> {
@@ -57,20 +54,17 @@ export class FablabService extends ApiService {
     };
 
     return this.http.post(url, payload, this.options)
-      .map(response => FablabReservation.fromJson(response.json()))
-      .catch(e => this.catchAuth(e));
+      .map(response => FablabReservation.fromJson(response.json()));
   }
 
   public deleteReservation(id: number): Observable<void> {
     return this.http.delete(`${this.backendUrl}/fablab/reservations/${id}`, this.options)
-      .map(() => {})
-      .catch(e => this.catchAuth(e));
+      .map(() => {});
   }
 
   public createQuotation(quotation: FablabQuotationRequest): Observable<FablabQuotation> {
     return this.http.post(`${this.backendUrl}/fablab/quotations`, quotation, this.options)
-      .map(response => FablabQuotation.fromJson(response.json()))
-      .catch(e => this.catchAuth(e));
+      .map(response => FablabQuotation.fromJson(response.json()));
   }
 
 }
