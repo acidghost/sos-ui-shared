@@ -61,7 +61,7 @@ export class HttpOAuth extends Http {
 
       if (isGetReq && e.status === 404) {
         return Observable.of(this.router.navigate([this.errorPage])).flatMap(() => {
-          return Observable.throw(new Error());
+          return Observable.throw(new Error(`Resource not found: ${e.url}`));
         });
       }
 
