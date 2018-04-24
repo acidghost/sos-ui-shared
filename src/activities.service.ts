@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {ApiService} from "./api.service";
 import {AuthService} from "./auth.service";
 import {Environment} from "./shared";
-import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {
   Activity,
@@ -19,6 +18,7 @@ import {
   ActivityType,
   PaymentInfoRequest
 } from "./activities.models";
+import {HttpOAuth} from "./http-oauth.service";
 
 
 export interface ResearchAppRequest {
@@ -30,7 +30,7 @@ export interface ResearchAppRequest {
 @Injectable()
 export class ActivitiesService extends ApiService {
 
-  constructor(protected http: Http, authService: AuthService, environment: Environment) {
+  constructor(protected http: HttpOAuth, authService: AuthService, environment: Environment) {
     super(authService, environment);
   }
 
@@ -111,28 +111,29 @@ export class ActivitiesService extends ApiService {
     activityType: ActivityType,
     fromJson: (any) => T,
     id: number,
-    lang: string | null
+    lang: string | null,
+    catch404: boolean
   ): Observable<T> {
     let url = `${this.backendUrl}/activities/${activityType}/${id}`;
     if (lang !== null)
       url += `?lang=${lang}`;
 
-    return this.http.get(url, this.options)
+    return this.http.get(url, this.options, catch404)
       .map(response => {
         return fromJson(response.json());
       });
   }
 
-  public findEvent(id: number, lang: string = null): Observable<ActivityEvent> {
-    return this.find('event', ActivityEvent.fromJson, id, lang);
+  public findEvent(id: number, lang: string = null, catch404: boolean = true): Observable<ActivityEvent> {
+    return this.find('event', ActivityEvent.fromJson, id, lang, catch404);
   }
 
-  public findTeach(id: number, lang: string = null): Observable<ActivityTeach> {
-    return this.find('teach', ActivityTeach.fromJson, id, lang);
+  public findTeach(id: number, lang: string = null, catch404: boolean = true): Observable<ActivityTeach> {
+    return this.find('teach', ActivityTeach.fromJson, id, lang, catch404);
   }
 
-  public findResearch(id: number, lang: string = null): Observable<ActivityResearch> {
-    return this.find('research', ActivityResearch.fromJson, id, lang);
+  public findResearch(id: number, lang: string = null, catch404: boolean = true): Observable<ActivityResearch> {
+    return this.find('research', ActivityResearch.fromJson, id, lang, catch404);
   }
 
 

@@ -1,14 +1,5 @@
 import {Inject, Injectable, InjectionToken} from "@angular/core";
-import {
-  ConnectionBackend,
-  Headers,
-  Http,
-  Request,
-  RequestMethod,
-  RequestOptions,
-  RequestOptionsArgs,
-  Response
-} from "@angular/http";
+import {ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/mergeMap";
 import {AuthService} from "./auth.service";
@@ -16,6 +7,8 @@ import {Router} from "@angular/router";
 
 
 export const ERROR_PAGE = new InjectionToken<string>('errorPage');
+
+export class NotFoundException extends Error {}
 
 
 @Injectable()
@@ -34,7 +27,7 @@ export class HttpOAuth extends Http {
     headers.set('Authorization', `Bearer ${t}`);
   }
 
-  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+  request(url: string | Request, options?: RequestOptionsArgs, catch404: boolean = true): Observable<Response> {
     if (url instanceof Request) {
       if (!url.headers)
         url.headers = new Headers();
@@ -57,16 +50,22 @@ export class HttpOAuth extends Http {
         });
       }
 
-      const isGetReq = (url instanceof Request) && url.method === RequestMethod.Get;
-
-      if (isGetReq && e.status === 404) {
-        return Observable.of(this.router.navigate([this.errorPage])).flatMap(() => {
-          return Observable.throw(new Error(`Resource not found: ${e.url}`));
-        });
+      if (e.status === 404) {
+        if (catch404) {
+          return Observable.of(this.router.navigate([this.errorPage])).flatMap(() => {
+            return Observable.throw(new Error(`Resource not found: ${e.url}`));
+          });
+        } else {
+          return Observable.throw(new NotFoundException(`Resource not found: ${e.url}`));
+        }
       }
 
       return Observable.throw(e);
     });
+  }
+
+  get(url: string, options?: RequestOptionsArgs, catch404: boolean = true): Observable<Response> {
+    return this.request(url, options, catch404);
   }
 
 }
