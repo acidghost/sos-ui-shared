@@ -8,7 +8,9 @@ import {Router} from "@angular/router";
 
 export const ERROR_PAGE = new InjectionToken<string>('errorPage');
 
-export class NotFoundException extends Error {}
+export class NotFoundException {
+  constructor(public msg?: string) {}
+}
 
 
 @Injectable()
