@@ -18,7 +18,7 @@ import {
   ActivityType,
   PaymentInfoRequest
 } from "./activities.models";
-import {HttpOAuth} from "./http-oauth.service";
+import {CodeMatcher, HttpOAuth} from "./http-oauth.service";
 
 
 export interface ResearchAppRequest {
@@ -112,28 +112,31 @@ export class ActivitiesService extends ApiService {
     fromJson: (any) => T,
     id: number,
     lang: string | null,
-    catch404: boolean
+    catchCodes: CodeMatcher[]
   ): Observable<T> {
     let url = `${this.backendUrl}/activities/${activityType}/${id}`;
     if (lang !== null)
       url += `?lang=${lang}`;
 
-    return this.http.get(url, this.options, catch404)
+    return this.http.get(url, this.options, catchCodes)
       .map(response => {
         return fromJson(response.json());
       });
   }
 
-  public findEvent(id: number, lang: string = null, catch404: boolean = true): Observable<ActivityEvent> {
-    return this.find('event', ActivityEvent.fromJson, id, lang, catch404);
+  public findEvent(id: number, lang: string = null,
+                   catchCodes: CodeMatcher[] = HttpOAuth.defaultCodeMatchers): Observable<ActivityEvent> {
+    return this.find('event', ActivityEvent.fromJson, id, lang, catchCodes);
   }
 
-  public findTeach(id: number, lang: string = null, catch404: boolean = true): Observable<ActivityTeach> {
-    return this.find('teach', ActivityTeach.fromJson, id, lang, catch404);
+  public findTeach(id: number, lang: string = null,
+                   catchCodes: CodeMatcher[] = HttpOAuth.defaultCodeMatchers): Observable<ActivityTeach> {
+    return this.find('teach', ActivityTeach.fromJson, id, lang, catchCodes);
   }
 
-  public findResearch(id: number, lang: string = null, catch404: boolean = true): Observable<ActivityResearch> {
-    return this.find('research', ActivityResearch.fromJson, id, lang, catch404);
+  public findResearch(id: number, lang: string = null,
+                      catchCodes: CodeMatcher[] = HttpOAuth.defaultCodeMatchers): Observable<ActivityResearch> {
+    return this.find('research', ActivityResearch.fromJson, id, lang, catchCodes);
   }
 
 

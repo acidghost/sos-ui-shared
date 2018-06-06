@@ -8,9 +8,7 @@ import {Router} from "@angular/router";
 
 export const ERROR_PAGE = new InjectionToken<string>('errorPage');
 
-export class NotFoundException {
-  constructor(public msg?: string) {}
-}
+export type CodeMatcher = (number) => boolean;
 
 
 @Injectable()
@@ -29,7 +27,14 @@ export class HttpOAuth extends Http {
     headers.set('Authorization', `Bearer ${t}`);
   }
 
-  request(url: string | Request, options?: RequestOptionsArgs, catch404: boolean = true): Observable<Response> {
+  static matchNotFound(code: number): boolean { return code === 404 }
+  static matchServerError(code: number): boolean { return code >= 500 }
+  static get defaultCodeMatchers(): CodeMatcher[] { return [HttpOAuth.matchNotFound, HttpOAuth.matchServerError] }
+
+  request(
+    url: string | Request, options?: RequestOptionsArgs,
+    catchCodes: CodeMatcher[] = [HttpOAuth.matchNotFound]
+  ): Observable<Response> {
     if (url instanceof Request) {
       if (!url.headers)
         url.headers = new Headers();
@@ -52,22 +57,21 @@ export class HttpOAuth extends Http {
         });
       }
 
-      if (e.status === 404) {
-        if (catch404) {
-          return Observable.of(this.router.navigate([this.errorPage])).flatMap(() => {
-            return Observable.throw(new Error(`Resource not found: ${e.url}`));
-          });
-        } else {
-          return Observable.throw(new NotFoundException(`Resource not found: ${e.url}`));
-        }
+      if (catchCodes.map(f => f(e.status)).indexOf(true) !== -1) {
+        return Observable.of(this.router.navigate([this.errorPage, e.status])).flatMap(() => {
+          return Observable.throw(new Error(`Catch ${e.status} on ${e.url}`));
+        });
       }
 
       return Observable.throw(e);
     });
   }
 
-  get(url: string, options?: RequestOptionsArgs, catch404: boolean = true): Observable<Response> {
-    return this.request(url, options, catch404);
+  get(
+    url: string, options?: RequestOptionsArgs,
+    catchCodes: CodeMatcher[] = HttpOAuth.defaultCodeMatchers
+  ): Observable<Response> {
+    return this.request(url, options, catchCodes);
   }
 
 }
