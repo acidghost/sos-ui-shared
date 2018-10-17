@@ -141,7 +141,7 @@ export class User {
               public skills: UserSkill[],
               public memberships: UserMemberships,
               public title: string | null,
-              public city: string | null,
+              public city: {city:string, other:boolean} | null,
               public favorite: boolean | null) {}
 
   public get asJson(): {} {
