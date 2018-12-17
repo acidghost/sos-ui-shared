@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ApiService} from "./api.service";
 import {AuthService} from "./auth.service";
-import {Environment, Membership} from "./shared";
+import {Environment, Membership, MembershipType} from "./shared";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
 
@@ -43,6 +43,14 @@ export class MembershipService extends ApiService {
 
   public deleteRenewal(): Observable<{}> {
     return this.deleteAction(`${this.backendUrl}/membership/renewal`);
+  }
+
+  public allTypes(): Observable<MembershipType[]> {
+    return this.http.get(`${this.backendUrl}/membership_types`, this.options)
+      .map(response => {
+        const json = response.json();
+        return json.types.map(MembershipType.fromJson);
+      });
   }
 
 }
