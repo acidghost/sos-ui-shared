@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ApiService} from "./api.service";
 import {AuthService} from "./auth.service";
-import {MembershipType, Membership, Environment} from "./shared";
+import {Environment, Membership} from "./shared";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
 
@@ -13,21 +13,8 @@ export class MembershipService extends ApiService {
     super(authService, environment);
   }
 
-  public requestNew(type: MembershipType): Observable<Membership> {
-    let typeString;
-    switch (type) {
-      case MembershipType.OnlySos:
-        typeString = 'sos';
-        break;
-      case MembershipType.OnlyFablab:
-        typeString = 'fablab';
-        break;
-      case MembershipType.BothMembership:
-        typeString = 'both';
-        break;
-    }
-
-    return this.http.post(`${this.backendUrl}/membership/new`, { type: typeString }, this.options)
+  public requestNew(membershipTypeId: number): Observable<Membership> {
+    return this.http.post(`${this.backendUrl}/membership/new`, { type: membershipTypeId }, this.options)
       .map(response => {
         const json = response.json();
         return Membership.fromJson(json)

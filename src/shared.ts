@@ -40,53 +40,66 @@ export class Skill {
 }
 
 
-export enum MembershipType {
-  OnlySos = 0,
-  OnlyFablab,
-  BothMembership
+export interface MembershipType {
+  id: number
+  language: string
+  name: string
+  offer: string
+  price: number
+  position: number
+  createdAt: Date
 }
 
-export function membershipTypeToString(membershipType: MembershipType): string {
-  switch (membershipType) {
-    case MembershipType.OnlySos:
-      return 'sos';
-    case MembershipType.OnlyFablab:
-      return 'fablab';
-    case MembershipType.BothMembership:
-      return 'sos+fablab';
+export namespace MembershipType {
+  export function fromJson(json: any): MembershipType {
+    return {
+      id: json.id,
+      language: json.language,
+      name: json.name,
+      offer: json.offer,
+      price: json.price,
+      position: json.position,
+      createdAt: new Date(json.createdAt)
+    }
+  }
+}
+
+export interface MembershipTypeSlim {
+  id: number,
+  name?: string
+}
+
+export namespace MembershipTypeSlim {
+  export function fromJson(json: any): MembershipTypeSlim {
+    return {
+      id: json.id,
+      name: json.name
+    }
   }
 }
 
 
-export class Membership {
-  constructor(public id: number,
-              public type: MembershipType,
-              public requestedAt: Date,
-              public acceptedAt: Date,
-              public startsAt: Date,
-              public endsAt: Date,
-              public deletedAt: Date,
-              public userId: number) { }
+export interface Membership {
+  id: number
+  membershipType: MembershipTypeSlim
+  requestedAt: Date
+  acceptedAt?: Date
+  startsAt?: Date
+  endsAt?: Date
+  userId: number
+}
 
-  public static fromJson(json: any): Membership {
-    let type;
-    switch (json.type) {
-      case 'sos':
-        type = MembershipType.OnlySos;
-        break;
-      case 'fablab':
-        type = MembershipType.OnlyFablab;
-        break;
-      case 'both':
-        type = MembershipType.BothMembership;
-        break;
-      default:
-        throw new Error(`Unrecognized membership type ${json.type}`);
+export namespace Membership {
+  export function fromJson(json: any): Membership {
+    return {
+      id: json.id,
+      membershipType: MembershipTypeSlim.fromJson(json.membershipType),
+      requestedAt: new Date(json.requestedAt),
+      acceptedAt: json.acceptedAt ? new Date(json.acceptedAt) : null,
+      startsAt: json.startsAt ? new Date(json.startsAt) : null,
+      endsAt: json.endsAt ? new Date(json.endsAt) : null,
+      userId: json.userId
     }
-    return new Membership(
-      json.id, type, new Date(json.requestedAt), json.acceptedAt ? new Date(json.acceptedAt) : null,
-      json.startsAt ? new Date(json.startsAt) : null, json.endsAt ? new Date(json.endsAt) : null,
-      json.deletedAt ? new Date(json.deletedAt) : null, json.userId)
   }
 }
 
