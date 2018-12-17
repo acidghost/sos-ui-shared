@@ -20,6 +20,7 @@ export * from './http-oauth.service';
 export * from './logout.component';
 export * from './me-user.resolver';
 export * from './membership.service';
+export * from './membership.resolvers';
 export * from './modals.service';
 export * from './modals.component';
 export * from './shared';
