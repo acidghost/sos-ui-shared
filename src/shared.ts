@@ -45,6 +45,7 @@ export interface MembershipType {
   language: string
   name: string
   offer: string
+  bottom: string
   price: number
   position: number
   createdAt: Date
@@ -57,6 +58,7 @@ export namespace MembershipType {
       language: json.language,
       name: json.name,
       offer: json.offer,
+      bottom: json.bottom,
       price: json.price,
       position: json.position,
       createdAt: new Date(json.createdAt)
