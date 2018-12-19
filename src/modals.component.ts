@@ -21,8 +21,8 @@ const modalSelector = "#sos-modal";
           </div>
           <div class="modal-body" [innerHTML]="options.content"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-danger" (click)="dismissModal(false)" [innerHTML]="options.close"></button>
-            <button type="button" class="btn btn-sm btn-success" (click)="dismissModal(true)" [innerHTML]="options.accept"></button>
+            <button type="button" class="btn btn-sm btn-black" (click)="dismissModal(true)" [innerHTML]="options.accept"></button>
+            <button type="button" class="btn btn-sm btn-outline-black" (click)="dismissModal(false)" [innerHTML]="options.close"></button>
           </div>
         </div>
       </div>

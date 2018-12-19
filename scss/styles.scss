@@ -111,6 +111,9 @@
   &.btn-black {
     @include button-variant(black, black, white, black, white, black);
   }
+  &.btn-outline-black {
+    @include button-outline-variant(black);
+  }
   &.btn-white {
     $bg: white;
     @include button-variant($bg, $bg, darken($bg, 7.5%), darken($bg, 10%), black, darken($bg, 10%));
