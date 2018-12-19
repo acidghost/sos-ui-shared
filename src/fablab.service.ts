@@ -46,7 +46,7 @@ export class FablabService extends ApiService {
   }
 
   public createReservation(reservation: FablabReservation): Observable<FablabReservation> {
-    let url = `${this.backendUrl}/fablab/machines/${reservation.machineId}/reservations`;
+    let url = `${this.backendUrl}/fablab/machines/${reservation.machine.id}/reservations`;
 
     let payload = {
       times: reservation.times,
