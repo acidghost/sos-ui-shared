@@ -658,6 +658,7 @@ export interface BazaarIdeaSlim {
   ideaType: IdeaType
   score: number
   deadline: number | null
+  activityId?: number
 }
 
 export namespace BazaarIdeaSlim {
@@ -673,7 +674,8 @@ export namespace BazaarIdeaSlim {
       updatedAt: new Date(json.updatedAt),
       ideaType: json.ideaType,
       score: json.score,
-      deadline: json.deadline
+      deadline: json.deadline,
+      activityId: json.activityId
     }
   }
 }
