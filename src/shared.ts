@@ -659,6 +659,7 @@ export interface BazaarIdeaSlim {
   score: number
   deadline: number | null
   activityId?: number
+  skills: { id: number, name: string }[]
 }
 
 export namespace BazaarIdeaSlim {
@@ -675,7 +676,8 @@ export namespace BazaarIdeaSlim {
       ideaType: json.ideaType,
       score: json.score,
       deadline: json.deadline,
-      activityId: json.activityId
+      activityId: json.activityId,
+      skills: json.skills
     }
   }
 }
