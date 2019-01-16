@@ -39,6 +39,11 @@ export class Skill {
 
 }
 
+export interface SkillSlim {
+  id: number
+  name: string
+}
+
 
 export interface MembershipType {
   id: number

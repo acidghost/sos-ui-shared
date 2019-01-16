@@ -5,7 +5,7 @@ import {
   eventActivityTypeFromString,
   levelFromString,
   RecurringMeetings,
-  Skill,
+  Skill, SkillSlim,
   SOSDate,
   TeachActivityType,
   teachActivityTypeFromString,
@@ -58,6 +58,9 @@ export interface ActivitySlim {
   createdAt?: Date,
   updatedAt?: Date,
   favorite?: boolean | null
+  participantsCount?: number
+  minParticipants?: number
+  totalHours?: number
 }
 
 export interface ActivityDeadline {
@@ -110,6 +113,7 @@ export interface ActivityResearchSlim extends ActivitySlim {
   deadline: ActivityDeadline
   startDate: Date
   rolesCount: number
+  skills?: SkillSlim[]
 }
 
 export type ActivitySchedule = RecurringMeetings | {
@@ -271,7 +275,10 @@ export namespace ActivityEventSlim {
       bazaarIdeaId: json.bazaarIdeaId,
       createdAt: new Date(json.createdAt),
       updatedAt: new Date(json.updatedAt),
-      favorite: json.favorite
+      favorite: json.favorite,
+      participantsCount: json.participantsCount,
+      minParticipants: json.minParticipants,
+      totalHours: json.totalHours
     }
   }
 }
@@ -353,7 +360,11 @@ export namespace ActivityResearchSlim {
       bazaarIdeaId: json.bazaarIdeaId,
       createdAt: new Date(json.createdAt),
       updatedAt: new Date(json.updatedAt),
-      favorite: json.favorite
+      favorite: json.favorite,
+      participantsCount: json.participantsCount,
+      minParticipants: json.minParticipants,
+      totalHours: json.totalHours,
+      skills: json.skills
     }
   }
 }
