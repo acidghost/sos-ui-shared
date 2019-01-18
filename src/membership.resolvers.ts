@@ -10,7 +10,7 @@ export class MembershipTypesResolver implements Resolve<MembershipType[]> {
   constructor(private membershipService: MembershipService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.membershipService.allTypes();
+    return this.membershipService.allTypes(route.queryParamMap.get('lang'));
   }
 
 }

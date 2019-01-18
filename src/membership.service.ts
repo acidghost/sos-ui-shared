@@ -45,8 +45,11 @@ export class MembershipService extends ApiService {
     return this.deleteAction(`${this.backendUrl}/membership/renewal`);
   }
 
-  public allTypes(): Observable<MembershipType[]> {
-    return this.http.get(`${this.backendUrl}/membership_types`, this.options)
+  public allTypes(lang?: string): Observable<MembershipType[]> {
+    let url = `${this.backendUrl}/membership_types`;
+    if (lang)
+      url += '?lang=' + lang;
+    return this.http.get(url, this.options)
       .map(response => {
         const json = response.json();
         return json.types.map(MembershipType.fromJson);
