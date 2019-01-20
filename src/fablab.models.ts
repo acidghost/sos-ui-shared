@@ -22,11 +22,13 @@ export interface FablabMachine extends SlimMachine {
 
 
 export interface FablabQuotation {
-  id: number,
-  userId: number,
-  realizationOf: string,
-  machines: SlimMachine[],
+  id: number
+  userId: number
+  realizationOf: string
+  undertaken: boolean
+  machines: SlimMachine[]
   createdAt: Date
+  user?: UserShort
 }
 
 export interface FablabQuotationRequest {
@@ -40,8 +42,10 @@ export namespace FablabQuotation {
       id: json.id,
       userId: json.userId,
       realizationOf: json.realizationOf,
+      undertaken: json.undertaken,
       machines: json.machines,
-      createdAt: new Date(json.createdAt)
+      createdAt: new Date(json.createdAt),
+      user: json.user
     };
   }
 }
