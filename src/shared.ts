@@ -183,9 +183,17 @@ export class User {
 }
 
 export interface UserShort {
-  id: number,
-  email: number,
-  firstName: string,
+  id: number
+  email: string
+  firstName: string
+  lastName: string
+}
+
+export interface UserContacts {
+  id: number
+  email: string
+  telephone: string
+  firstName: string
   lastName: string
 }
 

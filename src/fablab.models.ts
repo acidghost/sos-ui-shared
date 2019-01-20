@@ -1,4 +1,4 @@
-import {UserShort} from "./shared";
+import {UserContacts, UserShort} from "./shared";
 
 
 export interface SlimMachine {
@@ -28,7 +28,7 @@ export interface FablabQuotation {
   undertaken: boolean
   machines: SlimMachine[]
   createdAt: Date
-  user?: UserShort
+  user?: UserContacts
 }
 
 export interface FablabQuotationRequest {
